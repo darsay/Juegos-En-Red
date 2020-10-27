@@ -1,14 +1,14 @@
 # Juegos en Red
 ## Datos Básicos
-* Nombre del juego: Battle-Ween
-* Temática del juego: Juego tipo "Bomberman" con carácter Battle Royale con ambientación de Halloween.
-* Integrantes del grupo:
+* **Nombre del juego:** Battle-Ween
+* **Temática del juego:** Juego tipo "Bomberman" con carácter Battle Royale con ambientación de Halloween.
+* **Integrantes del grupo:**
     * Ignacio Molina Casaus.      Github: Darsay.                 Correo: i.molina.2018@alumnos.urjc.es
     * David Ganfornina Alcón.     Github: DavidGanfornina.        Correo: d.ganfornina.2018@alumnos.urjc.es
     * Manuel Rodríguez Bonete.    Github: ManuelRodriguezBonete.  Correo:  m.rodriguezb.2018@alumnos.urjc.es
     * Sonia Oiane Milagro Rubio.  Github: soimiru.                Correo: so.milagro.2018@alumnos.urjc.es
     
-* Trello: https://trello.com/b/SHQqdxvs/jer-grupo-7
+* **Trello:** https://trello.com/b/SHQqdxvs/jer-grupo-7
 
 ## GDD
 ### Índice
