@@ -47,9 +47,11 @@
     {
         this.load.image('sky', 'assets/sky.png')
         this.load.image('ground', 'assets/platform.png');
-        this.load.image('star', 'assets/star.png');
+        //this.load.image('star', 'assets/star.png');
+        this.load.spritesheet('star', 'assets/CollectablesSheet.png', {frameWidth: 16, frameHeight:16})
         this.load.image('bomb', 'assets/bomb.png');
         this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+        this.load.spritesheet('pared', 'assets/CollectablesSheet.png', {frameWidth: 18, frameHeight:18})
 
             }
 
@@ -69,6 +71,9 @@
 
         player.setBounce(0.2);
         player.setCollideWorldBounds(true);
+
+       // stars = this.physics.add.group();
+        //stars.create(12, 0,)
 
         this.anims.create({
             key: 'left',
@@ -95,9 +100,11 @@
         stars = this.physics.add.group({
             key: 'star',
             repeat: 11,
-            setXY: { x: 12, y: 0, stepX: 70 }
+            frame: 3,
+            setXY: { x: 12, y: 0, stepX: 50 }
         });
-
+        
+      
         stars.children.iterate(function (child) {
 
             child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));

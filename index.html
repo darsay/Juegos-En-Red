@@ -1,59 +1,76 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <script src="https://cdn.jsdelivr.net/npm/phaser@3.15.1/dist/phaser-arcade-physics.min.js"></script>
-</head>
-<body>
-
-    <script>
-    var config = {
-        type: Phaser.AUTO,
-        width: 800,
-        height: 600,
-        physics: {
-            default: 'arcade',
-            arcade: {
-                gravity: { y: 200 }
-            }
-        },
-        scene: {
-            preload: preload,
-            create: create
+    <meta charset="UTF-8">
+    <title>Pruebas practica final</title>
+    <script src="//cdn.jsdelivr.net/npm/phaser@3.11.0/dist/phaser.js"></script>
+    <style type="text/css">
+        body {
+            margin: 0;
         }
-    };
+    </style>
+</head>
 
-    var game = new Phaser.Game(config);
+<body>
+    <script type="text/javascript">
 
-    function preload ()
-    {
-        this.load.setBaseURL('http://labs.phaser.io');
+        var config = {
+            type: Phaser.AUTO,
+            width: 799,
+            height: 578,
+            physics: {
+                default: 'arcade',
+                arcade: {
+                    gravity: { y: 300 },
+                    debug: false
+                }
+            },
+            scene: {
+                preload: preload,
+                create: create,
+                update: update
+            }
+        };
+        var walls;
+        var game = new Phaser.Game(config);
 
-        this.load.image('sky', 'assets/skies/space3.png');
-        this.load.image('logo', 'assets/sprites/phaser3-logo.png');
-        this.load.image('red', 'assets/particles/red.png');
-    }
+        function preload(){
+            this.load.spritesheet('scenery', 'assets/scenery.png',{ frameWidth: 17, frameHeight: 17});
+        }
 
-    function create ()
-    {
-        this.add.image(400, 300, 'sky');
+        function create(){
+            //walls = this.physics.add.staticGroup();
+            //walls.create(200, 300, 'scenery', 2);
+            murosUp = this.physics.add.staticGroup({
+                key: 'scenery',
+                repeat: 46,
+                frame: 30,
+                setXY: { x: 8.5, y: 8.5, stepX: 17}
+            });
+            murosDown = this.physics.add.staticGroup({
+                key: 'scenery',
+                repeat: 46,
+                frame: 2,
+                setXY: { x: 8.5, y: 569.5, stepX: 17}
+            });
+            murosLeft = this.physics.add.staticGroup({
+                key: 'scenery',
+                repeat: 33,
+                frame: 30,
+                setXY: { x: 8.5, y: 8.5, stepY: 17}
+            });
+            murosRight = this.physics.add.staticGroup({
+                key: 'scenery',
+                repeat: 33,
+                frame: 2,
+                setXY: { x: 791.5, y: 8.5, stepY: 17}
+            });
+        }
 
-        var particles = this.add.particles('red');
-
-        var emitter = particles.createEmitter({
-            speed: 100,
-            scale: { start: 1, end: 0 },
-            blendMode: 'ADD'
-        });
-
-        var logo = this.physics.add.image(400, 100, 'logo');
-
-        logo.setVelocity(100, 200);
-        logo.setBounce(1, 1);
-        logo.setCollideWorldBounds(true);
-
-        emitter.startFollow(logo);
-    }
+        function update ()
+        {
+        }
     </script>
-
 </body>
+
 </html>
