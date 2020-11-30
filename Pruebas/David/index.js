@@ -1,18 +1,18 @@
 
-import { menuinicio } from './scenes/menuinicio.js';
-import { nivel1 } from './scenes/nivel1.js';
+import { Game } from './scenes/game.js';
+import { Menu } from './scenes/menu.js';
 
 const config = {
   type: Phaser.AUTO,
-  width: 800,
-  height: 500,
-  scene: [menuinicio, nivel1],
+  width: 817,
+  height: 578,
+  scene: [Menu, Game],
   physics: {
     default: 'arcade',
     arcade: {
-      debug: false
+      
+                  debug: false
     }
   }
 }
-
 var game = new Phaser.Game(config);
