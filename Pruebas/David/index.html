@@ -50,6 +50,9 @@ function preload ()
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('pared', 'assets/pared.png', { frameWidth: 17, frameHeight: 17 });
+
+
 }
 
 function create ()
@@ -59,6 +62,7 @@ function create ()
 
     //  The platforms group contains the ground and the 2 ledges we can jump on
     platforms = this.physics.add.staticGroup();
+    muro = this.physics.add.staticGroup();
 
     //  Here we create the ground.
     //  Scale it to fit the width of the game (the original sprite is 400x32 in size)
@@ -68,6 +72,11 @@ function create ()
     platforms.create(600, 400, 'ground');
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
+
+   
+
+    muro.create(400,300, 17, 'pared', 2);
+
 
     // The player and its settings
     player = this.physics.add.sprite(100, 450, 'dude');
