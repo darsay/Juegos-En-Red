@@ -129,7 +129,6 @@ export class Game extends Phaser.Scene {
             player1.anims.play('left', true);
             playerLookingAt = "down";
         }
-        
     else if (cursors.right.isDown)
         {
             player1.setVelocityX(160);

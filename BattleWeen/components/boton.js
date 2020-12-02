@@ -4,7 +4,7 @@ export class boton {
   }
 
   preload() {
-    this.relatedScene.load.spritesheet('button', 'assets/images/restart1.png', { frameWidth: 1024, frameHeight: 1024 });
+    this.relatedScene.load.spritesheet('button', 'assets/images/play.png', { frameWidth: 1024, frameHeight: 1024 });
   }
 
   create() {

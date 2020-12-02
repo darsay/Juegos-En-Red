@@ -7,15 +7,15 @@ export class Menu extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('menu', 'assets/images/hola.png');
-    this.load.image('background', 'assets/images/original.jpg');
+    this.load.image('logo', 'assets/images/logo.png');
+    this.load.image('background', 'assets/images/fondo.jpg');
     this.boton.preload();
   }
   
   create() {
     this.add.image(410, 280, 'background');
     this.boton.create();
-    this.gameoverImage = this.add.image(400, 130, 'menu');
-    this.gameoverImage.setScale(0.5);
+    this.logo = this.add.image(400, 130, 'logo');
+    this.logo.setScale(0.5);
 }
 }
