@@ -1,4 +1,5 @@
-var player;
+var player1;
+var player2;
         var playerLookingAt;
         var walls;
         var murosDown;
@@ -19,7 +20,7 @@ export class Game extends Phaser.Scene {
 
    preload(){
     this.load.spritesheet('scenery', 'assets/scenery.png',{ frameWidth: 17, frameHeight: 17});
-    this.load.spritesheet('player1', 'assets/players.png',{ frameWidth: 46, frameHeight: 48});
+    this.load.spritesheet('player1', 'assets/players.png',{ frameWidth: 46.8, frameHeight: 48});
     this.load.image('ground', 'assets/ground.png');
 }
 
@@ -53,7 +54,7 @@ export class Game extends Phaser.Scene {
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
+        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   5,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
@@ -67,6 +68,7 @@ export class Game extends Phaser.Scene {
     const layer1 = mapWalls.createStaticLayer(0, wallTiles, 0, 0);
 
     layer1.setCollision(3);
+    layer1.setCollision(5);
     
 
 
@@ -76,7 +78,7 @@ export class Game extends Phaser.Scene {
     //this.add.image(indexX, 300, 'ground');
 
 
-    player = this.physics.add.sprite(250, 150, 'player1');
+    player1 = this.physics.add.sprite(250, 150, 'player1');
     this.anims.create({
         key: 'down',
         frames: this.anims.generateFrameNumbers('player1', { start: 3, end: 5 }),
@@ -110,11 +112,11 @@ export class Game extends Phaser.Scene {
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();
     //Fisica para colisionar con las platforms
-    this.physics.add.collider(player, layer1);
-    this.physics.add.collider(player, murosDown);
-    this.physics.add.collider(player, murosUp);
-    this.physics.add.collider(player, murosRight);
-    this.physics.add.collider(player, murosLeft);
+    this.physics.add.collider(player1, layer1);
+    this.physics.add.collider(player1, murosDown);
+    this.physics.add.collider(player1, murosUp);
+    this.physics.add.collider(player1, murosRight);
+    this.physics.add.collider(player1, murosLeft);
     //FIN PLAYER
 }
 
@@ -122,37 +124,39 @@ export class Game extends Phaser.Scene {
 {
     if (cursors.left.isDown)
         {
-            player.setVelocityX(-160);
+            player1.setVelocityX(-160);
 
-            player.anims.play('left', true);
+            player1.anims.play('left', true);
             playerLookingAt = "down";
         }
     else if (cursors.right.isDown)
         {
-            player.setVelocityX(160);
+            player1.setVelocityX(160);
 
-            player.anims.play('right', true);
+            player1.anims.play('right', true);
         }
+       
+        
     else if(cursors.up.isDown)
         {
-            player.setVelocityY(-160);
+            player1.setVelocityY(-160);
 
-            player.anims.play('up', true);
+            player1.anims.play('up', true);
 
         }
     else if(cursors.down.isDown)
         {
-            player.setVelocityY(160);
+            player1.setVelocityY(160);
 
-            player.anims.play('down', true);
+            player1.anims.play('down', true);
 
         }
     else
         {
-            player.setVelocityX(0);
-            player.setVelocityY(0);
+            player1.setVelocityX(0);
+            player1.setVelocityY(0);
 
-            player.anims.play('turn');
+            player1.anims.play('turn');
         }
 
   

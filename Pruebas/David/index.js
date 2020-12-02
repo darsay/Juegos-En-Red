@@ -11,8 +11,9 @@ const config = {
     default: 'arcade',
     arcade: {
       
-                  debug: false
+      debug: false
     }
   }
 }
+
 var game = new Phaser.Game(config);
