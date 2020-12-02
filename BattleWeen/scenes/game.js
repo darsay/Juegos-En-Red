@@ -54,8 +54,8 @@ export class Game extends Phaser.Scene {
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
+        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   5,   5,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   5,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
@@ -125,38 +125,42 @@ export class Game extends Phaser.Scene {
     if (cursors.left.isDown)
         {
             player1.setVelocityX(-160);
+            player1.setVelocityY(0);
 
             player1.anims.play('left', true);
-            playerLookingAt = "down";
+            playerLookingAt = "left";
         }
-    else if (cursors.right.isDown)
+    else if(cursors.right.isDown)
         {
             player1.setVelocityX(160);
+            player1.setVelocityY(0);
 
             player1.anims.play('right', true);
+            playerLookingAt = "right";
         }
-       
-        
-    else if(cursors.up.isDown)
+    else if(cursors.up.isDown) 
         {
             player1.setVelocityY(-160);
+            player1.setVelocityX(0);
 
             player1.anims.play('up', true);
+            playerLookingAt = "up";
 
         }
     else if(cursors.down.isDown)
         {
             player1.setVelocityY(160);
+            player1.setVelocityX(0);
 
             player1.anims.play('down', true);
+            playerLookingAt = "down";
 
         }
     else
         {
+            player1.anims.play('turn', true);
             player1.setVelocityX(0);
             player1.setVelocityY(0);
-
-            player1.anims.play('turn');
         }
 
   
