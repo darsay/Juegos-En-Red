@@ -22,6 +22,7 @@ export class Game extends Phaser.Scene {
    preload(){
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.8, frameHeight: 48});
+    this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
 }
 
@@ -73,16 +74,16 @@ export class Game extends Phaser.Scene {
     
     const interiorWalls = [
         [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    7,    7,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    7,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    7,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    7,    7,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    -1],
+        [  -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1],
+        [  -1,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
         [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1]
     ];
 
@@ -90,8 +91,28 @@ export class Game extends Phaser.Scene {
      const interiorWallTiles = mapInteriorWalls.addTilesetImage("scenery");
      const interiorLayer = mapInteriorWalls.createStaticLayer(0, interiorWallTiles, 0, 0);
 
-     interiorLayer.setCollisionBetween(1, 15);
+    interiorLayer.setCollisionBetween(1, 15);
     
+    const collectables = [
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+    ];
+
+    const mapCollectables = this.make.tilemap({ data: collectables, tileWidth: 48, tileHeight: 48 });
+     const collectableTiles = mapCollectables.addTilesetImage("collectables");
+     const items = mapCollectables.createStaticLayer(0, collectableTiles, 0, 0);
+
+    items.setCollisionBetween(1, 15);
 
 
     //groundGroup = this.add.group();
@@ -136,6 +157,7 @@ export class Game extends Phaser.Scene {
     //Fisica para colisionar con las platforms
     this.physics.add.collider(player1, layer1);
     this.physics.add.collider(player1, interiorLayer);
+    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
     this.physics.add.collider(player1, murosDown);
     this.physics.add.collider(player1, murosUp);
     this.physics.add.collider(player1, murosRight);
@@ -185,9 +207,13 @@ export class Game extends Phaser.Scene {
             player1.setVelocityX(0);
             player1.setVelocityY(0);
         }
-
-  
+        
+//  function collectItem(player1, collectableLayer)
+//   {
+//       collectableLayer.disableBody(true,true);
+//   }
 
 
 }
+
 }
