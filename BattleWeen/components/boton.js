@@ -1,6 +1,7 @@
 export class boton {
-  constructor(scene) {
+  constructor(scene, where) {
     this.relatedScene = scene;
+    this.destination = where;
   }
 
   preload() {
@@ -13,7 +14,7 @@ export class boton {
 
   
     this.startButton.on('pointerdown', () => {
-      this.relatedScene.scene.start('game');
+      this.relatedScene.scene.start(this.destination);
     });
   }
 }
