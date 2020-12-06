@@ -16,7 +16,7 @@ export class Game extends Phaser.Scene {
 
   constructor() {
     super({ key: 'game' });
-    this.player1 = new Player(this,3);
+    this.player1 = new Player(this,51);
     this.player2 = new Player2(this,3);
     
     
@@ -31,7 +31,6 @@ export class Game extends Phaser.Scene {
        this.player2.preload();
        
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
-    //this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
 }
@@ -133,13 +132,13 @@ export class Game extends Phaser.Scene {
     this.player1.create();
     this.player2.create();
     
-    this.physics.add.collider(this.player1, layer1);
+     this.physics.add.collider(this.player1, layer1);
     this.physics.add.collider(this.player1, interiorLayer);
     //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
     this.physics.add.collider(this.player1, murosDown);
     this.physics.add.collider(this.player1, murosUp);
     this.physics.add.collider(this.player1, murosRight);
-    this.physics.add.collider(this.player1, murosLeft);
+    this.physics.add.collider(this.player1, murosLeft); 
 }
 
  update ()

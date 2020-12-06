@@ -1,7 +1,7 @@
 export class Player2  {
     constructor(scene, sprite) {
       this.relatedScene = scene;
-      this.sprite = sprite;
+      this.sprite2 = sprite;
       this.keys;
       
     }
@@ -14,31 +14,31 @@ export class Player2  {
         this.player = this.relatedScene.physics.add.sprite(250, 150, 'player1');
         this.relatedScene.anims.create({
             key: 'down',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite, end:  this.sprite + 2 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2, end:  this.sprite2 + 2 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
             key: 'left',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 12, end: this.sprite + 14 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2 + 12, end: this.sprite2 + 14 }),
             frameRate: 10,  //FPS para la animacion
             repeat: -1  //Bucle
         });
         this.relatedScene.anims.create({
             key: 'right',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 24, end: this.sprite+26 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2 + 24, end: this.sprite2+26 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
             key: 'up',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 36, end: this.sprite+38 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2 + 36, end: this.sprite2+38 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
             key: 'turn',
-            frames: [ { key: 'player1', frame: this.sprite+1 } ],
+            frames: [ { key: 'player1', frame: this.sprite2+1 } ],
             frameRate: 20
         });
 

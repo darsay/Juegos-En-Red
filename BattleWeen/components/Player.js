@@ -1,3 +1,4 @@
+
 export class Player  {
     constructor(scene, sprite) {
       this.relatedScene = scene;
@@ -49,7 +50,7 @@ export class Player  {
         this.relatedScene.physics.add.collider(this.player, this.relatedScene.murosDown);
         this.relatedScene.physics.add.collider(this.player, this.relatedScene.murosUp);
         this.relatedScene.physics.add.collider(this.player, this.murosRight);
-        this.relatedScene.physics.add.collider(this.player, this.murosLeft); */
+        this.relatedScene.physics.add.collider(this.player, this.murosLeft);  */
 
         this.keys =  this.relatedScene.input.keyboard.addKeys('W,A,S,D');
         
