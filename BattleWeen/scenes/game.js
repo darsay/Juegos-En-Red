@@ -4,10 +4,6 @@ var player2;
         var playerLookingAt2;
         var walls;
         var interiorWalls;
-        var murosDown;
-        var murosUp;
-        var murosRight;
-        var murosLeft;
        
 import { Player } from "../components/Player.js";
 import { Player2 } from "../components/Player2.js";
@@ -31,7 +27,7 @@ export class Game extends Phaser.Scene {
        this.player2.preload();
        
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
-    this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
+    this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 7, frameHeight: 7});
     this.load.image('ground', 'assets/images/ground.png');
 }
 
@@ -131,14 +127,17 @@ export class Game extends Phaser.Scene {
     
     this.player1.create();
     this.player2.create();
+
+    player1 = this.physics.add.collider(layer1);
+
+    //player1.physics.add.collider(player1, layer1);
+
+    //this.player1.add.collider(layer1);
     
-     this.physics.add.collider(this.player1, layer1);
+    this.physics.add.collider(this.player1, layer1);
     this.physics.add.collider(this.player1, interiorLayer);
     //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
-    this.physics.add.collider(this.player1, murosDown);
-    this.physics.add.collider(this.player1, murosUp);
-    this.physics.add.collider(this.player1, murosRight);
-    this.physics.add.collider(this.player1, murosLeft); 
+
 }
 
  update ()
@@ -146,7 +145,6 @@ export class Game extends Phaser.Scene {
     this.player1.update();
     this.player2.update();
     
-
 
 }
 

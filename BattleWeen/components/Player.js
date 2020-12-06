@@ -4,7 +4,7 @@ export class Player  {
       this.relatedScene = scene;
       this.sprite = sprite;
       this.keys;
-      
+      this.physics;
       
     }
   
