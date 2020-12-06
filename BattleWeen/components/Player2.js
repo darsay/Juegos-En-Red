@@ -44,10 +44,11 @@ export class Player2  {
 
         
 
-        this.keys =  this.relatedScene.input.keyboard.addKeys('W,A,S,D');
+        this.keys =  this.relatedScene.input.keyboard.createCursorKeys();
+        
     }
     update(){
-        if (this.keys.A.isDown)
+        if (this.keys.left.isDown)
         {
             this.player.setVelocityX(-160);
             this.player.setVelocityY(0);
@@ -55,7 +56,7 @@ export class Player2  {
             this.player.anims.play('left', true);
            
         }
-    else if(this.keys.D.isDown)
+    else if(this.keys.right.isDown)
         {
             this.player.setVelocityX(160);
             this.player.setVelocityY(0);
@@ -63,7 +64,7 @@ export class Player2  {
             this.player.anims.play('right', true);
             
         }
-    else if(this.keys.W.isDown) 
+    else if(this.keys.up.isDown) 
         {
             this.player.setVelocityY(-160);
             this.player.setVelocityX(0);
@@ -72,7 +73,7 @@ export class Player2  {
             
 
         }
-     else if(this.keys.S.isDown)
+     else if(this.keys.down.isDown)
         {
             this.player.setVelocityY(160);
             this.player.setVelocityX(0);

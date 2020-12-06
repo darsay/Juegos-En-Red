@@ -17,6 +17,7 @@ export class Game extends Phaser.Scene {
   constructor() {
     super({ key: 'game' });
     this.player1 = new Player(this,3);
+    this.player2 = new Player2(this,3);
     
     
   }
@@ -27,6 +28,7 @@ export class Game extends Phaser.Scene {
 
    preload(){
        this.player1.preload();
+       this.player2.preload();
        
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     //this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
@@ -129,6 +131,7 @@ export class Game extends Phaser.Scene {
     //this.add.image(indexX, 300, 'ground');
     
     this.player1.create();
+    this.player2.create();
     
     this.physics.add.collider(this.player1, layer1);
     this.physics.add.collider(this.player1, interiorLayer);
@@ -142,6 +145,7 @@ export class Game extends Phaser.Scene {
  update ()
 {
     this.player1.update();
+    this.player2.update();
     
 
 

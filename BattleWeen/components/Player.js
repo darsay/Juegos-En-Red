@@ -4,6 +4,7 @@ export class Player  {
       this.sprite = sprite;
       this.keys;
       
+      
     }
   
     preload() {
@@ -50,10 +51,11 @@ export class Player  {
         this.relatedScene.physics.add.collider(this.player, this.murosRight);
         this.relatedScene.physics.add.collider(this.player, this.murosLeft); */
 
-        this.keys =  this.relatedScene.input.keyboard.addKeys('U,H,J,K');
+        this.keys =  this.relatedScene.input.keyboard.addKeys('W,A,S,D');
+        
     }
     update(){
-        if (this.keys.H.isDown)
+        if (this.keys.A.isDown)
         {
             this.player.setVelocityX(-160);
             this.player.setVelocityY(0);
@@ -61,7 +63,7 @@ export class Player  {
             this.player.anims.play('left', true);
            
         }
-    else if(this.keys.K.isDown)
+    else if(this.keys.D.isDown)
         {
             this.player.setVelocityX(160);
             this.player.setVelocityY(0);
@@ -69,7 +71,7 @@ export class Player  {
             this.player.anims.play('right', true);
             
         }
-    else if(this.keys.U.isDown) 
+    else if(this.keys.W.isDown) 
         {
             this.player.setVelocityY(-160);
             this.player.setVelocityX(0);
@@ -78,7 +80,7 @@ export class Player  {
             
 
         }
-     else if(this.keys.J.isDown)
+     else if(this.keys.S.isDown)
         {
             this.player.setVelocityY(160);
             this.player.setVelocityX(0);
