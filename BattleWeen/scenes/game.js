@@ -1,6 +1,7 @@
 var player1;
 var player2;
         var playerLookingAt;
+        var playerLookingAt2;
         var walls;
         var interiorWalls;
         var murosDown;
@@ -8,6 +9,7 @@ var player2;
         var murosRight;
         var murosLeft;
         var cursors;
+        var keys;
 
 export class Game extends Phaser.Scene {
 
@@ -21,7 +23,7 @@ export class Game extends Phaser.Scene {
 
    preload(){
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
-    this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.8, frameHeight: 48});
+    this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
 }
@@ -104,7 +106,7 @@ export class Game extends Phaser.Scene {
         [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
         [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
         [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
+        [  -1,    1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
         [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
     ];
 
@@ -122,7 +124,9 @@ export class Game extends Phaser.Scene {
 
 
     player1 = this.physics.add.sprite(250, 150, 'player1');
-    
+    player2 = this.physics.add.sprite(250, 400, 'player1');
+     player1.setScale(0.8);
+     player2.setScale(0.8);
     this.anims.create({
         key: 'down',
         frames: this.anims.generateFrameNumbers('player1', { start: 3, end: 5 }),
@@ -153,8 +157,39 @@ export class Game extends Phaser.Scene {
         frameRate: 20
     });
 
+    this.anims.create({
+        key: 'keyS',
+        frames: this.anims.generateFrameNumbers('player1', { start: 6, end: 8 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'keyA',
+        frames: this.anims.generateFrameNumbers('player1', { start: 18, end: 20 }),
+        frameRate: 10,  //FPS para la animacion
+        repeat: -1  //Bucle
+    });
+    this.anims.create({
+        key: 'keyD',
+        frames: this.anims.generateFrameNumbers('player1', { start: 30, end: 32 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'keyW',
+        frames: this.anims.generateFrameNumbers('player1', { start: 42, end: 44 }),
+        frameRate: 10,
+        repeat: -1
+    });
+    this.anims.create({
+        key: 'turn2',
+        frames: [ { key: 'player1', frame: 7 } ],
+        frameRate: 20
+    });
+
     //Entrada por teclado
-    cursors = this.input.keyboard.createCursorKeys();
+    cursors = this.input.keyboard.createCursorKeys();//Para las flechas
+     keys = this.input.keyboard.addKeys('W,S,A,D'); //Para el resto del teclado (Le puedes meter el resto de letras)
     //Fisica para colisionar con las platforms
     this.physics.add.collider(player1, layer1);
     this.physics.add.collider(player1, interiorLayer);
@@ -163,11 +198,22 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(player1, murosUp);
     this.physics.add.collider(player1, murosRight);
     this.physics.add.collider(player1, murosLeft);
+
+
+    this.physics.add.collider(player2, layer1);
+    this.physics.add.collider(player2, interiorLayer);
+    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
+    this.physics.add.collider(player2, murosDown);
+    this.physics.add.collider(player2, murosUp);
+    this.physics.add.collider(player2, murosRight);
+    this.physics.add.collider(player2, murosLeft);
+    this.physics.add.collider(player1, player2);
     //FIN PLAYER
 }
 
  update ()
 {
+    //JUGADOR 1
     if (cursors.left.isDown)
         {
             player1.setVelocityX(-160);
@@ -193,7 +239,7 @@ export class Game extends Phaser.Scene {
             playerLookingAt = "up";
 
         }
-    else if(cursors.down.isDown)
+     else if(cursors.down.isDown)
         {
             player1.setVelocityY(160);
             player1.setVelocityX(0);
@@ -201,12 +247,50 @@ export class Game extends Phaser.Scene {
             player1.anims.play('down', true);
             playerLookingAt = "down";
 
+        } 
+
+     else if (keys.A.isDown)
+        {
+            player2.setVelocityX(-160);
+            player2.setVelocityY(0);
+
+            player2.anims.play('keyA', true);
+            playerLookingAt2 = "keyA";
         }
+    else if(keys.D.isDown)
+        {
+            player2.setVelocityX(160);
+            player2.setVelocityY(0);
+
+            player2.anims.play('keyD', true);
+            playerLookingAt2 = "keyD";
+        }
+    else if(keys.W.isDown) 
+        {
+            player2.setVelocityY(-160);
+            player2.setVelocityX(0);
+
+            player2.anims.play('keyW', true);
+            playerLookingAt = "keyW";
+
+        }
+     else if(keys.S.isDown)
+        {
+            player2.setVelocityY(160);
+            player2.setVelocityX(0);
+
+            player2.anims.play('keyS', true);
+            playerLookingAt2 = "keyS";
+
+        } 
     else
         {
             player1.anims.play('turn', true);
+            player2.anims.play('turn2', true);
             player1.setVelocityX(0);
             player1.setVelocityY(0);
+            player2.setVelocityX(0);
+            player2.setVelocityY(0);
         }
         
 //  function collectItem(player1, collectableLayer)
