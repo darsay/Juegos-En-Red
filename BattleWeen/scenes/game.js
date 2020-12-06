@@ -122,6 +122,7 @@ export class Game extends Phaser.Scene {
 
 
     player1 = this.physics.add.sprite(250, 150, 'player1');
+    
     this.anims.create({
         key: 'down',
         frames: this.anims.generateFrameNumbers('player1', { start: 3, end: 5 }),
