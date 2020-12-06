@@ -1,10 +1,8 @@
-
-export class Player  {
+export class Player2  {
     constructor(scene, sprite) {
       this.relatedScene = scene;
-      this.sprite = sprite;
+      this.sprite2 = sprite;
       this.keys;
-      
       
     }
   
@@ -16,47 +14,41 @@ export class Player  {
         this.player = this.relatedScene.physics.add.sprite(250, 150, 'player1');
         this.relatedScene.anims.create({
             key: 'down',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite, end:  this.sprite + 2 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2, end:  this.sprite2 + 2 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
             key: 'left',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 12, end: this.sprite + 14 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2 + 12, end: this.sprite2 + 14 }),
             frameRate: 10,  //FPS para la animacion
             repeat: -1  //Bucle
         });
         this.relatedScene.anims.create({
             key: 'right',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 24, end: this.sprite+26 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2 + 24, end: this.sprite2+26 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
             key: 'up',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 36, end: this.sprite+38 }),
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite2 + 36, end: this.sprite2+38 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
             key: 'turn',
-            frames: [ { key: 'player1', frame: this.sprite+1 } ],
+            frames: [ { key: 'player1', frame: this.sprite2+1 } ],
             frameRate: 20
         });
 
-        /* this.relatedScene.physics.add.collider(this.player, this.relatedScene.layer1);
-        this.relatedScene.physics.add.collider(this.player, this.relatedScene.interiorLayer);
-        //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
-        this.relatedScene.physics.add.collider(this.player, this.relatedScene.murosDown);
-        this.relatedScene.physics.add.collider(this.player, this.relatedScene.murosUp);
-        this.relatedScene.physics.add.collider(this.player, this.murosRight);
-        this.relatedScene.physics.add.collider(this.player, this.murosLeft);  */
+        
 
-        this.keys =  this.relatedScene.input.keyboard.addKeys('W,A,S,D');
+        this.keys =  this.relatedScene.input.keyboard.createCursorKeys();
         
     }
     update(){
-        if (this.keys.A.isDown)
+        if (this.keys.left.isDown)
         {
             this.player.setVelocityX(-160);
             this.player.setVelocityY(0);
@@ -64,7 +56,7 @@ export class Player  {
             this.player.anims.play('left', true);
            
         }
-    else if(this.keys.D.isDown)
+    else if(this.keys.right.isDown)
         {
             this.player.setVelocityX(160);
             this.player.setVelocityY(0);
@@ -72,7 +64,7 @@ export class Player  {
             this.player.anims.play('right', true);
             
         }
-    else if(this.keys.W.isDown) 
+    else if(this.keys.up.isDown) 
         {
             this.player.setVelocityY(-160);
             this.player.setVelocityX(0);
@@ -81,7 +73,7 @@ export class Player  {
             
 
         }
-     else if(this.keys.S.isDown)
+     else if(this.keys.down.isDown)
         {
             this.player.setVelocityY(160);
             this.player.setVelocityX(0);
