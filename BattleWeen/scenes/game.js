@@ -30,9 +30,12 @@ export class Game extends Phaser.Scene {
 
  create(){
 
+    //Crea el tilemap
     const map = this.make.tilemap({ key: 'map' });
-
+    //Añade el tileSet de la capa de Mazmorra que coge los elementos de escenario
     const tileset = map.addTilesetImage('Mazmorra', 'scenery');
+    //Crea el suelo y los muros en variables distintas para solo 
+    //Chocar con los muros
     const suelo = map.createStaticLayer('Suelo', tileset, 0, 0);
     const muros = map.createStaticLayer('Muros', tileset, 0, 0);
     muros.setCollisionByExclusion(-1, true);
@@ -176,8 +179,7 @@ export class Game extends Phaser.Scene {
             playerLookingAt = "down";
 
         } 
-
-        if (keys.A.isDown)
+     else if (keys.A.isDown)
         {
             player2.setVelocityX(-speed2);
             player2.setVelocityY(0);
@@ -210,7 +212,7 @@ export class Game extends Phaser.Scene {
             player2.anims.play('keyS', true);
             playerLookingAt2 = "keyS";
 
-        } 
+        }   
     else
         {
             player1.anims.play('turn', true);
@@ -220,12 +222,6 @@ export class Game extends Phaser.Scene {
             player2.setVelocityX(0);
             player2.setVelocityY(0);
         }
-        
-
-
-
-
-
 
 }  
 
