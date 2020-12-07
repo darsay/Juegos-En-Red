@@ -2,12 +2,9 @@ var player1;
 var player2;
         var playerLookingAt;
         var playerLookingAt2;
-        var walls;
-        var interiorWalls;
-        var murosDown;
-        var murosUp;
-        var murosRight;
-        var murosLeft;
+        var speed1, speed2;
+        var hp1, hp2;
+        var dmg1, dmg2;
         var cursors;
         var keys;
 
@@ -26,108 +23,44 @@ export class Game extends Phaser.Scene {
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
+
+    this.load.tilemapTiledJSON('map', 'assets/json/level1.json');
+
 }
 
  create(){
-    //walls = this.physics.add.staticGroup();
-    //walls.create(200, 300, 'scenery', 2);
-    //https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
-     // Load a map from a 2D array of tile indices
-    const baseGround = [
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]
-    ];
 
-    // When loading from an array, make sure to specify the tileWidth and tileHeight
-    const mapBase = this.make.tilemap({ data: baseGround, tileWidth: 48, tileHeight: 48 });
-    const baseTiles = mapBase.addTilesetImage("ground");
-    const layer0 = mapBase.createStaticLayer(0, baseTiles, 0, 0);
+    const map = this.make.tilemap({ key: 'map' });
 
-    const walls = [
-        [  5,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    6],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  7,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    8]
-    ];
+    const tileset = map.addTilesetImage('Mazmorra', 'scenery');
+    const suelo = map.createStaticLayer('Suelo', tileset, 0, 0);
+    const muros = map.createStaticLayer('Muros', tileset, 0, 0);
+    muros.setCollisionByExclusion(-1, true);
 
-    const mapWalls = this.make.tilemap({ data: walls, tileWidth: 48, tileHeight: 48 });
-    const wallTiles = mapWalls.addTilesetImage("scenery");
-    const layer1 = mapWalls.createStaticLayer(0, wallTiles, 0, 0);
-
-    layer1.setCollisionBetween(1, 8);
+    this.Collectables = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
     
-    const interiorWalls = [
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    1,    1,    1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    -1],
-        [  -1,    -1,    1,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    1,    1,    -1,    1,    1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    2,    -1,    -1,    -1,    1,    -1,    -1,    -1,    1,    -1,    -1,    -1,    2,    -1,    -1],
-        [  -1,    -1,    1,    1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    1,    1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1]
-    ];
-
-    const mapInteriorWalls = this.make.tilemap({ data: interiorWalls, tileWidth: 48, tileHeight: 48 });
-     const interiorWallTiles = mapInteriorWalls.addTilesetImage("scenery");
-     const interiorLayer = mapInteriorWalls.createStaticLayer(0, interiorWallTiles, 0, 0);
-
-    interiorLayer.setCollisionBetween(1, 15);
+     
+      const items = map.getObjectLayer('Collectables')['objects'];
+      items.forEach(itemObj => {
+        // Add new spikes to our sprite group
+        const item = this.Collectables.create(itemObj.x, itemObj.y - itemObj.height, 'collectables').setOrigin(0, 0);
+      });
     
-    const collectables = [
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-    ];
 
-    const mapCollectables = this.make.tilemap({ data: collectables, tileWidth: 48, tileHeight: 48 });
-     const collectableTiles = mapCollectables.addTilesetImage("collectables");
-     const items = mapCollectables.createStaticLayer(0, collectableTiles, 0, 0);
-
-    //items.setCollisionBetween(1, 15);
-
-   
-
-    //const pickItem = mapCollectables.getObjectLayer('collectables')['object'];
-
-    //groundGroup = this.add.group();
-    //groundGroup.createMultiple({key: 'ground', repeat: width/48});
-    //Phaser.Actions.SetXY(groundGroup.getChildren(), 24, 24, 48);
-    //this.add.image(indexX, 300, 'ground');
 
 
     player1 = this.physics.add.sprite(250, 150, 'player1');
     player2 = this.physics.add.sprite(250, 400, 'player1');
+    speed1 = 160;
+    speed2 = speed1;
+    hp1 = 100;
+    hp2 = hp1;
+    dmg1 = 20;
+    dmg2 = dmg1;
+    
      player1.setScale(0.8);
      player2.setScale(0.8);
     this.anims.create({
@@ -160,7 +93,7 @@ export class Game extends Phaser.Scene {
         frameRate: 20
     });
 
-<<<<<<< Updated upstream
+
     this.anims.create({
         key: 'keyS',
         frames: this.anims.generateFrameNumbers('player1', { start: 6, end: 8 }),
@@ -193,69 +126,25 @@ export class Game extends Phaser.Scene {
 
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
-     keys = this.input.keyboard.addKeys('W,S,A,D'); //Para el resto del teclado (Le puedes meter el resto de letras)
-    //Fisica para colisionar con las platforms
-    this.physics.add.collider(player1, layer1);
-    this.physics.add.collider(player1, interiorLayer);
-=======
-<<<<<<< Updated upstream
-    //this.player1.add.collider(layer1);
-    
-    this.physics.add.collider(this.player1, layer1);
-    this.physics.add.collider(this.player1, interiorLayer);
->>>>>>> Stashed changes
-    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
-    this.physics.add.collider(player1, murosDown);
-    this.physics.add.collider(player1, murosUp);
-    this.physics.add.collider(player1, murosRight);
-    this.physics.add.collider(player1, murosLeft);
-
-
-<<<<<<< Updated upstream
-    this.physics.add.collider(player2, layer1);
-    this.physics.add.collider(player2, interiorLayer);
-    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
-    this.physics.add.collider(player2, murosDown);
-    this.physics.add.collider(player2, murosUp);
-    this.physics.add.collider(player2, murosRight);
-    this.physics.add.collider(player2, murosLeft);
-    this.physics.add.collider(player1, player2);
-    //FIN PLAYER
-=======
-=======
-    //Entrada por teclado
-    cursors = this.input.keyboard.createCursorKeys();//Para las flechas
     keys = this.input.keyboard.addKeys('W,S,A,D'); //Para el resto del teclado (Le puedes meter el resto de letras)
     //Fisica para colisionar con las platforms
-    this.physics.add.collider(player1, layer1);
-    this.physics.add.collider(player1, interiorLayer);
-    this.physics.add.collider(player1, items);
-    //this.physics.add.collider(player1, items, collectItem, null, this);
-    
+    this.physics.add.collider(player1, muros);
+    this.physics.add.collider(player2, muros);
 
-    this.physics.add.collider(player2, layer1);
-    this.physics.add.collider(player2, interiorLayer);
-    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
     this.physics.add.collider(player1, player2);
-    //FIN PLAYER
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
+    this.physics.add.overlap(player1,  this.Collectables, collectItem1, null, this);
+    this.physics.add.overlap(player2,  this.Collectables, collectItem2, null, this);
+
+
 }
 
  update ()
 {
-<<<<<<< Updated upstream
-=======
-<<<<<<< Updated upstream
-    this.player1.update();
-    this.player2.update();
-    
-=======
->>>>>>> Stashed changes
     //JUGADOR 1
     if (cursors.left.isDown)
         {
-            player1.setVelocityX(-160);
+            player1.setVelocityX(-speed1);
             player1.setVelocityY(0);
 
             player1.anims.play('left', true);
@@ -263,7 +152,7 @@ export class Game extends Phaser.Scene {
         }
     else if(cursors.right.isDown)
         {
-            player1.setVelocityX(160);
+            player1.setVelocityX(speed1);
             player1.setVelocityY(0);
 
             player1.anims.play('right', true);
@@ -271,7 +160,7 @@ export class Game extends Phaser.Scene {
         }
     else if(cursors.up.isDown) 
         {
-            player1.setVelocityY(-160);
+            player1.setVelocityY(-speed1);
             player1.setVelocityX(0);
 
             player1.anims.play('up', true);
@@ -280,7 +169,7 @@ export class Game extends Phaser.Scene {
         }
      else if(cursors.down.isDown)
         {
-            player1.setVelocityY(160);
+            player1.setVelocityY(speed1);
             player1.setVelocityX(0);
 
             player1.anims.play('down', true);
@@ -288,9 +177,9 @@ export class Game extends Phaser.Scene {
 
         } 
 
-     else if (keys.A.isDown)
+        if (keys.A.isDown)
         {
-            player2.setVelocityX(-160);
+            player2.setVelocityX(-speed2);
             player2.setVelocityY(0);
 
             player2.anims.play('keyA', true);
@@ -298,7 +187,7 @@ export class Game extends Phaser.Scene {
         }
     else if(keys.D.isDown)
         {
-            player2.setVelocityX(160);
+            player2.setVelocityX(speed2);
             player2.setVelocityY(0);
 
             player2.anims.play('keyD', true);
@@ -306,7 +195,7 @@ export class Game extends Phaser.Scene {
         }
     else if(keys.W.isDown) 
         {
-            player2.setVelocityY(-160);
+            player2.setVelocityY(-speed2);
             player2.setVelocityX(0);
 
             player2.anims.play('keyW', true);
@@ -315,7 +204,7 @@ export class Game extends Phaser.Scene {
         }
      else if(keys.S.isDown)
         {
-            player2.setVelocityY(160);
+            player2.setVelocityY(speed2);
             player2.setVelocityX(0);
 
             player2.anims.play('keyS', true);
@@ -332,21 +221,24 @@ export class Game extends Phaser.Scene {
             player2.setVelocityY(0);
         }
         
-<<<<<<< Updated upstream
-//  function collectItem(player1, collectableLayer)
-//   {
-//       collectableLayer.disableBody(true,true);
-//   }
 
-=======
- function collectItem(player1, collectableLayer)
-  {
-      //collectableLayer.disableBody(true,true);
-  }
 
->>>>>>> Stashed changes
->>>>>>> Stashed changes
+
+
+
+
+}  
 
 }
+function collectItem1(player, item)
+   {
+      item.disableBody(true,true);
+      speed1+=20;
+      
+   }
+   function collectItem2(player, item)
+   {
+      item.disableBody(true,true);
+      speed2 +=20;
 
-}
+   }

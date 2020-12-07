@@ -4,8 +4,8 @@ import { Menu } from './scenes/menu.js';
 
 const config = {
   type: Phaser.AUTO,
-  width: 817,
-  height: 578,
+  width: 864,
+  height: 624,
   scene: [Menu, Game],
   physics: {
     default: 'arcade',
