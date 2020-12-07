@@ -114,8 +114,11 @@ export class Game extends Phaser.Scene {
      const collectableTiles = mapCollectables.addTilesetImage("collectables");
      const items = mapCollectables.createStaticLayer(0, collectableTiles, 0, 0);
 
-    items.setCollisionBetween(1, 15);
+    //items.setCollisionBetween(1, 15);
 
+   
+
+    //const pickItem = mapCollectables.getObjectLayer('collectables')['object'];
 
     //groundGroup = this.add.group();
     //groundGroup.createMultiple({key: 'ground', repeat: width/48});
@@ -157,6 +160,7 @@ export class Game extends Phaser.Scene {
         frameRate: 20
     });
 
+<<<<<<< Updated upstream
     this.anims.create({
         key: 'keyS',
         frames: this.anims.generateFrameNumbers('player1', { start: 6, end: 8 }),
@@ -193,6 +197,13 @@ export class Game extends Phaser.Scene {
     //Fisica para colisionar con las platforms
     this.physics.add.collider(player1, layer1);
     this.physics.add.collider(player1, interiorLayer);
+=======
+<<<<<<< Updated upstream
+    //this.player1.add.collider(layer1);
+    
+    this.physics.add.collider(this.player1, layer1);
+    this.physics.add.collider(this.player1, interiorLayer);
+>>>>>>> Stashed changes
     //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
     this.physics.add.collider(player1, murosDown);
     this.physics.add.collider(player1, murosUp);
@@ -200,6 +211,7 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(player1, murosLeft);
 
 
+<<<<<<< Updated upstream
     this.physics.add.collider(player2, layer1);
     this.physics.add.collider(player2, interiorLayer);
     //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
@@ -209,10 +221,37 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(player2, murosLeft);
     this.physics.add.collider(player1, player2);
     //FIN PLAYER
+=======
+=======
+    //Entrada por teclado
+    cursors = this.input.keyboard.createCursorKeys();//Para las flechas
+    keys = this.input.keyboard.addKeys('W,S,A,D'); //Para el resto del teclado (Le puedes meter el resto de letras)
+    //Fisica para colisionar con las platforms
+    this.physics.add.collider(player1, layer1);
+    this.physics.add.collider(player1, interiorLayer);
+    this.physics.add.collider(player1, items);
+    //this.physics.add.collider(player1, items, collectItem, null, this);
+    
+
+    this.physics.add.collider(player2, layer1);
+    this.physics.add.collider(player2, interiorLayer);
+    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
+    this.physics.add.collider(player1, player2);
+    //FIN PLAYER
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 }
 
  update ()
 {
+<<<<<<< Updated upstream
+=======
+<<<<<<< Updated upstream
+    this.player1.update();
+    this.player2.update();
+    
+=======
+>>>>>>> Stashed changes
     //JUGADOR 1
     if (cursors.left.isDown)
         {
@@ -293,11 +332,20 @@ export class Game extends Phaser.Scene {
             player2.setVelocityY(0);
         }
         
+<<<<<<< Updated upstream
 //  function collectItem(player1, collectableLayer)
 //   {
 //       collectableLayer.disableBody(true,true);
 //   }
 
+=======
+ function collectItem(player1, collectableLayer)
+  {
+      //collectableLayer.disableBody(true,true);
+  }
+
+>>>>>>> Stashed changes
+>>>>>>> Stashed changes
 
 }
 
