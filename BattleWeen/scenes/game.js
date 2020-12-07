@@ -1,3 +1,5 @@
+import { Player } from "../components/Player.js";
+
 var player1;
 var player2;
         var playerLookingAt;
@@ -13,6 +15,7 @@ export class Game extends Phaser.Scene {
 
   constructor() {
     super({ key: 'game' });
+    var numPlayers  = 1;
   }
   
   init() {
@@ -21,7 +24,11 @@ export class Game extends Phaser.Scene {
 
    preload(){
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
-    this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.8, frameHeight: 48});
+
+    for(var i = 0; i<2; i++){
+        this.load.spritesheet('player' + i, 'assets/images/players.png',{ frameWidth: 46.8, frameHeight: 48});
+    }
+    
     this.load.image('ground', 'assets/images/ground.png');
 }
 
@@ -99,37 +106,47 @@ export class Game extends Phaser.Scene {
     //Phaser.Actions.SetXY(groundGroup.getChildren(), 24, 24, 48);
     //this.add.image(indexX, 300, 'ground');
 
+    var spawners = [[250, 150]]
+    var players = new Array(this.numPlayers);
 
-    player1 = this.physics.add.sprite(250, 150, 'player1');
-    this.anims.create({
-        key: 'down',
-        frames: this.anims.generateFrameNumbers('player1', { start: 3, end: 5 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('player1', { start: 15, end: 17 }),
-        frameRate: 10,  //FPS para la animacion
-        repeat: -1  //Bucle
-    });
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('player1', { start: 27, end: 29 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'up',
-        frames: this.anims.generateFrameNumbers('player1', { start: 39, end: 41 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'turn',
-        frames: [ { key: 'player1', frame: 4 } ],
-        frameRate: 20
-    });
+    for(var i = 0; i<players.length; i++){
+        players[i] = new Player(i, this);
+        //players[i] = this.physics.add.sprite(250, 150, 'player' + i);
+
+        this.anims.create({
+            key: 'down',
+            frames: this.anims.generateFrameNumbers('player' + i, { start: 3, end: 5 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'left',
+            frames: this.anims.generateFrameNumbers('player' + i, { start: 15, end: 17 }),
+            frameRate: 10,  //FPS para la animacion
+            repeat: -1  //Bucle
+        });
+        this.anims.create({
+            key: 'right',
+            frames: this.anims.generateFrameNumbers('player' + i, { start: 27, end: 29 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'up',
+            frames: this.anims.generateFrameNumbers('player' +i, { start: 39, end: 41 }),
+            frameRate: 10,
+            repeat: -1
+        });
+        this.anims.create({
+            key: 'turn',
+            frames: [ { key: 'player' +i, frame: 4 } ],
+            frameRate: 20
+        });
+    }
+
+
+    //player1 = this.physics.add.sprite(250, 150, 'player1');
+    
 
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();
@@ -143,51 +160,8 @@ export class Game extends Phaser.Scene {
     //FIN PLAYER
 }
 
- update ()
-{
-    if (cursors.left.isDown)
-        {
-            player1.setVelocityX(-160);
-            player1.setVelocityY(0);
+    update ()
+    {
 
-            player1.anims.play('left', true);
-            playerLookingAt = "left";
-        }
-    else if(cursors.right.isDown)
-        {
-            player1.setVelocityX(160);
-            player1.setVelocityY(0);
-
-            player1.anims.play('right', true);
-            playerLookingAt = "right";
-        }
-    else if(cursors.up.isDown) 
-        {
-            player1.setVelocityY(-160);
-            player1.setVelocityX(0);
-
-            player1.anims.play('up', true);
-            playerLookingAt = "up";
-
-        }
-    else if(cursors.down.isDown)
-        {
-            player1.setVelocityY(160);
-            player1.setVelocityX(0);
-
-            player1.anims.play('down', true);
-            playerLookingAt = "down";
-
-        }
-    else
-        {
-            player1.anims.play('turn', true);
-            player1.setVelocityX(0);
-            player1.setVelocityY(0);
-        }
-
-  
-
-
-}
+    }
 }
