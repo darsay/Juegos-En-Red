@@ -1,15 +1,20 @@
 
-export class Player  {
+export class Player extends Phaser.Physics.Arcade.Sprite  {
     constructor(scene, sprite) {
+        super(scene, sprite, 'player1');
+        
+
       this.relatedScene = scene;
       this.sprite = sprite;
       this.keys;
-      
-      
+      this.relatedScene.physics.systems.displayList.add(this);
+      this.relatedScene.physics.systems.updateList.add(this);
+      this.relatedScene.physics.world.enableBody(this, 0);
+
     }
   
     preload() {
-        this.relatedScene.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.8, frameHeight: 48});
+        
     }
   
     create() {
