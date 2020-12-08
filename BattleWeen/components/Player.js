@@ -15,31 +15,31 @@ export class Player  {
     create() {
         this.player = this.relatedScene.physics.add.sprite(250, 150, 'player1');
         this.relatedScene.anims.create({
-            key: 'down',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite, end:  this.sprite + 2 }),
+            key: 'down1',
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite , end:  this.sprite + 2 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
-            key: 'left',
+            key: 'left1',
             frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 12, end: this.sprite + 14 }),
             frameRate: 10,  //FPS para la animacion
             repeat: -1  //Bucle
         });
         this.relatedScene.anims.create({
-            key: 'right',
+            key: 'right1',
             frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 24, end: this.sprite+26 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
-            key: 'up',
-            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 36, end: this.sprite+38 }),
+            key: 'up1',
+            frames:  this.relatedScene.anims.generateFrameNumbers('player1', { start: this.sprite + 36, end: this.sprite + 38 }),
             frameRate: 10,
             repeat: -1
         });
         this.relatedScene.anims.create({
-            key: 'turn',
+            key: 'turn1',
             frames: [ { key: 'player1', frame: this.sprite+1 } ],
             frameRate: 20
         });
@@ -61,7 +61,7 @@ export class Player  {
             this.player.setVelocityX(-160);
             this.player.setVelocityY(0);
 
-            this.player.anims.play('left', true);
+            this.player.anims.play('left1', true);
            
         }
     else if(this.keys.D.isDown)
@@ -69,7 +69,7 @@ export class Player  {
             this.player.setVelocityX(160);
             this.player.setVelocityY(0);
 
-            this.player.anims.play('right', true);
+            this.player.anims.play('right1', true);
             
         }
     else if(this.keys.W.isDown) 
@@ -77,7 +77,7 @@ export class Player  {
             this.player.setVelocityY(-160);
             this.player.setVelocityX(0);
 
-            this.player.anims.play('up', true);
+            this.player.anims.play('up1', true);
             
 
         }
@@ -86,14 +86,14 @@ export class Player  {
             this.player.setVelocityY(160);
             this.player.setVelocityX(0);
 
-            this.player.anims.play('down', true);
+            this.player.anims.play('down1', true);
             
 
         } 
 
         else
         {
-            this.player.anims.play('turn', true);
+            this.player.anims.play('turn1', true);
             this.player.setVelocityX(0);
             this.player.setVelocityY(0);
             
