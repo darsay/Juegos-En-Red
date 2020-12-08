@@ -322,12 +322,12 @@ function collectHp2(player, item)
 function collectSpeed1(player, item)
    {
       item.disableBody(true,true);
-      speed1 +=200;
+      speed1 +=20;
    }
 function collectSpeed2(player, item)
    {
       item.disableBody(true,true);
-      speed2 +=200;
+      speed2 +=20;
    }
 
    function collectDmg1(player, item)
@@ -345,14 +345,14 @@ function collectDmg2(player, item)
    {
       item.disableBody(true,true);
       dmg1 +=20;
-      speed1 +=200;
+      speed1 +=20;
       hp1 +=20;
    }
 function collectEvery2(player, item)
    {
       item.disableBody(true,true);
       dmg2 +=20;
-      speed2 +=200;
+      speed2 +=20;
       hp2 +=20;
    }
 
@@ -361,7 +361,7 @@ function collectEvery2(player, item)
       item.disableBody(true,true);
       let rand = random(1,3);
     if(rand === 1){
-        speed1 +=200;
+        speed1 +=20;
     }else if(rand === 2){
         hp1 += 20;
     }else{
@@ -374,7 +374,7 @@ function collectRandom2(player, item)
       item.disableBody(true,true);
       let rand = random(1,3);
     if(rand === 1){
-        speed2 +=200;
+        speed2 +=20;
     }else if(rand === 2){
         hp2 += 20;
     }else{
