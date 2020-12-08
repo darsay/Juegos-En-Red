@@ -28,7 +28,7 @@ export class Game extends Phaser.Scene {
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/json/level111.json');
+    this.load.tilemapTiledJSON('map', 'assets/json/level3.json');
 
 }
 
@@ -309,6 +309,7 @@ else if(cursors.down.isDown)
 
 }
 }
+
 function collectHp1(player, item)
    {
       item.disableBody(true,true);
@@ -344,14 +345,30 @@ function collectDmg2(player, item)
 
    function collectRandom1(player, item)
    {
-       
       item.disableBody(true,true);
-      let rand = Math.random(1,3);
-    
-      dmg1 +=20;
+      let rand = random(1,3);
+    if(rand === 1){
+        speed1 +=20;
+    }else if(rand === 2){
+        hp1 += 20;
+    }else{
+        dmg1 += 20;
+    }
    }
+
 function collectRandom2(player, item)
    {
       item.disableBody(true,true);
-      dmg2 +=20;
+      let rand = random(1,3);
+    if(rand === 1){
+        speed2 +=20;
+    }else if(rand === 2){
+        hp2 += 20;
+    }else{
+        dmg2 += 20;
+    }
+
    }
+   function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
