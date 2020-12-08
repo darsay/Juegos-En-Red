@@ -205,44 +205,17 @@ export class Game extends Phaser.Scene {
 
 }
 
- update ()
+update(){
+
+this.movimiento2();
+this.movimiento1();
+
+}
+ movimiento2 ()
 {
-    //JUGADOR 1
-    if (cursors.left.isDown)
-        {
-            player1.setVelocityX(-speed1);
-            player1.setVelocityY(0);
-
-            player1.anims.play('left', true);
-            playerLookingAt = "left";
-        }
-    else if(cursors.right.isDown)
-        {
-            player1.setVelocityX(speed1);
-            player1.setVelocityY(0);
-
-            player1.anims.play('right', true);
-            playerLookingAt = "right";
-        }
-    else if(cursors.up.isDown) 
-        {
-            player1.setVelocityY(-speed1);
-            player1.setVelocityX(0);
-
-            player1.anims.play('up', true);
-            playerLookingAt = "up";
-
-        }
-     else if(cursors.down.isDown)
-        {
-            player1.setVelocityY(speed1);
-            player1.setVelocityX(0);
-
-            player1.anims.play('down', true);
-            playerLookingAt = "down";
-
-        } 
-     else if (keys.A.isDown)
+   
+   
+      if (keys.A.isDown)
         {
             player2.setVelocityX(-speed2);
             player2.setVelocityY(0);
@@ -278,16 +251,63 @@ export class Game extends Phaser.Scene {
         }   
     else
         {
-            player1.anims.play('turn', true);
+            
             player2.anims.play('turn2', true);
-            player1.setVelocityX(0);
-            player1.setVelocityY(0);
+         
             player2.setVelocityX(0);
             player2.setVelocityY(0);
         }
 
 }  
 
+
+ movimiento1 ()
+ {
+
+  if (cursors.left.isDown)
+  {
+      player1.setVelocityX(-speed1);
+      player1.setVelocityY(0);
+
+      player1.anims.play('left', true);
+      playerLookingAt = "left";
+  }
+else if(cursors.right.isDown)
+  {
+      player1.setVelocityX(speed1);
+      player1.setVelocityY(0);
+
+      player1.anims.play('right', true);
+      playerLookingAt = "right";
+  }
+else if(cursors.up.isDown) 
+  {
+      player1.setVelocityY(-speed1);
+      player1.setVelocityX(0);
+
+      player1.anims.play('up', true);
+      playerLookingAt = "up";
+
+  }
+else if(cursors.down.isDown)
+  {
+      player1.setVelocityY(speed1);
+      player1.setVelocityX(0);
+
+      player1.anims.play('down', true);
+      playerLookingAt = "down";
+
+  } 
+  else
+        {
+            
+            player1.anims.play('turn', true);
+         
+            player1.setVelocityX(0);
+            player1.setVelocityY(0);
+        }
+
+}
 }
 function collectHp1(player, item)
    {
