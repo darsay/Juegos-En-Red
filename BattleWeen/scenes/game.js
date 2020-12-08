@@ -28,7 +28,7 @@ export class Game extends Phaser.Scene {
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/json/level3.json');
+    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
 
 }
 
@@ -43,18 +43,6 @@ export class Game extends Phaser.Scene {
     const suelo = map.createStaticLayer('Suelo', tileset, 0, 0);
     const muros = map.createStaticLayer('Muros', tileset, 0, 0);
     muros.setCollisionByExclusion(-1, true);
-
-    // this.Collectables = this.physics.add.group({
-    //     allowGravity: false,
-    //     immovable: true
-    //   });
-    
-     
-    //   const items = map.getObjectLayer('Collectables')['objects'];
-    //   items.forEach(itemObj => {
-    //     // Add new spikes to our sprite group
-    //     const item = this.Collectables.create(itemObj.x, itemObj.y - itemObj.height, 'collectables').setOrigin(0, 0);
-    //   });
     
       /////////////////////////////////////
       this.HpUp = this.physics.add.group({
@@ -65,7 +53,6 @@ export class Game extends Phaser.Scene {
      
       const hpBoxes = map.getObjectLayer('HpUp')['objects'];
       hpBoxes.forEach(hpBox => {
-        // Add new spikes to our sprite group
         const hpup1 = this.HpUp.create(hpBox.x, hpBox.y - hpBox.height, 'lifeBox').setOrigin(0, 0);
       });
 
@@ -79,7 +66,6 @@ export class Game extends Phaser.Scene {
      
       const speedBoxes = map.getObjectLayer('SpeedUp')['objects'];
       speedBoxes.forEach(speedBox => {
-        // Add new spikes to our sprite group
         const speedup1 = this.SpeedUp.create(speedBox.x, speedBox.y - speedBox.height, 'speedBox').setOrigin(0, 0);
       });
 
@@ -92,7 +78,6 @@ export class Game extends Phaser.Scene {
      
       const dmgBoxes = map.getObjectLayer('DmgUp')['objects'];
       dmgBoxes.forEach(dmgBox => {
-        // Add new spikes to our sprite group
         const dmgup1 = this.DmgUp.create(dmgBox.x, dmgBox.y - dmgBox.height, 'dmgBox').setOrigin(0, 0);
       });
 
@@ -105,8 +90,18 @@ export class Game extends Phaser.Scene {
      
       const randomBoxes = map.getObjectLayer('RandomUp')['objects'];
       randomBoxes.forEach(randomBox => {
-        // Add new spikes to our sprite group
         const randomup1 = this.RandomUp.create(randomBox.x, randomBox.y - randomBox.height, 'randomBox').setOrigin(0, 0);
+      });
+      ///////////////////////////////////////
+      this.EveryUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
+    
+     
+      const everyBoxes = map.getObjectLayer('EveryUp')['objects'];
+      everyBoxes.forEach(everyBox => {
+        const everyup1 = this.EveryUp.create(everyBox.x, everyBox.y - everyBox.height, 'collectables').setOrigin(0, 0);
       });
 
     player1 = this.physics.add.sprite(250, 150, 'player1');
@@ -201,6 +196,9 @@ export class Game extends Phaser.Scene {
 
     this.physics.add.overlap(player1,  this.RandomUp, collectRandom1, null, this);
     this.physics.add.overlap(player2,  this.RandomUp, collectRandom2, null, this);
+
+    this.physics.add.overlap(player1,  this.EveryUp, collectEvery1, null, this);
+    this.physics.add.overlap(player2,  this.EveryUp, collectEvery2, null, this);
 
 
 }
@@ -324,12 +322,12 @@ function collectHp2(player, item)
 function collectSpeed1(player, item)
    {
       item.disableBody(true,true);
-      speed1 +=20;
+      speed1 +=200;
    }
 function collectSpeed2(player, item)
    {
       item.disableBody(true,true);
-      speed2 +=20;
+      speed2 +=200;
    }
 
    function collectDmg1(player, item)
@@ -343,12 +341,27 @@ function collectDmg2(player, item)
       dmg2 +=20;
    }
 
+   function collectEvery1(player, item)
+   {
+      item.disableBody(true,true);
+      dmg1 +=20;
+      speed1 +=200;
+      hp1 +=20;
+   }
+function collectEvery2(player, item)
+   {
+      item.disableBody(true,true);
+      dmg2 +=20;
+      speed2 +=200;
+      hp2 +=20;
+   }
+
    function collectRandom1(player, item)
    {
       item.disableBody(true,true);
       let rand = random(1,3);
     if(rand === 1){
-        speed1 +=20;
+        speed1 +=200;
     }else if(rand === 2){
         hp1 += 20;
     }else{
@@ -361,7 +374,7 @@ function collectRandom2(player, item)
       item.disableBody(true,true);
       let rand = random(1,3);
     if(rand === 1){
-        speed2 +=20;
+        speed2 +=200;
     }else if(rand === 2){
         hp2 += 20;
     }else{
