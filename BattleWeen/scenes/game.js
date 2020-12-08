@@ -23,8 +23,12 @@ export class Game extends Phaser.Scene {
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
+    this.load.image('dmgBox', 'assets/images/damagePU.png');
+    this.load.image('lifeBox', 'assets/images/lifePU.png');
+    this.load.image('speedBox', 'assets/images/speedPU.png');
+    this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/json/level1.json');
+    this.load.tilemapTiledJSON('map', 'assets/json/level111.json');
 
 }
 
@@ -40,20 +44,70 @@ export class Game extends Phaser.Scene {
     const muros = map.createStaticLayer('Muros', tileset, 0, 0);
     muros.setCollisionByExclusion(-1, true);
 
-    this.Collectables = this.physics.add.group({
+    // this.Collectables = this.physics.add.group({
+    //     allowGravity: false,
+    //     immovable: true
+    //   });
+    
+     
+    //   const items = map.getObjectLayer('Collectables')['objects'];
+    //   items.forEach(itemObj => {
+    //     // Add new spikes to our sprite group
+    //     const item = this.Collectables.create(itemObj.x, itemObj.y - itemObj.height, 'collectables').setOrigin(0, 0);
+    //   });
+    
+      /////////////////////////////////////
+      this.HpUp = this.physics.add.group({
         allowGravity: false,
         immovable: true
       });
     
      
-      const items = map.getObjectLayer('Collectables')['objects'];
-      items.forEach(itemObj => {
+      const hpBoxes = map.getObjectLayer('HpUp')['objects'];
+      hpBoxes.forEach(hpBox => {
         // Add new spikes to our sprite group
-        const item = this.Collectables.create(itemObj.x, itemObj.y - itemObj.height, 'collectables').setOrigin(0, 0);
+        const hpup1 = this.HpUp.create(hpBox.x, hpBox.y - hpBox.height, 'lifeBox').setOrigin(0, 0);
+      });
+
+      //////////////////////////////////////////////////////////////////////////////////////////////
+
+      this.SpeedUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
       });
     
+     
+      const speedBoxes = map.getObjectLayer('SpeedUp')['objects'];
+      speedBoxes.forEach(speedBox => {
+        // Add new spikes to our sprite group
+        const speedup1 = this.SpeedUp.create(speedBox.x, speedBox.y - speedBox.height, 'speedBox').setOrigin(0, 0);
+      });
 
+///////////////////////////////////////////////
+      this.DmgUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
+    
+     
+      const dmgBoxes = map.getObjectLayer('DmgUp')['objects'];
+      dmgBoxes.forEach(dmgBox => {
+        // Add new spikes to our sprite group
+        const dmgup1 = this.DmgUp.create(dmgBox.x, dmgBox.y - dmgBox.height, 'dmgBox').setOrigin(0, 0);
+      });
 
+      //////////////////////////////////////
+      this.RandomUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
+    
+     
+      const randomBoxes = map.getObjectLayer('RandomUp')['objects'];
+      randomBoxes.forEach(randomBox => {
+        // Add new spikes to our sprite group
+        const randomup1 = this.RandomUp.create(randomBox.x, randomBox.y - randomBox.height, 'randomBox').setOrigin(0, 0);
+      });
 
     player1 = this.physics.add.sprite(250, 150, 'player1');
     player2 = this.physics.add.sprite(250, 400, 'player1');
@@ -136,8 +190,17 @@ export class Game extends Phaser.Scene {
 
     this.physics.add.collider(player1, player2);
 
-    this.physics.add.overlap(player1,  this.Collectables, collectItem1, null, this);
-    this.physics.add.overlap(player2,  this.Collectables, collectItem2, null, this);
+    this.physics.add.overlap(player1,  this.HpUp, collectHp1, null, this);
+    this.physics.add.overlap(player2,  this.HpUp, collectHp2, null, this);
+
+    this.physics.add.overlap(player1,  this.SpeedUp, collectSpeed1, null, this);
+    this.physics.add.overlap(player2,  this.SpeedUp, collectSpeed2, null, this);
+
+    this.physics.add.overlap(player1,  this.DmgUp, collectDmg1, null, this);
+    this.physics.add.overlap(player2,  this.DmgUp, collectDmg2, null, this);
+
+    this.physics.add.overlap(player1,  this.RandomUp, collectRandom1, null, this);
+    this.physics.add.overlap(player2,  this.RandomUp, collectRandom2, null, this);
 
 
 }
@@ -226,15 +289,49 @@ export class Game extends Phaser.Scene {
 }  
 
 }
-function collectItem1(player, item)
+function collectHp1(player, item)
    {
       item.disableBody(true,true);
-      speed1+=20;
-      
+      hp1 +=20;
    }
-   function collectItem2(player, item)
+function collectHp2(player, item)
+   {
+      item.disableBody(true,true);
+      hp2 +=20;
+   }
+
+function collectSpeed1(player, item)
+   {
+      item.disableBody(true,true);
+      speed1 +=20;
+   }
+function collectSpeed2(player, item)
    {
       item.disableBody(true,true);
       speed2 +=20;
+   }
 
+   function collectDmg1(player, item)
+   {
+      item.disableBody(true,true);
+      dmg1 +=20;
+   }
+function collectDmg2(player, item)
+   {
+      item.disableBody(true,true);
+      dmg2 +=20;
+   }
+
+   function collectRandom1(player, item)
+   {
+       
+      item.disableBody(true,true);
+      let rand = Math.random(1,3);
+    
+      dmg1 +=20;
+   }
+function collectRandom2(player, item)
+   {
+      item.disableBody(true,true);
+      dmg2 +=20;
    }
