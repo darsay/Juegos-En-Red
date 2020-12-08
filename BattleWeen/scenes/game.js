@@ -1,13 +1,4 @@
-var player1;
-var player2;
-        var playerLookingAt;
-        var playerLookingAt2;
-        var walls;
-        var interiorWalls;
-        var murosDown;
-        var murosUp;
-        var murosRight;
-        var murosLeft;
+
        
 import { Player } from "../components/Player.js";
 import { Player2 } from "../components/Player2.js";
@@ -34,113 +25,46 @@ export class Game extends Phaser.Scene {
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
+
+    this.load.tilemapTiledJSON('map', 'assets/json/level1.json');
 }
 
  create(){
-    //walls = this.physics.add.staticGroup();
-    //walls.create(200, 300, 'scenery', 2);
-    //https://medium.com/@michaelwesthadley/modular-game-worlds-in-phaser-3-tilemaps-1-958fc7e6bbd6
-     // Load a map from a 2D array of tile indices
-    const baseGround = [
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0],
-        [  0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0,   0]
-    ];
+   //Crea el tilemap
+   const map = this.make.tilemap({ key: 'map' });
+   //Añade el tileSet de la capa de Mazmorra que coge los elementos de escenario
+   const tileset = map.addTilesetImage('Mazmorra', 'scenery');
+   //Crea el suelo y los muros en variables distintas para solo 
+   //Chocar con los muros
+   const suelo = map.createStaticLayer('Suelo', tileset, 0, 0);
+   const muros = map.createStaticLayer('Muros', tileset, 0, 0);
+   muros.setCollisionByExclusion(-1, true);
 
-    // When loading from an array, make sure to specify the tileWidth and tileHeight
-    const mapBase = this.make.tilemap({ data: baseGround, tileWidth: 48, tileHeight: 48 });
-    const baseTiles = mapBase.addTilesetImage("ground");
-    const layer0 = mapBase.createStaticLayer(0, baseTiles, 0, 0);
-
-    const walls = [
-        [  5,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    1,    6],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    4],
-        [  7,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    2,    8]
-    ];
-
-    const mapWalls = this.make.tilemap({ data: walls, tileWidth: 48, tileHeight: 48 });
-    const wallTiles = mapWalls.addTilesetImage("scenery");
-    const layer1 = mapWalls.createStaticLayer(0, wallTiles, 0, 0);
-
-    layer1.setCollisionBetween(1, 8);
+   this.Collectables = this.physics.add.group({
+       allowGravity: false,
+       immovable: true
+     });
+   
     
-    const interiorWalls = [
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    -1],
-        [  -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1,    -1,    2,    -1,    -1],
-        [  -1,    -1,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    2,    2,    2,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1]
-    ];
-
-    const mapInteriorWalls = this.make.tilemap({ data: interiorWalls, tileWidth: 48, tileHeight: 48 });
-     const interiorWallTiles = mapInteriorWalls.addTilesetImage("scenery");
-     const interiorLayer = mapInteriorWalls.createStaticLayer(0, interiorWallTiles, 0, 0);
-
-    interiorLayer.setCollisionBetween(1, 15);
-    
-    const collectables = [
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-        [  -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1,    -1],
-    ];
-
-    const mapCollectables = this.make.tilemap({ data: collectables, tileWidth: 48, tileHeight: 48 });
-     const collectableTiles = mapCollectables.addTilesetImage("collectables");
-     const items = mapCollectables.createStaticLayer(0, collectableTiles, 0, 0);
-
-    items.setCollisionBetween(1, 15);
-
-
-    //groundGroup = this.add.group();
-    //groundGroup.createMultiple({key: 'ground', repeat: width/48});
-    //Phaser.Actions.SetXY(groundGroup.getChildren(), 24, 24, 48);
-    //this.add.image(indexX, 300, 'ground');
+     const items = map.getObjectLayer('Collectables')['objects'];
+     items.forEach(itemObj => {
+       // Add new spikes to our sprite group
+       const item = this.Collectables.create(itemObj.x, itemObj.y - itemObj.height, 'collectables').setOrigin(0, 0);
+     });
+   
     
     this.player1.create();
     this.player2.create();
     
     
-      this.physics.add.collider(this.player1, layer1);
-    this.physics.add.collider(this.player1, interiorLayer);
-    //this.physics.add.overlap(player1, collectableLayer, collectItem, null, this);
-    this.physics.add.collider(this.player1, murosDown);
-    this.physics.add.collider(this.player1, murosUp);
-    this.physics.add.collider(this.player1, murosRight);
-    this.physics.add.collider(this.player1, murosLeft);  
+    this.physics.add.collider(this.player1, muros);
+    this.physics.add.collider(this.player2, muros);
+
+    this.physics.add.collider(this.player1, this.player2);
+
+    this.physics.add.overlap(this.player1,  this.Collectables, collectItem1, null, this);
+    this.physics.add.overlap(this.player2,  this.Collectables, collectItem2, null, this);
+
 }
 
  update ()
@@ -155,3 +79,19 @@ export class Game extends Phaser.Scene {
 }
 
 }
+
+
+
+
+function collectItem1(player, item)
+   {
+      item.disableBody(true,true);
+      speed1+=20;
+      
+   }
+   function collectItem2(player, item)
+   {
+      item.disableBody(true,true);
+      speed2 +=20;
+
+   }
