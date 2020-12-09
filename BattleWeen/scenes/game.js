@@ -127,7 +127,7 @@ export class Game extends Phaser.Scene {
     player2.setScale(0.8);
     speed1 = 160;
     speed2 = speed1;
-    hp1 = 100;
+    hp1 = 1000;
     hp2 = hp1;
     dmg1 = 20;
     dmg2 = dmg1;
