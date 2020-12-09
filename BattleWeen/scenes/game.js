@@ -9,6 +9,11 @@ var player2;
         var keys;
         var balls;
         var balls2;
+        var NumeroVida;
+        var NumeroVida2;
+        var shootTime1=0;
+        var shootTime2=0;
+        
         
 
 export class Game extends Phaser.Scene {
@@ -117,6 +122,9 @@ export class Game extends Phaser.Scene {
     dmg1 = 20;
     dmg2 = dmg1;
     
+    NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
+    NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
+
      player1.setScale(0.8);
      player2.setScale(0.8);
     this.anims.create({
@@ -213,10 +221,10 @@ export class Game extends Phaser.Scene {
 
 
     //BALAS
-    this.physics.add.overlap(player2, balls, quitarVida, null, this);
+    this.physics.add.overlap(player2, balls, quitarVida2, null, this);
     this.physics.add.collider(player2, balls);
 
-    this.physics.add.overlap(player1, balls2, quitarVida, null, this);
+    this.physics.add.overlap(player1, balls2, quitarVida1, null, this);
     this.physics.add.collider(player1, balls2);
 
    
@@ -346,6 +354,7 @@ else if(cursors.down.isDown)
 }
 
  disparar(){
+   if(this.time.now > shootTime1){
   this.ball= balls.create(player1.x, player1.y, 'ball');
   this.ball.setCollideWorldBounds(true);
   this.ball.setScale(0.01);
@@ -363,10 +372,12 @@ case(1):
   this.ball.setVelocityY(200);
   break;
   }
- 
+  shootTime1= this.time.now +600;
+}
  }
 
  disparar2(){
+   if(this.time.now>shootTime2){
   this.ball2= balls2.create(player2.x, player2.y, 'ball');
   this.ball2.setCollideWorldBounds(true);
   this.ball2.setScale(0.01);
@@ -384,6 +395,10 @@ case(1):
       this.ball2.setVelocityY(200);
       break;
       }
+
+      shootTime2=this.time.now + 600;
+    }
+
  }
 
 
@@ -392,8 +407,16 @@ case(1):
 
 
 
-function quitarVida(player,item){
+function quitarVida2(player,item){
   item.disableBody(true,true);
+  hp2-= dmg1;
+  NumeroVida2.setText('Vida: '+hp2)
+}
+
+function quitarVida1(player,item){
+  item.disableBody(true,true);
+  hp1-= dmg2;
+  NumeroVida.setText('Vida: ' + hp1);
 }
 
 
