@@ -52,22 +52,25 @@ export class Game extends Phaser.Scene {
     //Chocar con los muros
     const suelo = map.createStaticLayer('Suelo', tileset, 0, 0);
     const muros = map.createStaticLayer('Muros', tileset, 0, 0);
+    //Colisiona todo lo que tenga un indice distinto de -1 (todos los muros)
     muros.setCollisionByExclusion(-1, true);
     
-      /////////////////////////////////////
-      this.HpUp = this.physics.add.group({
-        allowGravity: false,
-        immovable: true
-      });
+    //Aqui empiezan a crearse los objetos coleccionables que aumentan las estadisticas de los personajes
     
-     
-      const hpBoxes = map.getObjectLayer('HpUp')['objects'];
-      hpBoxes.forEach(hpBox => {
-        const hpup1 = this.HpUp.create(hpBox.x, hpBox.y - hpBox.height, 'lifeBox').setOrigin(0, 0);
-      });
+    //Añadimos HpUp, que viene dado del mapa a un grupo de fisicas sin gravedad e inamovible
+    this.HpUp = this.physics.add.group({
+      allowGravity: false,
+      immovable: true
+    });
+    
+     //Aqui creamos cada caja individualmente con el sprite llamado desde lifeBox 
+    const hpBoxes = map.getObjectLayer('HpUp')['objects'];
+    hpBoxes.forEach(hpBox => {
+      const hpup1 = this.HpUp.create(hpBox.x, hpBox.y - hpBox.height, 'lifeBox').setOrigin(0, 0);
+    });
 
-      //////////////////////////////////////////////////////////////////////////////////////////////
-
+    
+    //Lo mismo con velocidad
       this.SpeedUp = this.physics.add.group({
         allowGravity: false,
         immovable: true
@@ -79,7 +82,7 @@ export class Game extends Phaser.Scene {
         const speedup1 = this.SpeedUp.create(speedBox.x, speedBox.y - speedBox.height, 'speedBox').setOrigin(0, 0);
       });
 
-///////////////////////////////////////////////
+    //Lo mismo con daño
       this.DmgUp = this.physics.add.group({
         allowGravity: false,
         immovable: true
@@ -91,7 +94,7 @@ export class Game extends Phaser.Scene {
         const dmgup1 = this.DmgUp.create(dmgBox.x, dmgBox.y - dmgBox.height, 'dmgBox').setOrigin(0, 0);
       });
 
-      //////////////////////////////////////
+    //Lo mismo con las cajas Random
       this.RandomUp = this.physics.add.group({
         allowGravity: false,
         immovable: true
@@ -102,7 +105,8 @@ export class Game extends Phaser.Scene {
       randomBoxes.forEach(randomBox => {
         const randomup1 = this.RandomUp.create(randomBox.x, randomBox.y - randomBox.height, 'randomBox').setOrigin(0, 0);
       });
-      ///////////////////////////////////////
+
+    //Lo mismo con la caja que aumenta todas las estadisticas
       this.EveryUp = this.physics.add.group({
         allowGravity: false,
         immovable: true
@@ -114,8 +118,12 @@ export class Game extends Phaser.Scene {
         const everyup1 = this.EveryUp.create(everyBox.x, everyBox.y - everyBox.height, 'collectables').setOrigin(0, 0);
       });
 
-    player1 = this.physics.add.sprite(250, 150, 'brujaSp');
-    player2 = this.physics.add.sprite(250, 400, 'player1');
+
+    //Aqui se crea el player y se inicializan sus sprites y propiedades
+    player1 = this.physics.add.sprite(70, 70, 'brujaSp');
+    player2 = this.physics.add.sprite(785, 554, 'player1');
+    player1.setScale(0.8);
+    player2.setScale(0.8);
     speed1 = 160;
     speed2 = speed1;
     hp1 = 100;
@@ -123,12 +131,11 @@ export class Game extends Phaser.Scene {
     dmg1 = 20;
     dmg2 = dmg1;
     
+    //Muestreo por pantalla de las vidas de los jugadores
     NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
     NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
-
-     player1.setScale(0.8);
-     player2.setScale(0.8);
      
+    //Se crean las animaciones de los dos personajes
     this.anims.create({
         key: 'down',
         frames: this.anims.generateFrameNumbers('brujaSp', { start: 0, end: 3 }),
@@ -190,49 +197,55 @@ export class Game extends Phaser.Scene {
         frameRate: 20
     });
 
-
+    //Se crean las fisicas de las balas
       balls = this.physics.add.group();
       balls2 = this.physics.add.group();
       
       
-      //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
+    //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
     keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
+    //// FISICAS ////
     //Fisica para colisionar con las platforms
     this.physics.add.collider(player1, muros);
     this.physics.add.collider(player2, muros);
-
+    //Añade colisiones de player1 con player2
     this.physics.add.collider(player1, player2);
 
+    //Cajas
+    //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
     this.physics.add.overlap(player1,  this.HpUp, collectHp1, null, this);
     this.physics.add.overlap(player2,  this.HpUp, collectHp2, null, this);
 
+    //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
     this.physics.add.overlap(player1,  this.SpeedUp, collectSpeed1, null, this);
     this.physics.add.overlap(player2,  this.SpeedUp, collectSpeed2, null, this);
 
+    //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
     this.physics.add.overlap(player1,  this.DmgUp, collectDmg1, null, this);
     this.physics.add.overlap(player2,  this.DmgUp, collectDmg2, null, this);
 
+    //Añade los metodos para que cuando player1 o player 2 cojan una caja random, les aumente una propiedad aleatoria
     this.physics.add.overlap(player1,  this.RandomUp, collectRandom1, null, this);
     this.physics.add.overlap(player2,  this.RandomUp, collectRandom2, null, this);
 
+    //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
     this.physics.add.overlap(player1,  this.EveryUp, collectEvery1, null, this);
     this.physics.add.overlap(player2,  this.EveryUp, collectEvery2, null, this);
 
 
 
     //BALAS
+    //Añade las colisiones y los metodos para quitar vida de los dos jugadores
     this.physics.add.overlap(player2, balls, quitarVida2, null, this);
     this.physics.add.collider(player2, balls);
 
     this.physics.add.overlap(player1, balls2, quitarVida1, null, this);
     this.physics.add.collider(player1, balls2);
 
-   
+    //Añade las colisiones de las balas con los muros
     this.physics.add.collider(muros, balls);
-
-   
     this.physics.add.collider(muros, balls2);
    
 }
@@ -244,16 +257,12 @@ this.disparar();
 }
 if(keys.T.isDown){
   this.disparar2();
-  }
+}
 
 this.movimiento2();
 this.movimiento1();
 
-
 }
- 
-
-
  movimiento2 ()
 {
    
