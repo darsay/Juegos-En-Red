@@ -7,6 +7,9 @@ var player2;
         var dmg1, dmg2;
         var cursors;
         var keys;
+        var balls;
+        var balls2;
+        
 
 export class Game extends Phaser.Scene {
 
@@ -19,12 +22,17 @@ export class Game extends Phaser.Scene {
   }
 
    preload(){
+    this.load.image('ball', 'assets/images/ball.png');
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
+    this.load.image('dmgBox', 'assets/images/damagePU.png');
+    this.load.image('lifeBox', 'assets/images/lifePU.png');
+    this.load.image('speedBox', 'assets/images/speedPU.png');
+    this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/json/level1.json');
+    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
 
 }
 
@@ -39,21 +47,66 @@ export class Game extends Phaser.Scene {
     const suelo = map.createStaticLayer('Suelo', tileset, 0, 0);
     const muros = map.createStaticLayer('Muros', tileset, 0, 0);
     muros.setCollisionByExclusion(-1, true);
-
-    this.Collectables = this.physics.add.group({
+    
+      /////////////////////////////////////
+      this.HpUp = this.physics.add.group({
         allowGravity: false,
         immovable: true
       });
     
      
-      const items = map.getObjectLayer('Collectables')['objects'];
-      items.forEach(itemObj => {
-        // Add new spikes to our sprite group
-        const item = this.Collectables.create(itemObj.x, itemObj.y - itemObj.height, 'collectables').setOrigin(0, 0);
+      const hpBoxes = map.getObjectLayer('HpUp')['objects'];
+      hpBoxes.forEach(hpBox => {
+        const hpup1 = this.HpUp.create(hpBox.x, hpBox.y - hpBox.height, 'lifeBox').setOrigin(0, 0);
+      });
+
+      //////////////////////////////////////////////////////////////////////////////////////////////
+
+      this.SpeedUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
       });
     
+     
+      const speedBoxes = map.getObjectLayer('SpeedUp')['objects'];
+      speedBoxes.forEach(speedBox => {
+        const speedup1 = this.SpeedUp.create(speedBox.x, speedBox.y - speedBox.height, 'speedBox').setOrigin(0, 0);
+      });
 
+///////////////////////////////////////////////
+      this.DmgUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
+    
+     
+      const dmgBoxes = map.getObjectLayer('DmgUp')['objects'];
+      dmgBoxes.forEach(dmgBox => {
+        const dmgup1 = this.DmgUp.create(dmgBox.x, dmgBox.y - dmgBox.height, 'dmgBox').setOrigin(0, 0);
+      });
 
+      //////////////////////////////////////
+      this.RandomUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
+    
+     
+      const randomBoxes = map.getObjectLayer('RandomUp')['objects'];
+      randomBoxes.forEach(randomBox => {
+        const randomup1 = this.RandomUp.create(randomBox.x, randomBox.y - randomBox.height, 'randomBox').setOrigin(0, 0);
+      });
+      ///////////////////////////////////////
+      this.EveryUp = this.physics.add.group({
+        allowGravity: false,
+        immovable: true
+      });
+    
+     
+      const everyBoxes = map.getObjectLayer('EveryUp')['objects'];
+      everyBoxes.forEach(everyBox => {
+        const everyup1 = this.EveryUp.create(everyBox.x, everyBox.y - everyBox.height, 'collectables').setOrigin(0, 0);
+      });
 
     player1 = this.physics.add.sprite(250, 150, 'player1');
     player2 = this.physics.add.sprite(250, 400, 'player1');
@@ -127,65 +180,81 @@ export class Game extends Phaser.Scene {
         frameRate: 20
     });
 
+
+      balls = this.physics.add.group();
+      balls2 = this.physics.add.group();
+      
+      
+      //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
-    keys = this.input.keyboard.addKeys('W,S,A,D'); //Para el resto del teclado (Le puedes meter el resto de letras)
+    keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
     //Fisica para colisionar con las platforms
     this.physics.add.collider(player1, muros);
     this.physics.add.collider(player2, muros);
 
     this.physics.add.collider(player1, player2);
 
-    this.physics.add.overlap(player1,  this.Collectables, collectItem1, null, this);
-    this.physics.add.overlap(player2,  this.Collectables, collectItem2, null, this);
+    this.physics.add.overlap(player1,  this.HpUp, collectHp1, null, this);
+    this.physics.add.overlap(player2,  this.HpUp, collectHp2, null, this);
+
+    this.physics.add.overlap(player1,  this.SpeedUp, collectSpeed1, null, this);
+    this.physics.add.overlap(player2,  this.SpeedUp, collectSpeed2, null, this);
+
+    this.physics.add.overlap(player1,  this.DmgUp, collectDmg1, null, this);
+    this.physics.add.overlap(player2,  this.DmgUp, collectDmg2, null, this);
+
+    this.physics.add.overlap(player1,  this.RandomUp, collectRandom1, null, this);
+    this.physics.add.overlap(player2,  this.RandomUp, collectRandom2, null, this);
+
+    this.physics.add.overlap(player1,  this.EveryUp, collectEvery1, null, this);
+    this.physics.add.overlap(player2,  this.EveryUp, collectEvery2, null, this);
+
+
+
+    //BALAS
+    this.physics.add.overlap(player2, balls, quitarVida, null, this);
+    this.physics.add.collider(player2, balls);
+
+    this.physics.add.overlap(player1, balls2, quitarVida, null, this);
+    this.physics.add.collider(player1, balls2);
+
+   
+    this.physics.add.collider(muros, balls);
+
+   
+    this.physics.add.collider(muros, balls2);
+   
+}
+
+update(){
+
+if(keys.M.isDown){
+this.disparar();
+}
+if(keys.T.isDown){
+  this.disparar2();
+  }
+
+this.movimiento2();
+this.movimiento1();
 
 
 }
+ 
 
- update ()
+
+ movimiento2 ()
 {
-    //JUGADOR 1
-    if (cursors.left.isDown)
-        {
-            player1.setVelocityX(-speed1);
-            player1.setVelocityY(0);
-
-            player1.anims.play('left', true);
-            playerLookingAt = "left";
-        }
-    else if(cursors.right.isDown)
-        {
-            player1.setVelocityX(speed1);
-            player1.setVelocityY(0);
-
-            player1.anims.play('right', true);
-            playerLookingAt = "right";
-        }
-    else if(cursors.up.isDown) 
-        {
-            player1.setVelocityY(-speed1);
-            player1.setVelocityX(0);
-
-            player1.anims.play('up', true);
-            playerLookingAt = "up";
-
-        }
-     else if(cursors.down.isDown)
-        {
-            player1.setVelocityY(speed1);
-            player1.setVelocityX(0);
-
-            player1.anims.play('down', true);
-            playerLookingAt = "down";
-
-        } 
-     else if (keys.A.isDown)
+   
+   
+      if (keys.A.isDown)
         {
             player2.setVelocityX(-speed2);
             player2.setVelocityY(0);
 
             player2.anims.play('keyA', true);
-            playerLookingAt2 = "keyA";
+            playerLookingAt2 = 1;
         }
     else if(keys.D.isDown)
         {
@@ -193,7 +262,7 @@ export class Game extends Phaser.Scene {
             player2.setVelocityY(0);
 
             player2.anims.play('keyD', true);
-            playerLookingAt2 = "keyD";
+            playerLookingAt2 = 2;
         }
     else if(keys.W.isDown) 
         {
@@ -201,7 +270,7 @@ export class Game extends Phaser.Scene {
             player2.setVelocityX(0);
 
             player2.anims.play('keyW', true);
-            playerLookingAt = "keyW";
+            playerLookingAt2 = 3;
 
         }
      else if(keys.S.isDown)
@@ -210,31 +279,198 @@ export class Game extends Phaser.Scene {
             player2.setVelocityX(0);
 
             player2.anims.play('keyS', true);
-            playerLookingAt2 = "keyS";
+            playerLookingAt2 = 4;
 
         }   
     else
         {
-            player1.anims.play('turn', true);
+            
             player2.anims.play('turn2', true);
-            player1.setVelocityX(0);
-            player1.setVelocityY(0);
+         
             player2.setVelocityX(0);
             player2.setVelocityY(0);
+            playerLookingAt2 = 4;
+
         }
 
 }  
 
+
+ movimiento1 ()
+ {
+
+  if (cursors.left.isDown)
+  {
+      player1.setVelocityX(-speed1);
+      player1.setVelocityY(0);
+
+      player1.anims.play('left', true);
+      playerLookingAt = 1;
+  }
+else if(cursors.right.isDown)
+  {
+      player1.setVelocityX(speed1);
+      player1.setVelocityY(0);
+
+      player1.anims.play('right', true);
+      playerLookingAt = 2;
+  }
+else if(cursors.up.isDown) 
+  {
+      player1.setVelocityY(-speed1);
+      player1.setVelocityX(0);
+
+      player1.anims.play('up', true);
+      playerLookingAt = 3;
+
+  }
+else if(cursors.down.isDown)
+  {
+      player1.setVelocityY(speed1);
+      player1.setVelocityX(0);
+
+      player1.anims.play('down', true);
+      playerLookingAt = 4;
+
+  } 
+  else
+        {
+            
+            player1.anims.play('turn', true);
+         
+            player1.setVelocityX(0);
+            player1.setVelocityY(0);
+            playerLookingAt = 4;
+        }
+
 }
-function collectItem1(player, item)
+
+ disparar(){
+  this.ball= balls.create(player1.x, player1.y, 'ball');
+  this.ball.setCollideWorldBounds(true);
+  this.ball.setScale(0.01);
+  switch(playerLookingAt){
+case(1):
+  this.ball.setVelocityX(-200);
+  break;
+  case(2):
+  this.ball.setVelocityX(200);
+  break;
+  case(3):
+  this.ball.setVelocityY(-200);
+  break;
+  case(4):
+  this.ball.setVelocityY(200);
+  break;
+  }
+ 
+ }
+
+ disparar2(){
+  this.ball2= balls2.create(player2.x, player2.y, 'ball');
+  this.ball2.setCollideWorldBounds(true);
+  this.ball2.setScale(0.01);
+  switch(playerLookingAt2){
+    case(1):
+      this.ball2.setVelocityX(-200);
+      break;
+      case(2):
+      this.ball2.setVelocityX(200);
+      break;
+      case(3):
+      this.ball2.setVelocityY(-200);
+      break;
+      case(4):
+      this.ball2.setVelocityY(200);
+      break;
+      }
+ }
+
+
+}
+
+
+
+
+function quitarVida(player,item){
+  item.disableBody(true,true);
+}
+
+
+function collectHp1(player, item)
    {
       item.disableBody(true,true);
-      speed1+=20;
-      
+      hp1 +=20;
    }
-   function collectItem2(player, item)
+function collectHp2(player, item)
+   {
+      item.disableBody(true,true);
+      hp2 +=20;
+   }
+
+function collectSpeed1(player, item)
+   {
+      item.disableBody(true,true);
+      speed1 +=20;
+   }
+function collectSpeed2(player, item)
    {
       item.disableBody(true,true);
       speed2 +=20;
+   }
+
+   function collectDmg1(player, item)
+   {
+      item.disableBody(true,true);
+      dmg1 +=20;
+   }
+function collectDmg2(player, item)
+   {
+      item.disableBody(true,true);
+      dmg2 +=20;
+   }
+
+   function collectEvery1(player, item)
+   {
+      item.disableBody(true,true);
+      dmg1 +=20;
+      speed1 +=20;
+      hp1 +=20;
+   }
+function collectEvery2(player, item)
+   {
+      item.disableBody(true,true);
+      dmg2 +=20;
+      speed2 +=20;
+      hp2 +=20;
+   }
+
+   function collectRandom1(player, item)
+   {
+      item.disableBody(true,true);
+      let rand = random(1,3);
+    if(rand === 1){
+        speed1 +=20;
+    }else if(rand === 2){
+        hp1 += 20;
+    }else{
+        dmg1 += 20;
+    }
+   }
+
+function collectRandom2(player, item)
+   {
+      item.disableBody(true,true);
+      let rand = random(1,3);
+    if(rand === 1){
+        speed2 +=20;
+    }else if(rand === 2){
+        hp2 += 20;
+    }else{
+        dmg2 += 20;
+    }
 
    }
+   function random(min, max) {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  }
