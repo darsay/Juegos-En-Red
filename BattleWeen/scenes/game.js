@@ -207,6 +207,12 @@ export class Game extends Phaser.Scene {
     this.physics.add.overlap(player1,  this.RandomUp, collectRandom1, null, this);
     this.physics.add.overlap(player2,  this.RandomUp, collectRandom2, null, this);
 
+    this.physics.add.overlap(player1,  this.EveryUp, collectEvery1, null, this);
+    this.physics.add.overlap(player2,  this.EveryUp, collectEvery2, null, this);
+
+
+
+    //BALAS
     this.physics.add.overlap(player2, balls, quitarVida, null, this);
     this.physics.add.collider(player2, balls);
 
