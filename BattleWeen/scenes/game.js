@@ -118,7 +118,7 @@ export class Game extends Phaser.Scene {
     player2 = this.physics.add.sprite(250, 400, 'player1');
     speed1 = 160;
     speed2 = speed1;
-    hp1 = 100;
+    hp1 = 1000;
     hp2 = hp1;
     dmg1 = 20;
     dmg2 = dmg1;
@@ -425,11 +425,13 @@ function collectHp1(player, item)
    {
       item.disableBody(true,true);
       hp1 +=20;
+      NumeroVida.setText('Vida: ' + hp1);
    }
 function collectHp2(player, item)
    {
       item.disableBody(true,true);
       hp2 +=20;
+      NumeroVida2.setText('Vida: ' + hp2);
    }
 
 function collectSpeed1(player, item)
@@ -460,6 +462,7 @@ function collectDmg2(player, item)
       dmg1 +=20;
       speed1 +=20;
       hp1 +=20;
+      NumeroVida.setText('Vida: ' + hp1);
    }
 function collectEvery2(player, item)
    {
@@ -467,6 +470,7 @@ function collectEvery2(player, item)
       dmg2 +=20;
       speed2 +=20;
       hp2 +=20;
+      NumeroVida2.setText('Vida: ' + hp2);
    }
 
    function collectRandom1(player, item)
@@ -477,8 +481,10 @@ function collectEvery2(player, item)
         speed1 +=20;
     }else if(rand === 2){
         hp1 += 20;
+        NumeroVida.setText('Vida: ' + hp1);
     }else{
         dmg1 += 20;
+        
     }
    }
 
@@ -490,6 +496,7 @@ function collectRandom2(player, item)
         speed2 +=20;
     }else if(rand === 2){
         hp2 += 20;
+        NumeroVida2.setText('Vida: ' + hp2);
     }else{
         dmg2 += 20;
     }
