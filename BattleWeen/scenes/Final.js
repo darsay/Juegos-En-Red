@@ -7,7 +7,7 @@ export class Final extends Phaser.Scene {
   }
 
   preload() {
-    this.load.image('logo', 'assets/images/logo.png');
+   
     this.load.image('background', 'assets/images/fondo.jpg');
     this.botonPlay.preload();
   }
@@ -15,7 +15,6 @@ export class Final extends Phaser.Scene {
   create() {
     this.add.image(410, 280, 'background');
     this.botonPlay.create();
-    this.logo = this.add.image(400, 130, 'logo');
-    this.logo.setScale(0.5);
+    
 }
 }
