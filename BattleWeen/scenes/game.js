@@ -30,6 +30,7 @@ export class Game extends Phaser.Scene {
     this.load.image('ball', 'assets/images/ball.png');
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
+    this.load.spritesheet('brujaSp', 'assets/images/brujaSprite.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
     this.load.image('dmgBox', 'assets/images/damagePU.png');
@@ -37,7 +38,7 @@ export class Game extends Phaser.Scene {
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
+    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level4.json');
 
 }
 
@@ -113,7 +114,7 @@ export class Game extends Phaser.Scene {
         const everyup1 = this.EveryUp.create(everyBox.x, everyBox.y - everyBox.height, 'collectables').setOrigin(0, 0);
       });
 
-    player1 = this.physics.add.sprite(250, 150, 'player1');
+    player1 = this.physics.add.sprite(250, 150, 'brujaSp');
     player2 = this.physics.add.sprite(250, 400, 'player1');
     speed1 = 160;
     speed2 = speed1;
@@ -127,33 +128,34 @@ export class Game extends Phaser.Scene {
 
      player1.setScale(0.8);
      player2.setScale(0.8);
+     
     this.anims.create({
         key: 'down',
-        frames: this.anims.generateFrameNumbers('player1', { start: 3, end: 5 }),
+        frames: this.anims.generateFrameNumbers('brujaSp', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'left',
-        frames: this.anims.generateFrameNumbers('player1', { start: 15, end: 17 }),
+        frames: this.anims.generateFrameNumbers('brujaSp', { start: 4, end: 7 }),
         frameRate: 10,  //FPS para la animacion
         repeat: -1  //Bucle
     });
     this.anims.create({
         key: 'right',
-        frames: this.anims.generateFrameNumbers('player1', { start: 27, end: 29 }),
+        frames: this.anims.generateFrameNumbers('brujaSp', { start: 8, end: 11 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'up',
-        frames: this.anims.generateFrameNumbers('player1', { start: 39, end: 41 }),
+        frames: this.anims.generateFrameNumbers('brujaSp', { start: 12, end: 15 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'turn',
-        frames: [ { key: 'player1', frame: 4 } ],
+        frames: [ { key: 'brujaSp', frame: 0 } ],
         frameRate: 20
     });
 
@@ -298,7 +300,6 @@ this.movimiento1();
             player2.setVelocityX(0);
             player2.setVelocityY(0);
             playerLookingAt2 = 4;
-
         }
 
 }  
