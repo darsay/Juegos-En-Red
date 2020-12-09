@@ -7,6 +7,9 @@ var player2;
         var dmg1, dmg2;
         var cursors;
         var keys;
+        var balls;
+        var balls2;
+        
 
 export class Game extends Phaser.Scene {
 
@@ -19,6 +22,7 @@ export class Game extends Phaser.Scene {
   }
 
    preload(){
+    this.load.image('ball', 'assets/images/ball.png');
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
@@ -181,9 +185,15 @@ export class Game extends Phaser.Scene {
         frameRate: 20
     });
 
+
+      balls = this.physics.add.group();
+      balls2 = this.physics.add.group();
+      
+      
+      //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
-    keys = this.input.keyboard.addKeys('W,S,A,D'); //Para el resto del teclado (Le puedes meter el resto de letras)
+    keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
     //Fisica para colisionar con las platforms
     this.physics.add.collider(player1, muros);
     this.physics.add.collider(player2, muros);
@@ -202,15 +212,37 @@ export class Game extends Phaser.Scene {
     this.physics.add.overlap(player1,  this.RandomUp, collectRandom1, null, this);
     this.physics.add.overlap(player2,  this.RandomUp, collectRandom2, null, this);
 
+    this.physics.add.overlap(player2, balls, quitarVida, null, this);
+    this.physics.add.collider(player2, balls);
 
+    this.physics.add.overlap(player1, balls2, quitarVida, null, this);
+    this.physics.add.collider(player1, balls2);
+
+   
+    this.physics.add.collider(muros, balls);
+
+   
+    this.physics.add.collider(muros, balls2);
+   
 }
 
 update(){
 
+if(keys.M.isDown){
+this.disparar();
+}
+if(keys.T.isDown){
+  this.disparar2();
+  }
+
 this.movimiento2();
 this.movimiento1();
 
+
 }
+ 
+
+
  movimiento2 ()
 {
    
@@ -221,7 +253,7 @@ this.movimiento1();
             player2.setVelocityY(0);
 
             player2.anims.play('keyA', true);
-            playerLookingAt2 = "keyA";
+            playerLookingAt2 = 1;
         }
     else if(keys.D.isDown)
         {
@@ -229,7 +261,7 @@ this.movimiento1();
             player2.setVelocityY(0);
 
             player2.anims.play('keyD', true);
-            playerLookingAt2 = "keyD";
+            playerLookingAt2 = 2;
         }
     else if(keys.W.isDown) 
         {
@@ -237,7 +269,7 @@ this.movimiento1();
             player2.setVelocityX(0);
 
             player2.anims.play('keyW', true);
-            playerLookingAt = "keyW";
+            playerLookingAt = 3;
 
         }
      else if(keys.S.isDown)
@@ -246,7 +278,7 @@ this.movimiento1();
             player2.setVelocityX(0);
 
             player2.anims.play('keyS', true);
-            playerLookingAt2 = "keyS";
+            playerLookingAt2 = 4;
 
         }   
     else
@@ -256,6 +288,8 @@ this.movimiento1();
          
             player2.setVelocityX(0);
             player2.setVelocityY(0);
+            playerLookingAt2 = 4;
+
         }
 
 }  
@@ -270,7 +304,7 @@ this.movimiento1();
       player1.setVelocityY(0);
 
       player1.anims.play('left', true);
-      playerLookingAt = "left";
+      playerLookingAt = 1;
   }
 else if(cursors.right.isDown)
   {
@@ -278,7 +312,7 @@ else if(cursors.right.isDown)
       player1.setVelocityY(0);
 
       player1.anims.play('right', true);
-      playerLookingAt = "right";
+      playerLookingAt = 2;
   }
 else if(cursors.up.isDown) 
   {
@@ -286,7 +320,7 @@ else if(cursors.up.isDown)
       player1.setVelocityX(0);
 
       player1.anims.play('up', true);
-      playerLookingAt = "up";
+      playerLookingAt = 3;
 
   }
 else if(cursors.down.isDown)
@@ -295,7 +329,7 @@ else if(cursors.down.isDown)
       player1.setVelocityX(0);
 
       player1.anims.play('down', true);
-      playerLookingAt = "down";
+      playerLookingAt = 4;
 
   } 
   else
@@ -305,10 +339,63 @@ else if(cursors.down.isDown)
          
             player1.setVelocityX(0);
             player1.setVelocityY(0);
+            playerLookingAt = 4;
         }
 
 }
+
+ disparar(){
+  this.ball= balls.create(player1.x, player1.y, 'ball');
+  this.ball.setCollideWorldBounds(true);
+  this.ball.setScale(0.01);
+  switch(playerLookingAt){
+case(1):
+  this.ball.setVelocityX(-200);
+  break;
+  case(2):
+  this.ball.setVelocityX(200);
+  break;
+  case(3):
+  this.ball.setVelocityY(-200);
+  break;
+  case(4):
+  this.ball.setVelocityY(200);
+  break;
+  }
+ 
+ }
+
+ disparar2(){
+  this.ball2= balls2.create(player2.x, player2.y, 'ball');
+  this.ball2.setCollideWorldBounds(true);
+  this.ball2.setScale(0.01);
+  switch(playerLookingAt2){
+    case(1):
+      this.ball2.setVelocityX(-200);
+      break;
+      case(2):
+      this.ball2.setVelocityX(200);
+      break;
+      case(3):
+      this.ball2.setVelocityY(-200);
+      break;
+      case(4):
+      this.ball2.setVelocityY(200);
+      break;
+      }
+ }
+
+
 }
+
+
+
+
+function quitarVida(player,item){
+  item.disableBody(true,true);
+}
+
+
 function collectHp1(player, item)
    {
       item.disableBody(true,true);
@@ -355,3 +442,5 @@ function collectRandom2(player, item)
       item.disableBody(true,true);
       dmg2 +=20;
    }
+
+ 
