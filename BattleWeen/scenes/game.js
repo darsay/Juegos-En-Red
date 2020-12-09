@@ -32,7 +32,7 @@ export class Game extends Phaser.Scene {
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
+    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level5.json');
 
 }
 
@@ -290,7 +290,6 @@ this.movimiento1();
             player2.setVelocityX(0);
             player2.setVelocityY(0);
             playerLookingAt2 = 4;
-
         }
 
 }  
