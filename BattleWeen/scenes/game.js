@@ -131,19 +131,12 @@ export class Game extends Phaser.Scene {
     hp2 = hp1;
     dmg1 = 20;
     dmg2 = dmg1;
-<<<<<<< HEAD
-    
-    //Muestreo por pantalla de las vidas de los jugadores
-    NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
-    NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
-=======
   /////////////////// Se muestran las vidas de ambos/////////////////////////////  
     NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
     NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
 /////////////////////////////////////////////////////////////////
      player1.setScale(0.8);
      player2.setScale(0.8);
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
      
     //Se crean las animaciones de los dos personajes
     this.anims.create({
@@ -212,11 +205,7 @@ export class Game extends Phaser.Scene {
       balls2 = this.physics.add.group();
       
       
-<<<<<<< HEAD
-    //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
-=======
       
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
     keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
@@ -258,13 +247,9 @@ export class Game extends Phaser.Scene {
     this.physics.add.overlap(player1, balls2, quitarVida1, null, this);
     this.physics.add.collider(player1, balls2);
 
-<<<<<<< HEAD
-    //Añade las colisiones de las balas con los muros
-=======
    
    /*  this.physics.add.overlap(muros, balls, rompeBala, null, this);
     this.physics.add.overlap(muros, balls2, rompeBala, null, this); */
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
     this.physics.add.collider(muros, balls);
     this.physics.add.collider(muros, balls2);
    
@@ -282,15 +267,11 @@ if(keys.T.isDown){
 this.movimiento2();
 this.movimiento1();
 
-<<<<<<< HEAD
-=======
 if(hp1<=0 || hp2<=0){
   this.scene.start('Final');
-
 }
-
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
 }
+//FIN UPDATE
  movimiento2 ()
 {
    
@@ -464,25 +445,25 @@ function quitarVida1(player,item){
 function collectHp1(player, item)
    {
       item.disableBody(true,true);
-      hp1 +=20;
+      hp1 +=100;
       NumeroVida.setText('Vida: ' + hp1);
    }
 function collectHp2(player, item)
    {
       item.disableBody(true,true);
-      hp2 +=20;
+      hp2 +=100;
       NumeroVida2.setText('Vida: ' + hp2);
    }
 
 function collectSpeed1(player, item)
    {
       item.disableBody(true,true);
-      speed1 +=20;
+      speed1 +=25;
    }
 function collectSpeed2(player, item)
    {
       item.disableBody(true,true);
-      speed2 +=20;
+      speed2 +=25;
    }
 
    function collectDmg1(player, item)
@@ -500,16 +481,16 @@ function collectDmg2(player, item)
    {
       item.disableBody(true,true);
       dmg1 +=20;
-      speed1 +=20;
-      hp1 +=20;
+      speed1 +=25;
+      hp1 +=100;
       NumeroVida.setText('Vida: ' + hp1);
    }
 function collectEvery2(player, item)
    {
       item.disableBody(true,true);
       dmg2 +=20;
-      speed2 +=20;
-      hp2 +=20;
+      speed2 +=25;
+      hp2 +=100;
       NumeroVida2.setText('Vida: ' + hp2);
    }
 
@@ -518,9 +499,9 @@ function collectEvery2(player, item)
       item.disableBody(true,true);
       let rand = random(1,3);
     if(rand === 1){
-        speed1 +=20;
+        speed1 +=25;
     }else if(rand === 2){
-        hp1 += 20;
+        hp1 += 100;
         NumeroVida.setText('Vida: ' + hp1);
     }else{
         dmg1 += 20;
@@ -533,9 +514,9 @@ function collectRandom2(player, item)
       item.disableBody(true,true);
       let rand = random(1,3);
     if(rand === 1){
-        speed2 +=20;
+        speed2 +=25;
     }else if(rand === 2){
-        hp2 += 20;
+        hp2 += 100;
         NumeroVida2.setText('Vida: ' + hp2);
     }else{
         dmg2 += 20;
