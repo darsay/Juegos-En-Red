@@ -1,12 +1,13 @@
 
 import { Game } from './scenes/game.js';
 import { Menu } from './scenes/menu.js';
+import { Final } from './scenes/Final.js';
 
 const config = {
   type: Phaser.AUTO,
   width: 864,
   height: 624,
-  scene: [Menu, Game],
+  scene: [Menu, Game, Final],
   physics: {
     default: 'arcade',
     arcade: {
