@@ -270,7 +270,7 @@ this.movimiento1();
             player2.setVelocityX(0);
 
             player2.anims.play('keyW', true);
-            playerLookingAt = 3;
+            playerLookingAt2 = 3;
 
         }
      else if(keys.S.isDown)
