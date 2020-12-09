@@ -7,11 +7,12 @@ var player2;
         var dmg1, dmg2;
         var cursors;
         var keys;
+
         var balls;
         var balls2;
         var NumeroVida;
         var NumeroVida2;
-        var shootTime1=0;
+        var shootTime1=0; //Controla el numero de balas que se pueden disparar en un periodo de tiempo
         var shootTime2=0;
         
         
@@ -118,14 +119,14 @@ export class Game extends Phaser.Scene {
     player2 = this.physics.add.sprite(250, 400, 'player1');
     speed1 = 160;
     speed2 = speed1;
-    hp1 = 1000;
+    hp1 = 100;
     hp2 = hp1;
     dmg1 = 20;
     dmg2 = dmg1;
-    
+  /////////////////// Se muestran las vidas de ambos/////////////////////////////  
     NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
     NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
-
+/////////////////////////////////////////////////////////////////
      player1.setScale(0.8);
      player2.setScale(0.8);
      
@@ -195,7 +196,7 @@ export class Game extends Phaser.Scene {
       balls2 = this.physics.add.group();
       
       
-      //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
+      
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
     keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
@@ -230,6 +231,8 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(player1, balls2);
 
    
+   /*  this.physics.add.overlap(muros, balls, rompeBala, null, this);
+    this.physics.add.overlap(muros, balls2, rompeBala, null, this); */
     this.physics.add.collider(muros, balls);
 
    
@@ -249,6 +252,10 @@ if(keys.T.isDown){
 this.movimiento2();
 this.movimiento1();
 
+if(hp1<=0 || hp2<=0){
+  this.scene.start('Final');
+
+}
 
 }
  
@@ -406,7 +413,10 @@ case(1):
 }
 
 
+/* function rompeBala(muro, item){
+  item.disableBody(true,true);
 
+} */
 
 function quitarVida2(player,item){
   item.disableBody(true,true);
