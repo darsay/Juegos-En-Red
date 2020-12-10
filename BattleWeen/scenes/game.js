@@ -38,6 +38,7 @@ export class Game extends Phaser.Scene {
     this.load.image('lifeBox', 'assets/images/lifePU.png');
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/box.png');
+    //this.load.image('chest', 'assets/images/box.png');
 
     this.load.tilemapTiledJSON('map', 'assets/tileMaps/level4.json');
 
@@ -132,8 +133,8 @@ export class Game extends Phaser.Scene {
     dmg1 = 20;
     dmg2 = dmg1;
   /////////////////// Se muestran las vidas de ambos/////////////////////////////  
-    NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
-    NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
+    NumeroVida= this.add.text(50,5,'P1 Hp: ' + hp1, { fontSize: '32px', fill: '#000', backgroundColor: 'pink', });
+    NumeroVida2= this.add.text(595,5,'P2 Hp: ' + hp2, { fontSize: '32px', fill: '#000', backgroundColor: 'powderblue', });
 /////////////////////////////////////////////////////////////////
      player1.setScale(0.8);
      player2.setScale(0.8);
@@ -432,13 +433,13 @@ case(1):
 function quitarVida2(player,item){
   item.disableBody(true,true);
   hp2-= dmg1;
-  NumeroVida2.setText('Vida: '+hp2)
+  NumeroVida2.setText('P2 Hp: '+hp2)
 }
 
 function quitarVida1(player,item){
   item.disableBody(true,true);
   hp1-= dmg2;
-  NumeroVida.setText('Vida: ' + hp1);
+  NumeroVida.setText('P1 Hp: ' + hp1);
 }
 
 
@@ -446,13 +447,13 @@ function collectHp1(player, item)
    {
       item.disableBody(true,true);
       hp1 +=100;
-      NumeroVida.setText('Vida: ' + hp1);
+      NumeroVida.setText('P1 Hp: ' + hp1);
    }
 function collectHp2(player, item)
    {
       item.disableBody(true,true);
       hp2 +=100;
-      NumeroVida2.setText('Vida: ' + hp2);
+      NumeroVida2.setText('P2 Hp: ' + hp2);
    }
 
 function collectSpeed1(player, item)
@@ -483,7 +484,7 @@ function collectDmg2(player, item)
       dmg1 +=20;
       speed1 +=25;
       hp1 +=100;
-      NumeroVida.setText('Vida: ' + hp1);
+      NumeroVida.setText('P1 Hp: ' + hp1);
    }
 function collectEvery2(player, item)
    {
@@ -491,7 +492,7 @@ function collectEvery2(player, item)
       dmg2 +=20;
       speed2 +=25;
       hp2 +=100;
-      NumeroVida2.setText('Vida: ' + hp2);
+      NumeroVida2.setText('P2 Hp: ' + hp2);
    }
 
    function collectRandom1(player, item)
@@ -502,7 +503,7 @@ function collectEvery2(player, item)
         speed1 +=25;
     }else if(rand === 2){
         hp1 += 100;
-        NumeroVida.setText('Vida: ' + hp1);
+        NumeroVida.setText('P1 Hp: ' + hp1);
     }else{
         dmg1 += 20;
         
@@ -517,7 +518,7 @@ function collectRandom2(player, item)
         speed2 +=25;
     }else if(rand === 2){
         hp2 += 100;
-        NumeroVida2.setText('Vida: ' + hp2);
+        NumeroVida2.setText('P2 Hp: ' + hp2);
     }else{
         dmg2 += 20;
     }
