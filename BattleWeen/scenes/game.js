@@ -16,6 +16,7 @@ var player2;
         var shootTime2=0;
         
         
+        
 
 export class Game extends Phaser.Scene {
 
@@ -39,7 +40,7 @@ export class Game extends Phaser.Scene {
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level4.json');
+    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
 
 }
 
@@ -131,19 +132,12 @@ export class Game extends Phaser.Scene {
     hp2 = hp1;
     dmg1 = 20;
     dmg2 = dmg1;
-<<<<<<< HEAD
-    
-    //Muestreo por pantalla de las vidas de los jugadores
-    NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
-    NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
-=======
   /////////////////// Se muestran las vidas de ambos/////////////////////////////  
-    NumeroVida= this.add.text(16,16,'Vida: ' + hp1, { fontSize: '32px', fill: '#000' });
-    NumeroVida2= this.add.text(600,16,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
+    NumeroVida= this.add.text(16,10,'Vida: ' + hp1, { fontSize: '32px', fill: '#907' });
+    NumeroVida2= this.add.text(630,10,'Vida: ' + hp2, { fontSize: '32px', fill: '#000' });
 /////////////////////////////////////////////////////////////////
      player1.setScale(0.8);
      player2.setScale(0.8);
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
      
     //Se crean las animaciones de los dos personajes
     this.anims.create({
@@ -212,11 +206,7 @@ export class Game extends Phaser.Scene {
       balls2 = this.physics.add.group();
       
       
-<<<<<<< HEAD
-    //this.physics.add.overlap(balls,  muros, choqueBala, null, this);
-=======
       
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys();//Para las flechas
     keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
@@ -258,16 +248,12 @@ export class Game extends Phaser.Scene {
     this.physics.add.overlap(player1, balls2, quitarVida1, null, this);
     this.physics.add.collider(player1, balls2);
 
-<<<<<<< HEAD
     //Añade las colisiones de las balas con los muros
-=======
+    this.physics.add.collider(muros, balls, rompeBala);
+    this.physics.add.collider(muros, balls2, rompeBala);
+
    
-   /*  this.physics.add.overlap(muros, balls, rompeBala, null, this);
-    this.physics.add.overlap(muros, balls2, rompeBala, null, this); */
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
-    this.physics.add.collider(muros, balls);
-    this.physics.add.collider(muros, balls2);
-   
+    
 }
 
 update(){
@@ -282,14 +268,12 @@ if(keys.T.isDown){
 this.movimiento2();
 this.movimiento1();
 
-<<<<<<< HEAD
-=======
 if(hp1<=0 || hp2<=0){
+
   this.scene.start('Final');
 
 }
 
->>>>>>> 85dc1473de9c25f41c23c5f76a8c75be2e260f25
 }
  movimiento2 ()
 {
@@ -382,16 +366,30 @@ else if(cursors.down.isDown)
   else
         {
             
-            player1.anims.play('turn', true);
+            
          
             player1.setVelocityX(0);
             player1.setVelocityY(0);
-            playerLookingAt = 4;
+            switch(playerLookingAt){
+              case(1):
+              player1.anims.play('left', true);
+                break;
+                case(2):
+                player1.anims.play('right', true);
+                break;
+                case(3):
+                player1.anims.play('up', true);
+                break;
+                case(4):
+                player1.anims.play('down', true);
+                break;
+                }
         }
 
 }
 
  disparar(){
+  
    if(this.time.now > shootTime1){
   this.ball= balls.create(player1.x, player1.y, 'ball');
   this.ball.setCollideWorldBounds(true);
@@ -410,8 +408,13 @@ case(1):
   this.ball.setVelocityY(200);
   break;
   }
+
   shootTime1= this.time.now +600;
+
+  
 }
+
+
  }
 
  disparar2(){
@@ -443,10 +446,10 @@ case(1):
 }
 
 
-/* function rompeBala(muro, item){
-  item.disableBody(true,true);
+ function rompeBala(ball,muro){
+  ball.disableBody(true,true);
 
-} */
+}  
 
 function quitarVida2(player,item){
   item.disableBody(true,true);
@@ -459,6 +462,7 @@ function quitarVida1(player,item){
   hp1-= dmg2;
   NumeroVida.setText('Vida: ' + hp1);
 }
+
 
 
 function collectHp1(player, item)
