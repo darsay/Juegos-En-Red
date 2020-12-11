@@ -44,11 +44,13 @@ export class Game extends Phaser.Scene {
     this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
 
     this.load.audio('disparo','assets/sounds/disparo.wav');
+    this.load.audio('box','assets/sounds/box.wav');
 
 }
 
  create(){
-  this.sound.get('intro').stop();
+   //Para la musica del menu de inicio
+    this.sound.get('intro').stop();
     //Crea el tilemap
     const map = this.make.tilemap({ key: 'map' });
     //Añade el tileSet de la capa de Mazmorra que coge los elementos de escenario
@@ -257,6 +259,7 @@ export class Game extends Phaser.Scene {
 
    
     this.disparo= this.sound.add('disparo');
+    this.box= this.sound.add('box');
 
 }
 
@@ -475,34 +478,40 @@ function collectHp1(player, item)
       item.disableBody(true,true);
       hp1 +=100;
       NumeroVida.setText('P1 Hp: ' + hp1);
+      this.box.play();
    }
 function collectHp2(player, item)
    {
       item.disableBody(true,true);
       hp2 +=100;
       NumeroVida2.setText('P2 Hp: ' + hp2);
+      this.box.play();
    }
 
 function collectSpeed1(player, item)
    {
       item.disableBody(true,true);
       speed1 +=25;
+      this.box.play();
    }
 function collectSpeed2(player, item)
    {
       item.disableBody(true,true);
       speed2 +=25;
+      this.box.play();
    }
 
    function collectDmg1(player, item)
    {
       item.disableBody(true,true);
       dmg1 +=20;
+      this.box.play();
    }
 function collectDmg2(player, item)
    {
       item.disableBody(true,true);
       dmg2 +=20;
+      this.box.play();
    }
 
    function collectEvery1(player, item)
@@ -512,6 +521,7 @@ function collectDmg2(player, item)
       speed1 +=25;
       hp1 +=100;
       NumeroVida.setText('P1 Hp: ' + hp1);
+      this.box.play();
    }
 function collectEvery2(player, item)
    {
@@ -520,6 +530,7 @@ function collectEvery2(player, item)
       speed2 +=25;
       hp2 +=100;
       NumeroVida2.setText('P2 Hp: ' + hp2);
+      this.box.play();
    }
 
    function collectRandom1(player, item)
@@ -535,6 +546,7 @@ function collectEvery2(player, item)
         dmg1 += 20;
         
     }
+    this.box.play();
    }
 
 function collectRandom2(player, item)
@@ -549,7 +561,7 @@ function collectRandom2(player, item)
     }else{
         dmg2 += 20;
     }
-
+    this.box.play();
    }
    function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
