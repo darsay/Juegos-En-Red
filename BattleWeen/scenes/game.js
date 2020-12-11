@@ -48,7 +48,7 @@ export class Game extends Phaser.Scene {
 }
 
  create(){
-
+  this.sound.get('intro').stop();
     //Crea el tilemap
     const map = this.make.tilemap({ key: 'map' });
     //Añade el tileSet de la capa de Mazmorra que coge los elementos de escenario
@@ -554,3 +554,5 @@ function collectRandom2(player, item)
    function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
   }
+
+  
