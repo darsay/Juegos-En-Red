@@ -43,6 +43,8 @@ export class Game extends Phaser.Scene {
 
     this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
 
+    this.load.audio('disparo','assets/sounds/disparo.wav');
+
 }
 
  create(){
@@ -254,7 +256,8 @@ export class Game extends Phaser.Scene {
     this.physics.add.collider(muros, balls2, rompeBala);
 
    
-    
+    this.disparo= this.sound.add('disparo');
+
 }
 
 update(){
@@ -391,6 +394,7 @@ else if(cursors.down.isDown)
  disparar(){
   
    if(this.time.now > shootTime1){
+     this.disparo.play();
   this.ball= balls.create(player1.x, player1.y, 'ball');
   this.ball.setCollideWorldBounds(true);
   this.ball.setScale(0.01);
@@ -419,6 +423,7 @@ case(1):
 
  disparar2(){
    if(this.time.now>shootTime2){
+     this.disparo.play();
   this.ball2= balls2.create(player2.x, player2.y, 'ball');
   this.ball2.setCollideWorldBounds(true);
   this.ball2.setScale(0.01);
