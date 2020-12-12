@@ -33,6 +33,7 @@ export class Game extends Phaser.Scene {
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('brujaSp', 'assets/images/brujaSprite.png',{ frameWidth: 46.5, frameHeight: 48});
+    this.load.spritesheet('zombieSp', 'assets/images/zombieSprite.png',{ frameWidth: 48, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
     this.load.image('dmgBox', 'assets/images/damagePU.png');
@@ -128,7 +129,7 @@ export class Game extends Phaser.Scene {
 
     //Aqui se crea el player y se inicializan sus sprites y propiedades
     player1 = this.physics.add.sprite(70, 70, 'brujaSp');
-    player2 = this.physics.add.sprite(785, 554, 'player1');
+    player2 = this.physics.add.sprite(785, 554, 'zombieSp');
     player1.setScale(0.8);
     player2.setScale(0.8);
     speed1 = 160;
@@ -178,31 +179,31 @@ export class Game extends Phaser.Scene {
 
     this.anims.create({
         key: 'keyS',
-        frames: this.anims.generateFrameNumbers('player1', { start: 6, end: 8 }),
+        frames: this.anims.generateFrameNumbers('zombieSp', { start: 0, end: 3 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'keyA',
-        frames: this.anims.generateFrameNumbers('player1', { start: 18, end: 20 }),
+        frames: this.anims.generateFrameNumbers('zombieSp', { start: 8, end: 11 }),
         frameRate: 10,  //FPS para la animacion
         repeat: -1  //Bucle
     });
     this.anims.create({
         key: 'keyD',
-        frames: this.anims.generateFrameNumbers('player1', { start: 30, end: 32 }),
+        frames: this.anims.generateFrameNumbers('zombieSp', { start: 4, end: 7 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'keyW',
-        frames: this.anims.generateFrameNumbers('player1', { start: 42, end: 44 }),
+        frames: this.anims.generateFrameNumbers('zombieSp', { start: 12, end: 15 }),
         frameRate: 10,
         repeat: -1
     });
     this.anims.create({
         key: 'turn2',
-        frames: [ { key: 'player1', frame: 7 } ],
+        frames: [ { key: 'zombieSp', frame: 0 } ],
         frameRate: 20
     });
 
