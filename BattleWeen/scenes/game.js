@@ -277,8 +277,11 @@ this.movimiento2();
 this.movimiento1();
 
 if(hp1<=0 || hp2<=0){
-
-  this.scene.start('Final');
+  this.cameras.main.shake(500);
+  this.time.delayedCall(500, function() {
+    this.scene.start('Final');
+  }, [], this);
+  
 }
 }
 //FIN UPDATE
