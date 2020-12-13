@@ -178,36 +178,36 @@ export class Game extends Phaser.Scene {
 
 
     this.anims.create({
-        key: 'keyS',
-        frames: this.anims.generateFrameNumbers('zombieSp', { start: 0, end: 3 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'keyA',
-        frames: this.anims.generateFrameNumbers('zombieSp', { start: 8, end: 11 }),
-        frameRate: 10,  //FPS para la animacion
-        repeat: -1  //Bucle
-    });
-    this.anims.create({
-        key: 'keyD',
-        frames: this.anims.generateFrameNumbers('zombieSp', { start: 4, end: 7 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'keyW',
-        frames: this.anims.generateFrameNumbers('zombieSp', { start: 12, end: 15 }),
-        frameRate: 10,
-        repeat: -1
-    });
-    this.anims.create({
-        key: 'turn2',
-        frames: [ { key: 'zombieSp', frame: 0 } ],
-        frameRate: 20
-    });
-
-    //Se crean las fisicas de las balas
+      key: 'keyS',
+      frames: this.anims.generateFrameNumbers('zombieSp', { start: 0, end: 3 }),
+      frameRate: 10,
+      repeat: -1
+  });
+  this.anims.create({
+      key: 'keyA',
+      frames: this.anims.generateFrameNumbers('zombieSp', { start: 8, end: 11 }),
+      frameRate: 10,  //FPS para la animacion
+      repeat: -1  //Bucle
+  });
+  this.anims.create({
+      key: 'keyD',
+      frames: this.anims.generateFrameNumbers('zombieSp', { start: 4, end: 7 }),
+      frameRate: 10,
+      repeat: -1
+  });
+  this.anims.create({
+      key: 'keyW',
+      frames: this.anims.generateFrameNumbers('zombieSp', { start: 12, end: 15 }),
+      frameRate: 10,
+      repeat: -1
+  });
+  this.anims.create({
+      key: 'turn2',
+      frames: [ { key: 'zombieSp', frame: 0 } ],
+      frameRate: 20
+  });
+  
+  //Se crean las fisicas de las balas
       balls = this.physics.add.group();
       balls2 = this.physics.add.group();
       
@@ -278,6 +278,11 @@ this.movimiento1();
 
 if(hp1<=0 || hp2<=0){
   this.cameras.main.shake(500);
+  
+  this.time.delayedCall(250, function() {
+    this.cameras.main.fade(250);
+  }, [], this);
+
   this.time.delayedCall(500, function() {
     this.scene.start('Final');
   }, [], this);
