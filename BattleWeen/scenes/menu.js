@@ -19,8 +19,10 @@ export class Menu extends Phaser.Scene {
   
   
   create() {
+    
     this.musica= this.sound.add('intro');
     this.musica.setVolume(0.1);
+    this.musica.play();
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);
     this.botonPlay.create();

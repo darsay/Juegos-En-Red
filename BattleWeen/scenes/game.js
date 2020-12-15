@@ -82,6 +82,7 @@ export class Game extends Phaser.Scene {
 
 
    //Para la musica del menu de inicio
+   
     this.sound.get('intro').stop();
 
     this.musica= this.sound.add('GameMusic');

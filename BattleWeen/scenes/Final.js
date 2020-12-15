@@ -14,6 +14,7 @@ export class Final extends Phaser.Scene {
   }
   
   create(data) {
+    this.sound.stopAll();
     this.Punt= data.vic1;
     this.Punt2= data.vic2
     this.add.text(200,500, 'HA GANADO EL PLAYER 1',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
