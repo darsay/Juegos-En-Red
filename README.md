@@ -88,4 +88,5 @@ Tras jugar en todos los mapas, se mostrará esta pantalla con las partidas que h
 
 #### 9. Diagrama de Flujo
 Tras explicar el funcionamiento de cada pantalla, a continuación se mostrará un diagrama para comprender la estructura del juego.
+
 ![title](Capturas/Diagrama.png)
