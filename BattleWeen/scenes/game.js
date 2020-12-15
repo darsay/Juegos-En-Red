@@ -38,7 +38,7 @@ export class Game extends Phaser.Scene {
 
    preload(){
     
-    this.load.image('ball', 'assets/images/ball.png');
+    this.load.image('witchBullet', 'assets/images/witchBullet.png');
     this.load.image('zombieBullet', 'assets/images/zombieBullet.png')
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
@@ -552,9 +552,9 @@ else if(cursors.down.isDown)
   
    if(this.time.now > shootTime1){
      this.disparo.play();
-  this.ball= balls.create(player1.x, player1.y, 'ball');
+  this.ball= balls.create(player1.x, player1.y, 'witchBullet');
   this.ball.setCollideWorldBounds(true);
-  this.ball.setScale(0.01);
+  this.ball.setScale(0.05);
   switch(playerLookingAt){
 case(1):
   this.ball.setVelocityX(-200);
