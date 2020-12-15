@@ -145,124 +145,112 @@
          "name":"RandomUp",
          "objects":[
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":52,
+                 "id":63,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":583,
-                 "y":185
+                 "x":680.505617977528,
+                 "y":566.685393258427
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":53,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":249,
-                 "y":185
-                }, 
-                {
-                 "gid":174,
-                 "height":30,
-                 "id":54,
-                 "name":"",
-                 "rotation":0,
-                 "type":"",
-                 "visible":true,
-                 "width":30,
-                 "x":245,
-                 "y":469
-                }, 
-                {
-                 "gid":174,
-                 "height":30,
-                 "id":55,
+                 "id":64,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
                  "x":585,
-                 "y":471
+                 "y":470.056179775281
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":56,
+                 "id":65,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":677,
-                 "y":569
+                 "x":682.752808988764,
+                 "y":327.359550561798
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":57,
+                 "id":66,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":155,
-                 "y":83
+                 "x":681.629213483146,
+                 "y":86.9101123595506
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":58,
+                 "id":67,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":157,
-                 "y":567
+                 "x":154.662921348315,
+                 "y":84.6629213483146
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":59,
+                 "id":68,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":677,
-                 "y":89
+                 "x":251.292134831461,
+                 "y":182.415730337079
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":60,
+                 "id":69,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":157,
-                 "y":331
+                 "x":155.786516853933,
+                 "y":329.606741573034
                 }, 
                 {
-                 "gid":174,
+                 "gid":175,
                  "height":30,
-                 "id":61,
+                 "id":70,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":683,
-                 "y":331
+                 "x":249.044943820225,
+                 "y":470.056179775281
+                }, 
+                {
+                 "gid":175,
+                 "height":30,
+                 "id":71,
+                 "name":"",
+                 "rotation":0,
+                 "type":"",
+                 "visible":true,
+                 "width":30,
+                 "x":153.539325842697,
+                 "y":565.561797752809
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -276,16 +264,16 @@
          "name":"EveryUp",
          "objects":[
                 {
-                 "gid":11,
-                 "height":16,
-                 "id":62,
+                 "gid":176,
+                 "height":30,
+                 "id":72,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":426,
-                 "y":318
+                 "width":30,
+                 "x":419.831460674157,
+                 "y":326.23595505618
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -294,7 +282,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":63,
+ "nextobjectid":73,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",
@@ -377,6 +365,14 @@
          "tilecount":1,
          "tileheight":30,
          "tilewidth":30
+        }, 
+        {
+         "firstgid":175,
+         "source":"RandomUp2.tsx"
+        }, 
+        {
+         "firstgid":176,
+         "source":"Chest.tsx"
         }],
  "tilewidth":48,
  "type":"map",

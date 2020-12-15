@@ -40,17 +40,18 @@ export class Game extends Phaser.Scene {
    preload(){
     
     this.load.image('ball', 'assets/images/ball.png');
+    this.load.image('zombieBullet', 'assets/images/zombieBullet.png')
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('brujaSp', 'assets/images/brujaSprite.png',{ frameWidth: 46.5, frameHeight: 48});
-    this.load.spritesheet('zombieSp', 'assets/images/zombieSprite.png',{ frameWidth: 48, frameHeight: 48});
+    this.load.spritesheet('zombieSp', 'assets/images/zombieSprite.png',{ frameWidth: 46.5, frameHeight: 48});
     this.load.spritesheet('collectables', 'assets/images/collectables.png',{ frameWidth: 16, frameHeight: 16});
     this.load.image('ground', 'assets/images/ground.png');
     this.load.image('dmgBox', 'assets/images/damagePU.png');
     this.load.image('lifeBox', 'assets/images/lifePU.png');
     this.load.image('speedBox', 'assets/images/speedPU.png');
-    this.load.image('randomBox', 'assets/images/box.png');
-    //this.load.image('chest', 'assets/images/box.png');
+    this.load.image('randomBox', 'assets/images/randomPU.png');
+    this.load.image('chest', 'assets/images/chestPU.png');
 
     
       this.load.tilemapTiledJSON('map', 'assets/tileMaps/level1.json');
@@ -165,7 +166,7 @@ export class Game extends Phaser.Scene {
      
       const everyBoxes = map.getObjectLayer('EveryUp')['objects'];
       everyBoxes.forEach(everyBox => {
-        const everyup1 = this.EveryUp.create(everyBox.x, everyBox.y - everyBox.height, 'collectables').setOrigin(0, 0);
+        const everyup1 = this.EveryUp.create(everyBox.x, everyBox.y - everyBox.height, 'chest').setOrigin(0, 0);
       });
 
 
@@ -598,9 +599,9 @@ case(1):
  disparar2(){
    if(this.time.now>shootTime2){
      this.disparo.play();
-  this.ball2= balls2.create(player2.x, player2.y, 'ball');
+  this.ball2= balls2.create(player2.x, player2.y, 'zombieBullet');
   this.ball2.setCollideWorldBounds(true);
-  this.ball2.setScale(0.01);
+  this.ball2.setScale(0.03);
   switch(playerLookingAt2){
     case(1):
       this.ball2.setVelocityX(-200);
