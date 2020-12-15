@@ -82,7 +82,7 @@ export class Game extends Phaser.Scene {
 
 
    //Para la musica del menu de inicio
-   
+   this.sound.stopAll();
     this.sound.get('intro').stop();
 
     this.musica= this.sound.add('GameMusic');
@@ -416,7 +416,7 @@ if((hp1<=0 || hp2<=0) ){
       this.time.delayedCall(500, function() {
         this.registry.destroy(); // destroy registry
         this.events.off(); // disable all active events
-        this.scene.start('Final2', {vic1: V1, vic2: V2});
+        this.scene.start('Final', {vic1: V1, vic2: V2});
        }, [], this);
     }
 

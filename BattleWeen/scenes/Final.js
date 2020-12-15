@@ -17,10 +17,20 @@ export class Final extends Phaser.Scene {
     this.sound.stopAll();
     this.Punt= data.vic1;
     this.Punt2= data.vic2
-    this.add.text(200,500, 'HA GANADO EL PLAYER 1',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
+    
+    this.background= this.add.image(410, 280, 'background');
+    this.background.setScale(2);
+    if(this.Punt>this.Punt2){
+      this.add.text(200,500, 'HA GANADO EL PLAYER 1',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
+
+    }
+    else{
+      this.add.text(200,500, 'HA GANADO EL PLAYER 2',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
+    }
     this.NumeroVida= this.add.text(50,5,'Victorias P1: ' + this.Punt, { fontSize: '32px', fill: '#000', backgroundColor: 'pink', });
     this.NumeroVida2= this.add.text(500,5,'Victorias P2: ' + this.Punt2, { fontSize: '32px', fill: '#000', backgroundColor: 'powderblue', }); 
-    this.add.image(410, 280, 'background');
+
+    
     this.botonAgain.create();
     
 }
