@@ -11,6 +11,15 @@ const config = {
   width: 864,
   height: 624,
   scene: [Menu, Game, Final, Final2, Tutorial],
+  scale: {
+    parent: 'CanvasDiv',
+    autoCenter: Phaser.Scale.CENTER_BOTH,
+    width: 864,
+    height: 624,
+  },
+  dom: {
+    createContainer: true
+  },
   physics: {
     default: 'arcade',
     arcade: {
@@ -18,6 +27,8 @@ const config = {
       debug: false
     }
   }
+    
+
   
 }
 
