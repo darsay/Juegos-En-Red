@@ -16,7 +16,8 @@ var player2;
         var shootTime2=0;
         
         var Level;
-       
+       var V1;
+       var V2;
       
 
 export class Game extends Phaser.Scene {
@@ -69,6 +70,8 @@ export class Game extends Phaser.Scene {
 
  create(data){
    Level = data.id;
+   V1 =data.vic1;
+   V2= data.vic2;
    //Para la musica del menu de inicio
     this.sound.get('intro').stop();
     //Crea el tilemap
@@ -326,6 +329,12 @@ if(hp1<=0 || hp2<=0){
     this.cameras.main.fade(250);
   }, [], this);
 
+  if(hp1>hp2){
+     V1++;
+    }
+  else{
+     V2++;
+    }
   
   if(Level<=4){
     Level ++;
@@ -336,28 +345,28 @@ if(hp1<=0 || hp2<=0){
         this.time.delayedCall(500, function() {
           this.registry.destroy(); // destroy registry
           this.events.off(); // disable all active events
-        this.scene.start('game', { id: 1}); 
+        this.scene.start('game', { id: 1, vic1: V1, vic2: V2}); 
       }, [], this);
         break;
         case(2):
         this.time.delayedCall(500, function() {
           this.registry.destroy(); // destroy registry
           this.events.off(); // disable all active events
-        this.scene.start('game', { id: 2}); 
+        this.scene.start('game', { id: 2, vic1: V1, vic2: V2}); 
       }, [], this);
         break;
         case(3):
         this.time.delayedCall(500, function() {
           this.registry.destroy(); // destroy registry
           this.events.off(); // disable all active events
-        this.scene.start('game', { id: 3}); 
+        this.scene.start('game', { id: 3, vic1: V1, vic2: V2}); 
       }, [], this); 
         break;
         case(4):
         this.time.delayedCall(500, function() {
           this.registry.destroy(); // destroy registry
           this.events.off(); // disable all active events
-        this.scene.start('game', { id: 4}); 
+        this.scene.start('game', { id: 4, vic1: V1, vic2: V2}); 
       }, [], this); 
         break;
 
@@ -367,10 +376,22 @@ if(hp1<=0 || hp2<=0){
 
   }else{
 
-    this.time.delayedCall(500, function() {
-      this.registry.destroy(); // destroy registry
-      this.events.off(); // disable all active events
-      this.scene.start('Final'); }, [], this);
+    if(V1>V2){
+      this.time.delayedCall(500, function() {
+        this.registry.destroy(); // destroy registry
+        this.events.off(); // disable all active events
+        this.scene.start('Final'); }, [], this);
+
+    }
+    else{
+
+      this.time.delayedCall(500, function() {
+        this.registry.destroy(); // destroy registry
+        this.events.off(); // disable all active events
+        this.scene.start('Final2'); }, [], this);
+    }
+
+    
   }
   
 
