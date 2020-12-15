@@ -1,5 +1,7 @@
 var player1;
 var player2;
+var collider1;
+var collider2;
         var playerLookingAt;
         var playerLookingAt2;
         var speed1, speed2;
@@ -38,7 +40,7 @@ export class Game extends Phaser.Scene {
   
 
    preload(){
-    
+    this.load.spritesheet('collider', 'assets/images/empty.png',{ frameWidth: 32, frameHeight: 32});
     this.load.image('witchBullet', 'assets/images/witchBullet.png');
     this.load.image('zombieBullet', 'assets/images/zombieBullet.png')
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
@@ -180,10 +182,13 @@ export class Game extends Phaser.Scene {
 
 
     //Aqui se crea el player y se inicializan sus sprites y propiedades
-    player1 = this.physics.add.sprite(70, 70, 'brujaSp');
+    collider1= this.physics.add.sprite(70,70,'collider')
+    collider2= this.physics.add.sprite(785,554,'collider')
+
+    player1 = this.physics.add.sprite(70, 70, 'brujaSp')
     player2 = this.physics.add.sprite(785, 554, 'zombieSp');
-    player1.setScale(0.8);
-    player2.setScale(0.8);
+    player1.setScale(1);
+    player2.setScale(1);
     speed1 = 160;
     speed2 = speed1;
     hp1 = 1000;
@@ -194,8 +199,7 @@ export class Game extends Phaser.Scene {
     NumeroVida= this.add.text(50,5,'P1 Hp: ' + hp1, { fontSize: '32px', fill: '#000', backgroundColor: 'pink', });
     NumeroVida2= this.add.text(595,5,'P2 Hp: ' + hp2, { fontSize: '32px', fill: '#000', backgroundColor: 'powderblue', });
 /////////////////////////////////////////////////////////////////
-     player1.setScale(0.8);
-     player2.setScale(0.8);
+     
      
     //Se crean las animaciones de los dos personajes
     this.anims.create({
@@ -270,10 +274,10 @@ export class Game extends Phaser.Scene {
     keys = this.input.keyboard.addKeys('W,S,A,D,M,T'); //Para el resto del teclado (Le puedes meter el resto de letras)
     //// FISICAS ////
     //Fisica para colisionar con las platforms
-    this.physics.add.collider(player1, muros);
-    this.physics.add.collider(player2, muros);
+    this.physics.add.collider(collider2, muros);
+    this.physics.add.collider(collider1, muros);
     //Añade colisiones de player1 con player2
-    this.physics.add.collider(player1, player2);
+    //this.physics.add.collider(player1, player2);
 
     //Cajas
     //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
@@ -450,24 +454,31 @@ gameOver(){
    
       if (keys.A.isDown)
         {
-            player2.setVelocityX(-speed2);
-            player2.setVelocityY(0);
+            collider2.setVelocityX(-speed2);
+            collider2.setVelocityY(0);
+            player2.x = collider2.x;
+            player2.y = collider2.y-7;
 
             player2.anims.play('keyA', true);
             playerLookingAt2 = 1;
         }
     else if(keys.D.isDown)
         {
-            player2.setVelocityX(speed2);
-            player2.setVelocityY(0);
+          collider2.setVelocityX(speed2);
+            collider2.setVelocityY(0);
+            player2.x = collider2.x;
+            player2.y = collider2.y-7;
+
 
             player2.anims.play('keyD', true);
             playerLookingAt2 = 2;
         }
     else if(keys.W.isDown) 
         {
-            player2.setVelocityY(-speed2);
-            player2.setVelocityX(0);
+          collider2.setVelocityY(-speed2);
+          collider2.setVelocityX(0);
+          player2.x = collider2.x;
+          player2.y = collider2.y-7;
 
             player2.anims.play('keyW', true);
             playerLookingAt2 = 3;
@@ -475,8 +486,10 @@ gameOver(){
         }
      else if(keys.S.isDown)
         {
-            player2.setVelocityY(speed2);
-            player2.setVelocityX(0);
+          collider2.setVelocityY(speed2);
+          collider2.setVelocityX(0);
+          player2.x = collider2.x;
+          player2.y = collider2.y-7;
 
             player2.anims.play('keyS', true);
             playerLookingAt2 = 4;
@@ -486,8 +499,11 @@ gameOver(){
         {
             
            
-          player2.setVelocityX(0);
-          player2.setVelocityY(0);
+          collider2.setVelocityX(0);
+          collider2.setVelocityY(0);
+          player2.x = collider2.x;
+          player2.y = collider2.y-7;
+
           switch(playerLookingAt2){
             case(1):
             player2.anims.play('keyA', true);
@@ -516,24 +532,30 @@ gameOver(){
 
   if (cursors.left.isDown)
   {
-      player1.setVelocityX(-speed1);
-      player1.setVelocityY(0);
+    collider1.setVelocityX(-speed1);
+    collider1.setVelocityY(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y-7;
 
       player1.anims.play('left', true);
       playerLookingAt = 1;
   }
 else if(cursors.right.isDown)
   {
-      player1.setVelocityX(speed1);
-      player1.setVelocityY(0);
+    collider1.setVelocityX(speed1);
+    collider1.setVelocityY(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y-7;
 
       player1.anims.play('right', true);
       playerLookingAt = 2;
   }
 else if(cursors.up.isDown) 
   {
-      player1.setVelocityY(-speed1);
-      player1.setVelocityX(0);
+    collider1.setVelocityY(-speed1);
+    collider1.setVelocityX(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y-7;
 
       player1.anims.play('up', true);
       playerLookingAt = 3;
@@ -541,8 +563,10 @@ else if(cursors.up.isDown)
   }
 else if(cursors.down.isDown)
   {
-      player1.setVelocityY(speed1);
-      player1.setVelocityX(0);
+    collider1.setVelocityY(speed1);
+    collider1.setVelocityX(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y-7;
 
       player1.anims.play('down', true);
       playerLookingAt = 4;
@@ -553,8 +577,10 @@ else if(cursors.down.isDown)
             
             
          
-            player1.setVelocityX(0);
-            player1.setVelocityY(0);
+          collider1.setVelocityY(0);
+          collider1.setVelocityX(0);
+          player1.x = collider1.x;
+          player1.y = collider1.y-7;
             switch(playerLookingAt){
               case(1):
               player1.anims.play('left', true);
@@ -586,16 +612,16 @@ else if(cursors.down.isDown)
   this.ball.setScale(0.05);
   switch(playerLookingAt){
 case(1):
-  this.ball.setVelocityX(-200);
+  this.ball.setVelocityX(-300);
   break;
   case(2):
-  this.ball.setVelocityX(200);
+  this.ball.setVelocityX(300);
   break;
   case(3):
-  this.ball.setVelocityY(-200);
+  this.ball.setVelocityY(-300);
   break;
   case(4):
-  this.ball.setVelocityY(200);
+  this.ball.setVelocityY(300);
   break;
   }
 
@@ -615,16 +641,16 @@ case(1):
   this.ball2.setScale(0.03);
   switch(playerLookingAt2){
     case(1):
-      this.ball2.setVelocityX(-200);
+      this.ball2.setVelocityX(-300);
       break;
       case(2):
-      this.ball2.setVelocityX(200);
+      this.ball2.setVelocityX(300);
       break;
       case(3):
-      this.ball2.setVelocityY(-200);
+      this.ball2.setVelocityY(-300);
       break;
       case(4):
-      this.ball2.setVelocityY(200);
+      this.ball2.setVelocityY(300);
       break;
       }
 
