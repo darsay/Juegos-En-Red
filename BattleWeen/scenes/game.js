@@ -54,6 +54,8 @@ export class Game extends Phaser.Scene {
     this.load.image('chest', 'assets/images/chestPU.png');
 
     
+
+    
       this.load.tilemapTiledJSON('map', 'assets/tileMaps/level1.json');
       
       this.load.tilemapTiledJSON('map2', 'assets/tileMaps/level2.json');
@@ -67,6 +69,7 @@ export class Game extends Phaser.Scene {
 
     this.load.audio('disparo','assets/sounds/disparo.wav');
     this.load.audio('box','assets/sounds/box.wav');
+    this.load.audio('GameMusic','assets/sounds/Music.mp3' )
 
 }
 
@@ -74,8 +77,14 @@ export class Game extends Phaser.Scene {
    Level = data.id;
    V1 =data.vic1;
    V2= data.vic2;
+
+
    //Para la musica del menu de inicio
     this.sound.get('intro').stop();
+
+    this.musica= this.sound.add('GameMusic');
+    this.musica.setVolume(0.03);
+  this.musica.play();
     //Crea el tilemap
     var map;
     switch(Level){
@@ -317,6 +326,7 @@ export class Game extends Phaser.Scene {
 
 update(){
 
+
 if(keys.M.isDown){
 this.disparar();
 }
@@ -330,6 +340,7 @@ this.movimiento1();
 
 // GAME OVER
 if((hp1<=0 || hp2<=0) ){
+  this.sound.get('GameMusic').stop();
   
    this.cameras.main.shake(500);
   
@@ -435,7 +446,7 @@ gameOver(){
 }
  movimiento2 ()
 {
-   playerLookingAt2=4;
+   
    
       if (keys.A.isDown)
         {
@@ -502,7 +513,7 @@ gameOver(){
 
  movimiento1 ()
  {
-playerLookingAt= 4;
+
   if (cursors.left.isDown)
   {
       player1.setVelocityX(-speed1);
