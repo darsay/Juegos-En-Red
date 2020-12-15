@@ -3,18 +3,19 @@ import { boton } from "../components/boton.js";
 export class Final extends Phaser.Scene {
   constructor() {
     super({ key: 'Final' });
-    this.botonPlay = new boton(this, 'menu');
+    this.botonAgain = new boton(this, 'menu', 'button', 400, 400);
   }
 
   preload() {
    
     this.load.image('background', 'assets/images/fondo.jpg');
-    this.botonPlay.preload();
+    this.botonAgain.preload();
+    this.load.audio('intro','assets/sounds/Music.mp3' )
   }
   
   create() {
     this.add.image(410, 280, 'background');
-    this.botonPlay.create();
+    this.botonAgain.create();
     
 }
 }

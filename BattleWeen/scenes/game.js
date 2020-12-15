@@ -16,8 +16,8 @@ var player2;
         var shootTime2=0;
         
         var Level;
-        
-        
+       
+      
 
 export class Game extends Phaser.Scene {
 
@@ -27,31 +27,16 @@ export class Game extends Phaser.Scene {
     
   }
   
-  init(data)
+   init(data)
   {     
-    switch(data.id){
-      case(0):
-      Level=0;
-      break;
-      case(1):
-      Level=1;
-      break;
-      case(2):
-      Level=2;
-      break;
-      case(3):
-      Level=3;
-      break;
-      case(4):
-      Level=4;
-      break;
+    this.id= data.id;
     }
     
       
-  }
+  
 
    preload(){
-    this.Level1= Level;
+    
     this.load.image('ball', 'assets/images/ball.png');
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
@@ -65,34 +50,48 @@ export class Game extends Phaser.Scene {
     this.load.image('randomBox', 'assets/images/box.png');
     //this.load.image('chest', 'assets/images/box.png');
 
-    switch(this.Level1){
-      case(0):
+    
       this.load.tilemapTiledJSON('map', 'assets/tileMaps/level1.json');
-      break;
-      case(1):
-      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level2.json');
-      break;
-      case(2):
-      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
-      break;
-      case(3):
-      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level4.json');
-      break;
-      case(4):
-      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level5.json');
-      break;
- }
+      
+      this.load.tilemapTiledJSON('map2', 'assets/tileMaps/level2.json');
+      
+      this.load.tilemapTiledJSON('map3', 'assets/tileMaps/level3.json');
+      
+      this.load.tilemapTiledJSON('map4', 'assets/tileMaps/level4.json');
+      
+      this.load.tilemapTiledJSON('map5', 'assets/tileMaps/level5.json');
+  
 
     this.load.audio('disparo','assets/sounds/disparo.wav');
     this.load.audio('box','assets/sounds/box.wav');
 
 }
 
- create(){
+ create(data){
+   Level = data.id;
    //Para la musica del menu de inicio
     this.sound.get('intro').stop();
     //Crea el tilemap
-    const map = this.make.tilemap({ key: 'map' });
+    var map;
+    switch(Level){
+      case(0):
+      map = this.make.tilemap({ key: 'map' });
+      break;
+      case(1):
+       map = this.make.tilemap({ key: 'map2' });
+      break;
+      case(2):
+      map = this.make.tilemap({ key: 'map3' });
+      break;
+      case(3):
+      map = this.make.tilemap({ key: 'map4' });
+      break;
+      case(4):
+      map = this.make.tilemap({ key: 'map5' });
+      break;
+      
+    }
+    
     //Añade el tileSet de la capa de Mazmorra que coge los elementos de escenario
     const tileset = map.addTilesetImage('Mazmorra', 'scenery');
     //Crea el suelo y los muros en variables distintas para solo 
@@ -299,7 +298,9 @@ export class Game extends Phaser.Scene {
 
    
     this.disparo= this.sound.add('disparo');
+    this.disparo.setVolume(0.05);
     this.box= this.sound.add('box');
+    this.box.setVolume(0.05);
 
 }
 
@@ -316,15 +317,66 @@ this.movimiento2();
 this.movimiento1();
 
 
-//
+// GAME OVER
 if(hp1<=0 || hp2<=0){
+  
   this.cameras.main.shake(500);
   
   this.time.delayedCall(250, function() {
     this.cameras.main.fade(250);
   }, [], this);
- 
+
+  
+  if(Level<=4){
+    Level ++;
+   
+
+      switch (Level){
+        case(1):
+        this.time.delayedCall(500, function() {
+          this.registry.destroy(); // destroy registry
+          this.events.off(); // disable all active events
+        this.scene.start('game', { id: 1}); 
+      }, [], this);
+        break;
+        case(2):
+        this.time.delayedCall(500, function() {
+          this.registry.destroy(); // destroy registry
+          this.events.off(); // disable all active events
+        this.scene.start('game', { id: 2}); 
+      }, [], this);
+        break;
+        case(3):
+        this.time.delayedCall(500, function() {
+          this.registry.destroy(); // destroy registry
+          this.events.off(); // disable all active events
+        this.scene.start('game', { id: 3}); 
+      }, [], this); 
+        break;
+        case(4):
+        this.time.delayedCall(500, function() {
+          this.registry.destroy(); // destroy registry
+          this.events.off(); // disable all active events
+        this.scene.start('game', { id: 4}); 
+      }, [], this); 
+        break;
+
+      }
+      
+    
+
+  }else{
+
+    this.time.delayedCall(500, function() {
+      this.registry.destroy(); // destroy registry
+      this.events.off(); // disable all active events
+      this.scene.start('Final'); }, [], this);
+  }
+  
+
+ /* 
  if(this.Level1<=4){
+   this.Level1++
    this.Level1= this.Level1 + 1;
   this.time.delayedCall(500, function() {
     this.scene.start(this.key, { id: this.Level1});
@@ -335,7 +387,7 @@ if(hp1<=0 || hp2<=0){
     this.scene.start('Final');
   }, [], this);
 
-} 
+}  */
 
 }
 
