@@ -54,7 +54,8 @@ export class Game extends Phaser.Scene {
     this.load.image('speedBox', 'assets/images/speedPU.png');
     this.load.image('randomBox', 'assets/images/randomPU.png');
     this.load.image('chest', 'assets/images/chestPU.png');
-
+    this.load.image('fondito','assets/images/pointsBg.png')
+    
     
 
     
@@ -70,6 +71,7 @@ export class Game extends Phaser.Scene {
   
 
     this.load.audio('disparo','assets/sounds/disparo.wav');
+    this.load.audio('disparo2','assets/sounds/ZombieShot.mp3');
     this.load.audio('box','assets/sounds/box.wav');
     this.load.audio('GameMusic','assets/sounds/Music.mp3' )
 
@@ -197,8 +199,12 @@ export class Game extends Phaser.Scene {
     dmg1 = 20;
     dmg2 = dmg1;
   /////////////////// Se muestran las vidas de ambos/////////////////////////////  
-    NumeroVida= this.add.text(50,5,'P1 Hp: ' + hp1, { fontSize: '32px', fill: '#000', backgroundColor: 'pink', });
-    NumeroVida2= this.add.text(595,5,'P2 Hp: ' + hp2, { fontSize: '32px', fill: '#000', backgroundColor: 'powderblue', });
+     this.add.image(150,5 ,'fondito').setScale(1.5,1);
+    this.add.image(720,5 ,'fondito').setScale(1.5,1);
+    
+    
+    NumeroVida= this.add.text(50,5,'P1 Hp: ' + hp1, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
+    NumeroVida2= this.add.text(595,5,'P2 Hp: ' + hp2, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
 /////////////////////////////////////////////////////////////////
      
      
@@ -318,6 +324,10 @@ export class Game extends Phaser.Scene {
    
     this.disparo= this.sound.add('disparo');
     this.disparo.setVolume(0.05);
+
+    this.disparo2= this.sound.add('disparo2');
+    this.disparo2.setVolume(0.05);
+
     this.box= this.sound.add('box');
     this.box.setVolume(0.05);
 
@@ -636,7 +646,7 @@ case(1):
 
  disparar2(){
    if(this.time.now>shootTime2){
-     this.disparo.play();
+     this.disparo2.play();
   this.ball2= balls2.create(player2.x, player2.y, 'zombieBullet');
   this.ball2.setCollideWorldBounds(true);
   this.ball2.setScale(0.03);
