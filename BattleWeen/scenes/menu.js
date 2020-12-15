@@ -12,7 +12,7 @@ export class Menu extends Phaser.Scene {
     this.load.image('background', 'assets/images/background.jpg');
     this.botonPlay.preload();
     this.botonTutorial.preload();
-    this.load.audio('intro','assets/sounds/Music.mp3' )
+    this.load.audio('intro','assets/sounds/MenuMusic.mp3' )
     this.load.image('button', 'assets/images/play.png');
     this.load.image('tutorialBoton', 'assets/images/tutorial_boton.png');
   }
@@ -20,7 +20,7 @@ export class Menu extends Phaser.Scene {
   
   create() {
     this.musica= this.sound.add('intro');
-    this.musica.setVolume(0.05);
+    this.musica.setVolume(0.1);
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);
     this.botonPlay.create();
