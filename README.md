@@ -54,7 +54,7 @@ Como previamente se ha dicho, hay 4 personajes distintos teniendo cada uno una c
 
 * **Vampiro:** El vampiro es el personaje más resistente del juego, tendrá puntos de vida extra con respecto a los demás personajes. Su ataque básico consiste en lanzar “sangre” en una dirección, que inflige daño al primer enemigo que golpee, robándole así una pequeña porción de su vida. Su habilidad especial le permite “transformarse” en un charco de sangre que le da velocidad de movimiento extra temporal y le volverá completamente inmune al daño durante 3 segundos. Esta habilidad tiene un tiempo de reutilización de 20 segundos.
 
-### 5.Controles
+### 5. Controles
 Para el movimiento **WASD** (arriba, abajo, izquierda y derecha).
 Para el ataque básico la tecla “**L**” y para la habilidad especial la tecla “**P**”.
 
@@ -85,3 +85,7 @@ En la pantalla de juego, podemos observar el mapa del juego, con nuestros dos pe
 #### 8.4 Pantalla Final
 ![title](Capturas/4.PantallaFinal.png)
 Tras jugar en todos los mapas, se mostrará esta pantalla con las partidas que ha ganado cada jugador y, en el centro de la pantalla, se visualizará una ilustración del personaje cuyo jugador haya ganado. Finalmente, hay un botón para regresar a la pantalla del menú principal.
+
+#### 9. Diagrama de Flujo
+Tras explicar el funcionamiento de cada pantalla, a continuación se mostrará un diagrama para comprender la estructura del juego.
+![title](Capturas/Diagrama.png)
