@@ -15,6 +15,7 @@ var player2;
         var shootTime1=0; //Controla el numero de balas que se pueden disparar en un periodo de tiempo
         var shootTime2=0;
         
+        var Level;
         
         
 
@@ -22,13 +23,35 @@ export class Game extends Phaser.Scene {
 
   constructor() {
     super({ key: 'game' });
+
+    
   }
   
-  init() {
-    this.score = 0;
+  init(data)
+  {     
+    switch(data.id){
+      case(0):
+      Level=0;
+      break;
+      case(1):
+      Level=1;
+      break;
+      case(2):
+      Level=2;
+      break;
+      case(3):
+      Level=3;
+      break;
+      case(4):
+      Level=4;
+      break;
+    }
+    
+      
   }
 
    preload(){
+    this.Level1= Level;
     this.load.image('ball', 'assets/images/ball.png');
     this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
     this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.5, frameHeight: 48});
@@ -42,7 +65,23 @@ export class Game extends Phaser.Scene {
     this.load.image('randomBox', 'assets/images/box.png');
     //this.load.image('chest', 'assets/images/box.png');
 
-    this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
+    switch(this.Level1){
+      case(0):
+      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level1.json');
+      break;
+      case(1):
+      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level2.json');
+      break;
+      case(2):
+      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level3.json');
+      break;
+      case(3):
+      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level4.json');
+      break;
+      case(4):
+      this.load.tilemapTiledJSON('map', 'assets/tileMaps/level5.json');
+      break;
+ }
 
     this.load.audio('disparo','assets/sounds/disparo.wav');
     this.load.audio('box','assets/sounds/box.wav');
@@ -276,18 +315,30 @@ if(keys.T.isDown){
 this.movimiento2();
 this.movimiento1();
 
+
+//
 if(hp1<=0 || hp2<=0){
   this.cameras.main.shake(500);
   
   this.time.delayedCall(250, function() {
     this.cameras.main.fade(250);
   }, [], this);
-
+ 
+ if(this.Level1<=4){
+   this.Level1= this.Level1 + 1;
+  this.time.delayedCall(500, function() {
+    this.scene.start(this.key, { id: this.Level1});
+  }, [], this);
+  
+}else{ 
   this.time.delayedCall(500, function() {
     this.scene.start('Final');
   }, [], this);
-  
+
+} 
+
 }
+
 }
 //FIN UPDATE
  movimiento2 ()

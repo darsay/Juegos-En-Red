@@ -17,23 +17,23 @@ export class Menu extends Phaser.Scene {
     this.load.image('tutorialBoton', 'assets/images/tutorial_boton.png');
   }
   
-  isMusicPlaying;
+  
   create() {
     this.musica= this.sound.add('intro');
-    this.isMusicPlaying = false;
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);
     this.botonPlay.create();
     this.botonTutorial.create();
     this.logo = this.add.image(400, 130, 'logo');
     this.logo.setScale(0.5);
-    this.musica.play();
+    
   }
 
   update(){
-    if(!this.isMusicPlaying){
+    if(!this.sound.get('intro').isPlaying){
       this.musica.play();
-      this.isMusicPlaying = true;
+      
+      
     }
     
   }

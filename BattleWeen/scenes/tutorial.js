@@ -14,7 +14,8 @@ export class Tutorial extends Phaser.Scene {
   }
   
   create() {
-    this.musica= this.sound.add('intro');
+    
+   
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);
     this.tuto = this.add.image(432, 312, 'tutorial');

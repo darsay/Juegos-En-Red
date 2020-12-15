@@ -3,7 +3,7 @@ import { boton } from "../components/boton.js";
 export class Final extends Phaser.Scene {
   constructor() {
     super({ key: 'Final' });
-    this.botonPlay = new boton(this, 'game');
+    this.botonPlay = new boton(this, 'menu');
   }
 
   preload() {
