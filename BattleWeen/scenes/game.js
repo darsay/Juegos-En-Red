@@ -331,11 +331,11 @@ this.movimiento1();
 // GAME OVER
 if((hp1<=0 || hp2<=0) ){
   
-  /* this.cameras.main.shake(500);
+   this.cameras.main.shake(500);
   
   this.time.delayedCall(250, function() {
     this.cameras.main.fade(250);
-  }, [], this); */
+  }, [], this); 
 
 
   if((hp1>hp2) && CanSume==false){
@@ -435,7 +435,7 @@ gameOver(){
 }
  movimiento2 ()
 {
-   
+   playerLookingAt2=4;
    
       if (keys.A.isDown)
         {
@@ -502,7 +502,7 @@ gameOver(){
 
  movimiento1 ()
  {
-
+playerLookingAt= 4;
   if (cursors.left.isDown)
   {
       player1.setVelocityX(-speed1);
