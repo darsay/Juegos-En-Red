@@ -17,7 +17,7 @@ export class boton {
 
   
     this.startButton.on('pointerdown', () => {
-      this.relatedScene.scene.start(this.destination);
+      this.relatedScene.scene.start(this.destination, { id: 0}); 
     });
   }
 }
