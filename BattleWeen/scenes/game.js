@@ -331,11 +331,27 @@ if(hp1<=0 || hp2<=0){
     else
         {
             
-            player2.anims.play('turn2', true);
-         
-            player2.setVelocityX(0);
-            player2.setVelocityY(0);
-            playerLookingAt2 = 4;
+           
+          player2.setVelocityX(0);
+          player2.setVelocityY(0);
+          switch(playerLookingAt2){
+            case(1):
+            player2.anims.play('keyA', true);
+            player2.anims.stop('keyA', true);
+              break;
+              case(2):
+              player2.anims.play('keyD', true);
+              player2.anims.stop('keyD', true);
+              break;
+              case(3):
+              player2.anims.play('keyW', true);
+              player2.anims.stop('keyW', true);
+              break;
+              case(4):
+              player2.anims.play('keyS', true);
+              player2.anims.stop('keyS', true);
+              break;
+              }
         }
 
 }  
@@ -388,15 +404,19 @@ else if(cursors.down.isDown)
             switch(playerLookingAt){
               case(1):
               player1.anims.play('left', true);
+              player1.anims.stop('left', true);
                 break;
                 case(2):
                 player1.anims.play('right', true);
+                player1.anims.stop('right', true);
                 break;
                 case(3):
                 player1.anims.play('up', true);
+                player1.anims.stop('up', true);
                 break;
                 case(4):
                 player1.anims.play('down', true);
+                player1.anims.stop('down', true);
                 break;
                 }
         }
