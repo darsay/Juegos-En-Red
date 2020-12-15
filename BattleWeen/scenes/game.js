@@ -19,7 +19,8 @@ var player2;
        var V1;
        var V2;
       
-
+        var CanSume;
+        var CanSume2;
 export class Game extends Phaser.Scene {
 
   constructor() {
@@ -305,7 +306,13 @@ export class Game extends Phaser.Scene {
     this.box= this.sound.add('box');
     this.box.setVolume(0.05);
 
+
+
+    CanSume=false;
+    CanSume2= false
 }
+
+
 
 update(){
 
@@ -321,19 +328,22 @@ this.movimiento1();
 
 
 // GAME OVER
-if(hp1<=0 || hp2<=0){
+if((hp1<=0 || hp2<=0) ){
   
-  this.cameras.main.shake(500);
+  /* this.cameras.main.shake(500);
   
   this.time.delayedCall(250, function() {
     this.cameras.main.fade(250);
-  }, [], this);
+  }, [], this); */
 
-  if(hp1>hp2){
+
+  if((hp1>hp2) && CanSume==false){
      V1++;
+     CanSume=true;
     }
-  else{
+  else if((hp2>hp1) && CanSume2==false){
      V2++;
+     CanSume2=true;
     }
   
   if(Level<=4){
@@ -380,7 +390,8 @@ if(hp1<=0 || hp2<=0){
       this.time.delayedCall(500, function() {
         this.registry.destroy(); // destroy registry
         this.events.off(); // disable all active events
-        this.scene.start('Final'); }, [], this);
+        this.scene.start('Final', {vic1: V1, vic2: V2}); 
+      }, [], this);
 
     }
     else{
@@ -388,7 +399,8 @@ if(hp1<=0 || hp2<=0){
       this.time.delayedCall(500, function() {
         this.registry.destroy(); // destroy registry
         this.events.off(); // disable all active events
-        this.scene.start('Final2'); }, [], this);
+        this.scene.start('Final2', {vic1: V1, vic2: V2});
+       }, [], this);
     }
 
     
@@ -414,6 +426,12 @@ if(hp1<=0 || hp2<=0){
 
 }
 //FIN UPDATE
+gameOver(){
+
+
+
+  
+}
  movimiento2 ()
 {
    
