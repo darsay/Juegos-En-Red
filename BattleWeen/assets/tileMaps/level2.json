@@ -135,7 +135,7 @@
                 }],
          "opacity":1,
          "type":"objectgroup",
-         "visible":false,
+         "visible":true,
          "x":0,
          "y":0
         }, 
@@ -145,124 +145,124 @@
          "name":"RandomUp",
          "objects":[
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":27,
+                 "id":47,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":729,
-                 "y":133
+                 "x":731.360620460863,
+                 "y":518.541647987089
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":28,
+                 "id":48,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":731,
-                 "y":523
+                 "x":681.006455662154,
+                 "y":423.428225589528
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":29,
+                 "id":49,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":101,
-                 "y":519
+                 "x":634.009235183359,
+                 "y":328.314803191966
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":30,
+                 "id":50,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":105,
-                 "y":137
+                 "x":678.768492782211,
+                 "y":229.844436474491
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":37,
+                 "id":51,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":679,
-                 "y":229
+                 "x":729.12265758092,
+                 "y":135.849995516901
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":38,
+                 "id":52,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":681,
-                 "y":419
+                 "x":104.73101407693,
+                 "y":134.73101407693
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":39,
+                 "id":53,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":149,
-                 "y":421
+                 "x":151.728234555725,
+                 "y":232.082399354434
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":40,
+                 "id":54,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":151,
-                 "y":233
+                 "x":202.082399354434,
+                 "y":329.433784631938
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":41,
+                 "id":55,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":201,
-                 "y":325
+                 "x":153.966197435668,
+                 "y":424.547207029499
                 }, 
                 {
-                 "gid":174,
+                 "gid":176,
                  "height":30,
-                 "id":42,
+                 "id":56,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
                  "width":30,
-                 "x":635,
-                 "y":327
+                 "x":105.849995516901,
+                 "y":518.541647987089
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -276,16 +276,16 @@
          "name":"EveryUp",
          "objects":[
                 {
-                 "gid":11,
-                 "height":16,
-                 "id":45,
+                 "gid":175,
+                 "height":30,
+                 "id":46,
                  "name":"",
                  "rotation":0,
                  "type":"",
                  "visible":true,
-                 "width":16,
-                 "x":423.926835828925,
-                 "y":320.195821751995
+                 "width":30,
+                 "x":417.319891509011,
+                 "y":324.939803191966
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -294,7 +294,7 @@
          "y":0
         }],
  "nextlayerid":14,
- "nextobjectid":46,
+ "nextobjectid":57,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.4.3",
@@ -377,6 +377,14 @@
          "tilecount":1,
          "tileheight":30,
          "tilewidth":30
+        }, 
+        {
+         "firstgid":175,
+         "source":"Chest.tsx"
+        }, 
+        {
+         "firstgid":176,
+         "source":"RandomUp2.tsx"
         }],
  "tilewidth":48,
  "type":"map",
