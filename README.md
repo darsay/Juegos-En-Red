@@ -65,3 +65,23 @@ Para el ataque básico la tecla “**L**” y para la habilidad especial la tecl
 
 ### 7. Descripción en un tweet
 Disfruta Halloween con el juego más frenético. Pon a prueba tu habilidad y derrota a tus enemigos. ¿Brujas? ¿Zombies? **¡Battleween ya está aquí!**
+
+
+### 8. Pantallas
+A continuación, se adjuntan todas las pantallas que contiene Battleween:
+
+#### 8.1 Menú Principal
+![title](Capturas/1.Menu.png)
+En el menú principal, podemos observar el título del juego además de dos botones que nos dirigirán a las pantallas de juego y del tutorial, todo con música con ambiente "Halloweenesco".
+
+#### 8.2 Tutorial
+![title](Capturas/2.Tutorial.png)
+En el tutorial, podemos observar los controles de ambos jugadores, qué hace cada Power-Up además de una breve descripción del objetivo del juego. En la esquina superior izquierda, hay una tecla de retroceso para volver a la pantalla de menú.
+
+#### 8.3 Juego
+![title](Capturas/3.Combate.png)
+En la pantalla de juego, podemos observar el mapa del juego, con nuestros dos personajes, sus respectivas saludes y los power ups repartidos por el mapa junto a una música de combate que empezará a reproducirse. Cada vez que alguien derrote a su adversario, se restaurará la salud y se cargará el nuevo mapa hasta que se jueguen todos ellos y se determine a un ganador, pasando así a la pantalla final.
+
+#### 8.4 Pantalla Final
+![title](Capturas/4.PantallaFinal.png)
+Tras jugar en todos los mapas, se mostrará esta pantalla con las partidas que ha ganado cada jugador y, en el centro de la pantalla, se visualizará una ilustración del personaje cuyo jugador haya ganado. Finalmente, hay un botón para regresar a la pantalla del menú principal.
