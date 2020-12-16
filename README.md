@@ -86,7 +86,13 @@ En la pantalla de juego, podemos observar el mapa del juego, con nuestros dos pe
 ![title](Capturas/4.PantallaFinal.png)
 Tras jugar en todos los mapas, se mostrará esta pantalla con las partidas que ha ganado cada jugador y, en el centro de la pantalla, se visualizará una ilustración del personaje cuyo jugador haya ganado. Finalmente, hay un botón para regresar a la pantalla del menú principal.
 
-#### 9. Diagrama de Flujo
+### 9. Diagrama de Flujo
 Tras explicar el funcionamiento de cada pantalla, a continuación se mostrará un diagrama para comprender la estructura del juego.
 
 ![title](Capturas/Diagrama.png)
+
+### 10. Apreciaciones para la Fase 2.
+La mayoría de cosas que propusimos se han podido realizar. Sin embargo, caben destacar ciertos puntos planeados para futuras versiones:
+* Solo han sido implementados dos jugadores, pero en cuanto se permita el juego online, nuestro objetivo es permitir hasta 4 jugadores.
+* Cada personaje no tiene ningún tipo de particularidad, cosa que se desarrollará conforme el juego avance.
+* Un menú de ajustes para ajustar temas como puede ser el sonido y accesibilidad.
