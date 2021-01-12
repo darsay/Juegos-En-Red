@@ -7,13 +7,11 @@ $(document).ready(function(){
   $(document).ready(function(){
     console.log('Mostrar users')
     $.ajax({
-    url: 'localhost:8080/users',
+    url: 'http://localhost:8080/users',
     method: 'GET',
-    dataType: 'jsonpCallback'
+    dataType: 'json'
     }).done(function(data) {
     console.log(data);
-    var datax = JSON.parse(data)
-    console.log(datax)
     });
     });  
 

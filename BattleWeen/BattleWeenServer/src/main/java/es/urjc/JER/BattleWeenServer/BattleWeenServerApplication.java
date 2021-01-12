@@ -13,5 +13,6 @@ public class BattleWeenServerApplication {
 		SpringApplication.run(BattleWeenServerApplication.class, args);
 	}
 	
+	
 
 }

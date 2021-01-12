@@ -27,7 +27,6 @@ public class BattleWeenController {
 	Map<Long, User> users = new ConcurrentHashMap<>(); 
 	AtomicLong nextId = new AtomicLong(0);
 	
-	
 	@GetMapping
 	public Collection<User> items() {
 		return users.values();
