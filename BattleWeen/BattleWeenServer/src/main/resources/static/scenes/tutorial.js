@@ -15,6 +15,14 @@ export class Tutorial extends Phaser.Scene {
   
   create() {
     
+    $(document).ready(function(){
+      $.ajax({
+      url: 'http://localhost:8080/users/3',
+      method: 'DELETE',
+      dataType: 'json'
+      }).done(function(data) {
+      });
+      });  
    
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);

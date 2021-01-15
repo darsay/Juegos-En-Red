@@ -7,12 +7,46 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="style.css">
-  <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js">
+ 
+  </script>
+  <script type="text/javascript">
+  
+  function fn1()
+  {
+    var name= document.getElementById("name").value;
+    var pass= document.getElementById("pass").value;
+     
+    document.getElementById("name").value = "";
+    document.getElementById("pass").value = "";
+    
+    $(document).ready(function() {
+    $.ajax({
+      type: "POST",
+      url: "http://localhost:8080/users",
+      data: JSON.stringify({
+        name: name,
+        password: pass
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      success: function(data) {
+        console.log(data.name);
+      }
+});
+  }); 
+  }
+  </script>
   <title>BattleWeen</title>
 </head>
 
 <body>
-
+  <input  type="text" id="name" placeholder="Username">
+  <br>
+  <input type="password" id="pass" placeholder="Password">
+  <button onclick= "fn1()" id= "btn"> Sign In</button>
   <div id="header">
     <img src="assets/images/banner.png" alt="BattleWeen" ></img>
   </div>

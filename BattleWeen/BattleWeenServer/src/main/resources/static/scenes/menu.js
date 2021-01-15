@@ -3,18 +3,28 @@ import { boton } from "../components/boton.js";
 $(document).ready(function(){
   console.log('El DOM está cargado')
   });
-
-  $(document).ready(function(){
-    console.log('Mostrar users')
+  
+  /* $(document).ready(function() {
     $.ajax({
-    url: 'http://localhost:8080/users',
-    method: 'GET',
-    dataType: 'json'
-    }).done(function(data) {
-    console.log(data);
-    });
-    });  
+      type: "POST",
+      url: "http://localhost:8080/users",
+      data: JSON.stringify({
+        name: "David",
+        password: "urjc123"
+      }),
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      success: function(data) {
+        console.log(data);
+      }
+});
+  });
+ */
 
+
+   
 export class Menu extends Phaser.Scene {
   constructor() {
     super({ key: 'menu' });
@@ -34,6 +44,16 @@ export class Menu extends Phaser.Scene {
   
   
   create() {
+    $(document).ready(function(){
+      console.log('Mostrar users')
+      $.ajax({
+      url: 'http://localhost:8080/users',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+      console.log(data);
+      });
+      }); 
     
     this.musica= this.sound.add('intro');
     this.musica.setVolume(0.1);
