@@ -12,6 +12,22 @@
   </script>
   <script type="text/javascript">
   var numPlayers = 0;
+  function get(){
+
+    $(document).ready(function(){
+      
+      $.ajax({
+      url: 'http://localhost:8080/users',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+      console.log(data);  
+      }); 
+      }); 
+
+
+  }
+
   function fn1()
   {
     var name= document.getElementById("name").value;
@@ -56,6 +72,7 @@
         <br>
         <input type="password" id="pass" placeholder="Password">
         <button onclick= "fn1()" id= "btn"> Sign In</button>
+        <button onclick= "get()" id= "btn"> GET</button>
 
 
         <pre class = "userlog">
