@@ -62,25 +62,38 @@
 
 <body>
 
-  <div class = "top">
+    <div class = "signinchat">
     
-    <div>
-      <img src="assets/images/logo.png" alt="BattleWeen" style = "float: left; display: inline-block; align: center; width : 120px; height: 90px;">
-      <div float = left>
-        <br>
-        <input  type="text" id="name" placeholder="Username" >
-        <br>
-        <input type="password" id="pass" placeholder="Password">
-        <button onclick= "fn1()" id= "btn"> Sign In</button>
-        <button onclick= "get()" id= "btn"> GET</button>
+          
+          <div>
+            <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
+            <input  type="text" id="name" placeholder="Username" >
+            <button onclick= "get()" id= "btn"> GET</button>  
+            <br>
+            <input type="password" id="pass" placeholder="Password">
+            <button onclick= "fn1()" id= "btn"> Sign In</button>        
+          </div>
+          <br>
+          <div class = "chat">
+
+            <div class = "chatbox">
+            </div>
+
+            <div class = "write">
+              <input  type="text" id="message" placeholder="Escriba su mensaje" >
+              <button onclick= "" id= "btn"> Enviar</button>
+            </div>
+          </div>
+
+          <br>
+
+    </div>
+
+    
+ 
 
 
-        <pre class = "userlog">
-        </pre>
-        
-      </div>
-     
-  </div>
+  
   
   <div id="header">
     <img src="assets/images/banner.png" alt="BattleWeen" ></img>
