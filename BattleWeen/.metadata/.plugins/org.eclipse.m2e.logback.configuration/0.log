@@ -604,3 +604,12 @@ org.eclipse.core.runtime.CoreException: Could not resolve artifact io.projectrea
 2021-01-12 18:19:51,548 [Worker-6: Launching BattleWeenServer (3)] INFO  o.e.m.i.launch.MavenLaunchDelegate - C:\Users\Nacho\Documents\GitHub\Juegos-En-Red\BattleWeen\BattleWeenServer
 2021-01-12 18:19:51,548 [Worker-6: Launching BattleWeenServer (3)] INFO  o.e.m.i.launch.MavenLaunchDelegate -  mvn -Ppom.xml -B clean package -Dstyle.color=always
 2021-01-12 18:28:00,384 [Worker-3: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-01-15 20:04:02,766 [Worker-6: Loading available Gradle versions] INFO  o.e.b.c.i.u.g.PublishedGradleVersions - Gradle version information cache is up-to-date. Trying to read.
+2021-01-15 20:04:10,988 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-01-15 20:04:10,988 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-01-15 20:04:10,991 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 1 resource
+2021-01-15 20:04:11,010 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Copying 54 resources
+2021-01-15 20:04:11,040 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - The encoding used to copy filtered properties files have not been set. This means that the same encoding will be used to copy filtered properties files as when copying other filtered resources. This might not be what you want! Run your build with --debug to see which files might be affected. Read more at https://maven.apache.org/plugins/maven-resources-plugin/examples/filtering-properties-files.html
+2021-01-15 20:04:11,043 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered resources.
+2021-01-15 20:04:11,043 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - Using 'UTF-8' encoding to copy filtered properties files.
+2021-01-15 20:04:11,043 [Worker-4: Building] INFO  o.e.m.c.i.embedder.EclipseLogger - skip non existing resourceDirectory C:\Users\Nacho\Documents\GitHub\Juegos-En-Red\BattleWeen\BattleWeenServer\src\test\resources

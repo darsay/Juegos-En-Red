@@ -11,7 +11,7 @@
  
   </script>
   <script type="text/javascript">
-  
+  var numPlayers = 0;
   function fn1()
   {
     var name= document.getElementById("name").value;
@@ -34,19 +34,37 @@
       },
       success: function(data) {
         console.log(data.name);
+        numPlayers++;
       }
-});
+    });
   }); 
   }
+              
   </script>
   <title>BattleWeen</title>
 </head>
 
 <body>
-  <input  type="text" id="name" placeholder="Username">
-  <br>
-  <input type="password" id="pass" placeholder="Password">
-  <button onclick= "fn1()" id= "btn"> Sign In</button>
+
+  <div class = "top">
+    
+    <div>
+      <img src="assets/images/logo.png" alt="BattleWeen" style = "float: left; display: inline-block; align: center; width : 120px; height: 90px;">
+      <div float = left>
+        <br>
+        <input  type="text" id="name" placeholder="Username" >
+        <br>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick= "fn1()" id= "btn"> Sign In</button>
+
+
+        <pre class = "userlog">
+        </pre>
+        
+      </div>
+     
+  </div>
+  
   <div id="header">
     <img src="assets/images/banner.png" alt="BattleWeen" ></img>
   </div>
