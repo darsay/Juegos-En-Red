@@ -12,6 +12,8 @@
   </script>
   <script type="text/javascript">
   var numPlayers = 0;
+  var namePlayer;
+
   function get(){
 
     $(document).ready(function(){
@@ -21,7 +23,10 @@
       method: 'GET',
       dataType: 'json'
       }).done(function(data) {
-      console.log(data);  
+      console.log(data);
+      numPlayers = data.length;
+      console.log(numPlayers)
+      document.getElementById("activeplayers").innerHTML = "Bienvenido " + namePlayer + ". Hay " + numPlayers + " jugadores activos.";
       }); 
       }); 
 
@@ -37,23 +42,32 @@
     document.getElementById("pass").value = "";
     
     $(document).ready(function() {
-    $.ajax({
-      type: "POST",
-      url: "http://localhost:8080/users",
-      data: JSON.stringify({
-        name: name,
-        password: pass
-      }),
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json'
-      },
-      success: function(data) {
-        console.log(data.name);
-        numPlayers++;
-      }
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/users",
+        data: JSON.stringify({
+          name: name,
+          password: pass
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          console.log(data.name);
+          namePlayer = name;
+          get();
+        }
+      });
     });
-  }); 
+
+  }
+
+  function signIn(){
+    var login = document.getElementById('login');
+    login.parentNode.removeChild(login);
+    document.getElementById("message").disabled = false;
+    document.getElementById("send").disabled = false;
   }
               
   </script>
@@ -64,24 +78,26 @@
 
     <div class = "signinchat">
     
+      <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
           
-          <div>
-            <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
+          <div id = "login">
+            
             <input  type="text" id="name" placeholder="Username" >
-            <button onclick= "get()" id= "btn"> GET</button>  
+
             <br>
             <input type="password" id="pass" placeholder="Password">
-            <button onclick= "fn1()" id= "btn"> Sign In</button>        
+            <button onclick= "fn1(), signIn()" id= "btn"> Sign In</button>
           </div>
-          <br>
+          <button onclick= "get()" id= "btn"> GET</button>  
+          <p id="activeplayers"></p>
           <div class = "chat">
 
             <div class = "chatbox">
             </div>
 
             <div class = "write">
-              <input  type="text" id="message" placeholder="Escriba su mensaje" >
-              <button onclick= "" id= "btn"> Enviar</button>
+              <input  type="text" id="message" placeholder="Escriba su mensaje" disabled >
+              <button onclick= "" id= "send" disabled> Enviar</button>
             </div>
           </div>
 
