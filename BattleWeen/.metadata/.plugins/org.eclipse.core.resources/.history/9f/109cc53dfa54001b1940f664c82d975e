@@ -1,0 +1,111 @@
+package es.urjc.JER.BattleWeenServer;
+
+import org.springframework.web.bind.annotation.RestController;
+
+import java.util.Collection;
+import java.util.Map;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicLong;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@RestController
+@CrossOrigin(origins = "http://localhost:8080")
+@RequestMapping("/users")
+public class BattleWeenController {
+
+	Map<Long, User> users = new ConcurrentHashMap<>(); 
+	AtomicLong nextId = new AtomicLong(0);
+	
+	@GetMapping
+	public Collection<User> items() {
+		return users.values();
+	}
+	
+	@PostMapping
+	@ResponseStatus(HttpStatus.CREATED)
+	public User nuevoUsuario(@RequestBody User usuario) {
+		long id = nextId.incrementAndGet();
+		usuario.setId(id);
+		users.put(id, usuario);
+
+		return usuario;
+	}
+	
+
+	@GetMapping(value="/{id}")
+	public ResponseEntity<User> getUser(@PathVariable long id) {
+		
+		User usuario = users.get(id);
+				
+		if (usuario != null) {
+			return new ResponseEntity<>(usuario, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+		
+	}
+	
+	/*@GetMapping(value = "/{nombre}")
+	public ResponseEntity<Jugador> getJugon(@PathVariable String nombre) {
+		
+		boolean found = false;
+		long i = 1;
+		Jugador jugador = null;
+		
+		while(i<=jugones.size() && !found) {
+			jugador = jugones.get(i);
+			
+			if(jugador.getNombre().equals(nombre)) {
+				found = true;
+			}
+			i++;
+		}
+		
+				
+		if (jugador != null && found) {
+			return new ResponseEntity<>(jugador, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}		
+		
+	}*/
+	
+	@DeleteMapping("/{id}")
+	public ResponseEntity<User> borraItem(@PathVariable long id) {
+
+		User savedItem = users.get(id);
+
+		if (savedItem != null) {
+			users.remove(savedItem.getId());
+			return new ResponseEntity<>(savedItem, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@PutMapping("/{id}")
+    public ResponseEntity<User> actulizaItem(@PathVariable long id, @RequestBody User usuarioActualizado) {
+
+        User savedItem = users.get(id);
+
+        if (savedItem != null) {
+            usuarioActualizado.setId(id);
+            users.put(id, usuarioActualizado);
+
+            return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+}
