@@ -13,6 +13,8 @@
   <script type="text/javascript">
   var numPlayers = 0;
   var namePlayer;
+  var lastMs;
+  var chateo = "";
 
   function get(){
 
@@ -27,11 +29,41 @@
       numPlayers = data.length;
       console.log(numPlayers)
       document.getElementById("activeplayers").innerHTML = "Bienvenido " + namePlayer + ". Hay " + numPlayers + " jugadores activos.";
-      }); 
+      }).fail(function() {
+       console.log( "error" );
+      });
       }); 
 
 
   }
+
+  function get2(){
+
+$(document).ready(function(){
+  
+  $.ajax({
+  url: 'http://localhost:8080/mensajes',
+  method: 'GET',
+  dataType: 'json'
+  }).done(function(data) {
+  var i;
+  for(i=0; i<data.length;i++){
+  console.log(data[i].user+ " : " +data[i].mensaje);
+  var chat1;
+  chat1 =  data[i].user+ " : " +data[i].mensaje+" <br/>";
+
+  
+  }
+  chateo= chateo+ chat1;
+  document.getElementById("chatecito").innerHTML=chateo;
+
+  }).fail(function() {
+   console.log( "error" );
+  });
+  }); 
+
+
+}
 
   function fn1()
   {
@@ -58,6 +90,7 @@
           namePlayer = name;
           get();
         }
+        
       });
     });
 
@@ -66,10 +99,35 @@
   function signIn(){
     var login = document.getElementById('login');
     login.parentNode.removeChild(login);
-    document.getElementById("message").disabled = false;
-    document.getElementById("send").disabled = false;
+    /* document.getElementById("message").disabled = false;
+    document.getElementById("send").disabled = false; */
   }
-              
+  function send(){
+    var mensaje = document.getElementById("message").value;
+
+    document.getElementById("message").value ="";
+    $(document).ready(function() {
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/mensajes",
+        data: JSON.stringify({
+          mensaje: mensaje,
+          user: namePlayer
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          lastMs= namePlayer+ " dijo : " +data.mensaje;
+          console.log(lastMs);
+          get2();
+        }
+        
+      });
+    });
+
+  }           
   </script>
   <title>BattleWeen</title>
 </head>
@@ -91,14 +149,14 @@
           <p id="activeplayers"></p>
           <div class = "chat">
 
-            <div class = "chatbox">
+            <div class = "chatbox" id="chatecito">
             </div>
 
             <div class = "write">
-              <input  type="text" id="message" placeholder="Escriba su mensaje" disabled >
-              <button onclick= "" id= "send" disabled> Enviar</button>
+              <input  type="text" id="message" placeholder="Escriba su mensaje">
+              <button onclick= "send()" id= "send"> Enviar</button>
               <br>
-              <button onclick= "get()" id= "btn">REFRESCAR CHAT</button>  
+              <button onclick= "get2()" id= "btn">REFRESCAR CHAT</button>  
             </div>
           </div>
 

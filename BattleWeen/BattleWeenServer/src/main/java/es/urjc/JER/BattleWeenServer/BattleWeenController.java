@@ -21,18 +21,28 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 @RestController
 @CrossOrigin
-@RequestMapping("/users")
+@RequestMapping(value="")
 public class BattleWeenController {
 
 	Map<Long, User> users = new ConcurrentHashMap<>(); 
-	AtomicLong nextId = new AtomicLong(0);
+	Map<Long, Mensaje> mensajes = new ConcurrentHashMap<>(); 
 	
-	@GetMapping
+	String ArrayMsn[];
+	
+	AtomicLong nextId = new AtomicLong(0);
+	AtomicLong nextId2 = new AtomicLong(0);
+	
+	@GetMapping(value="/users")
 	public Collection<User> items() {
 		return users.values();
 	}
 	
-	@PostMapping
+	@GetMapping(value="/mensajes")
+	public Collection<Mensaje> msn() {
+		return mensajes.values();
+	}
+	
+	@PostMapping(value="/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	public User nuevoUsuario(@RequestBody User usuario) {
 		long id = nextId.incrementAndGet();
@@ -42,8 +52,18 @@ public class BattleWeenController {
 		return usuario;
 	}
 	
+	@PostMapping(value="/mensajes")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Mensaje nuevoMens(@RequestBody Mensaje mensaje) {
+		long id2 = nextId2.incrementAndGet();
+		mensaje.setId(id2);
+		mensajes.put(id2, mensaje);
 
-	@GetMapping(value="/{id}")
+		return mensaje;
+	}
+	
+
+	@GetMapping(value="users/{id}")
 	public ResponseEntity<User> getUser(@PathVariable long id) {
 		
 		User usuario = users.get(id);
@@ -81,7 +101,7 @@ public class BattleWeenController {
 		
 	}*/
 	
-	@DeleteMapping("/{id}")
+	@DeleteMapping("users/{id}")
 	public ResponseEntity<User> borraItem(@PathVariable long id) {
 
 		User savedItem = users.get(id);
@@ -94,7 +114,7 @@ public class BattleWeenController {
 		}
 	}
 	
-	@PutMapping("/{id}")
+	@PutMapping("users/{id}")
     public ResponseEntity<User> actulizaItem(@PathVariable long id, @RequestBody User usuarioActualizado) {
 
         User savedItem = users.get(id);

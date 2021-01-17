@@ -72,6 +72,7 @@ export class Menu extends Phaser.Scene {
       this.musica.play();
       
       
+      
     }
     
   }
