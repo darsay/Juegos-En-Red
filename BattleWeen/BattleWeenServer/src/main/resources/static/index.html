@@ -12,9 +12,31 @@
   </script>
   <script type="text/javascript">
   var numPlayers = 0;
+  var clientId;
   var namePlayer;
   var lastMs;
   var chateo = "";
+  var chatlog = "";
+
+  // se conecta un cliente
+  $(document).ready(function() {
+      console.log("conectando");
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/clients",
+        data: JSON.stringify({
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          console.log(data);
+          clientId = data.id;
+          console.log("Eres el cliente " + clientId);
+        }
+  });
+    });
 
   function get(){
 
@@ -47,15 +69,15 @@ $(document).ready(function(){
   dataType: 'json'
   }).done(function(data) {
   var i;
-  for(i=0; i<data.length;i++){
-  console.log(data[i].user+ " : " +data[i].mensaje);
-  var chat1;
-  chat1 =  data[i].user+ " : " +data[i].mensaje+" <br/>";
+  chatlog ="";
 
-  
+  for(i=0; i<data.length;i++){
+    console.log(data[i].user+ " : " +data[i].mensaje);
+    chatlog +=  data[i].user+ " : " +data[i].mensaje+" <br/>";
   }
-  chateo= chateo+ chat1;
-  document.getElementById("chatecito").innerHTML=chateo;
+
+  chateo = data[data.length-1].user+ " : " +data[data.length-1].mensaje+" <br/>";;
+  document.getElementById("chatecito").innerHTML=chatlog;
 
   }).fail(function() {
    console.log( "error" );
@@ -140,7 +162,7 @@ $(document).ready(function(){
           
           <div id = "login">
             
-            <input  type="text" id="name" placeholder="Username" >
+            <input  type="text" id="name" name = "name" placeholder="Username" >
 
             <br>
             <input type="password" id="pass" placeholder="Password">

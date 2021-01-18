@@ -25,16 +25,23 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class BattleWeenController {
 
 	Map<Long, User> users = new ConcurrentHashMap<>(); 
-	Map<Long, Mensaje> mensajes = new ConcurrentHashMap<>(); 
+	Map<Long, Mensaje> mensajes = new ConcurrentHashMap<>();
+	Map<Long, Cliente> clients = new ConcurrentHashMap<>(); 
 	
 	String ArrayMsn[];
 	
 	AtomicLong nextId = new AtomicLong(0);
 	AtomicLong nextId2 = new AtomicLong(0);
+	AtomicLong nextIdClient = new AtomicLong(0);
 	
 	@GetMapping(value="/users")
 	public Collection<User> items() {
 		return users.values();
+	}
+	
+	@GetMapping(value="/clients")
+	public Collection<Cliente> itClients() {
+		return clients.values();
 	}
 	
 	@GetMapping(value="/mensajes")
@@ -50,6 +57,16 @@ public class BattleWeenController {
 		users.put(id, usuario);
 
 		return usuario;
+	}
+	
+	@PostMapping(value="/clients")
+	@ResponseStatus(HttpStatus.CREATED)
+	public Cliente nuevoCliente(@RequestBody Cliente cliente) {
+		long id3 = nextIdClient.incrementAndGet();
+		cliente.setId(id3);
+		clients.put(id3, cliente);
+
+		return cliente;
 	}
 	
 	@PostMapping(value="/mensajes")
@@ -108,6 +125,19 @@ public class BattleWeenController {
 
 		if (savedItem != null) {
 			users.remove(savedItem.getId());
+			return new ResponseEntity<>(savedItem, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+		}
+	}
+	
+	@DeleteMapping("clients/{id}")
+	public ResponseEntity<Cliente> borraClient(@PathVariable long id) {
+
+		Cliente savedItem = clients.get(id);
+
+		if (savedItem != null) {
+			clients.remove(savedItem.getId());
 			return new ResponseEntity<>(savedItem, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(HttpStatus.NOT_FOUND);

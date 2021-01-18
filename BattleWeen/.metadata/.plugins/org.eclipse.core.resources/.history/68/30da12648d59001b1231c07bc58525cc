@@ -1,0 +1,39 @@
+package es.urjc.JER.BattleWeenServer;
+
+public class Cliente {
+	private long id;
+	private String x;
+	public String getX() {
+		return x;
+	}
+
+	public void setX(String x) {
+		this.x = x;
+	}
+
+	public String getY() {
+		return y;
+	}
+
+	public void setY(String y) {
+		this.y = y;
+	}
+
+	private String y;
+	
+	Cliente(long id){
+		this.id= id;		
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+	
+	
+}
+
+

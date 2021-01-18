@@ -23,6 +23,8 @@ $(document).ready(function(){
   });
  */
 
+var NumeroUsers = "";
+var ServerStatus = "";
 
    
 export class Menu extends Phaser.Scene {
@@ -64,16 +66,77 @@ export class Menu extends Phaser.Scene {
     this.botonTutorial.create();
     this.logo = this.add.image(400, 130, 'logo');
     this.logo.setScale(0.5);
-    
+    NumeroUsers= this.add.text(5,550, "Hay activos: " + 0, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
+    ServerStatus= this.add.text(400,550, "Servidor: Activo", { fontSize: '32px', fill: 'white', fontStyle:'bold' });
   }
 
   update(){
     if(!this.sound.get('intro').isPlaying){
-      this.musica.play();
-      
-      
-      
+      this.musica.play();        
     }
     
+    this.activeUsers();
+    this.ping();
+
+  }
+
+  activeUsers(){
+    $(document).ready(function(){
+      //console.log('Mostrar users')
+      $.ajax({
+      url: 'http://localhost:8080/users',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        //console.log("hay los siguientes usuarios: " + data.length);
+        NumeroUsers.setText("Hay activos: " + data.length);
+        return data.length;
+      });
+      }); 
+  }
+
+  connect(){
+    $(document).ready(function() {
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/users",
+        data: 'json',
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          console.log(data);
+        }
+  });
+    });
+  }
+
+  ping(){
+    $(document).ready(function(){
+      
+      $.ajax({
+      url: 'http://localhost:8080/clients',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        ServerStatus.setText("Servidor: Activo");
+
+      }).fail(function (data){
+        ServerStatus.setText("Servidor: Desconectado");
+        this.deleteClient();
+      });
+      }); 
+  }
+  
+  deleteClient(){
+    $.ajax({
+      url: ('http://localhost:8080/clients/' + clientId),
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        ServerStatus.setText("Servidor: Activo");
+
+      }); 
   }
 }

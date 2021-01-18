@@ -2,8 +2,8 @@
 import { Game } from './scenes/game.js';
 import { Menu } from './scenes/menu.js';
 import { Final } from './scenes/Final.js';
-
 import { Tutorial } from './scenes/tutorial.js';
+
 
 
 const config = {

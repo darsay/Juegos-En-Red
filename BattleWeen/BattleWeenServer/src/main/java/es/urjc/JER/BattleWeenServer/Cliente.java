@@ -3,8 +3,8 @@ package es.urjc.JER.BattleWeenServer;
 public class Cliente {
 	private long id;
 	
-	Cliente(long id){
-		this.id= id;		
+	
+	Cliente(){	
 	}
 
 	public long getId() {
