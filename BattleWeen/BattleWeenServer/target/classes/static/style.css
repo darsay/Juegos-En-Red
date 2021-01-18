@@ -12,3 +12,61 @@ body{
     width:57%;
     margin: 0 auto;
 }
+
+
+div.signinchat {
+    position: fixed;  
+    bottom: 0;
+    right: 0;
+    background-color:#1c131d;
+    padding: 5px;
+    font-size: 20px;
+    border-radius: 25px;
+    
+}
+
+.chatbox {
+    margin:0 auto;
+    margin-bottom:2px;
+    background:white;
+    height:250px;
+    width:250px;
+    border:1px solid #ACD8F0;
+  }
+
+div.userlog {
+    float: right;
+    border: 100px solid azure ;
+    top: 0;
+}
+
+button {
+        background-color: #ee00ff; /* Green */
+        border: none;
+        color: rgb(255, 255, 255);
+        padding: 2px 4px;
+        text-align: center;
+        text-decoration: none;
+        display: inline-block;
+        transition-duration: 0.4s;
+        cursor: pointer;
+        border-radius: 5px;
+        margin:0 auto;
+}
+
+.minilogo{
+    display: block;
+    margin:auto;
+    width : 120px;
+    height: 90px;
+}
+
+#activeplayers{
+    font-size: 13px;
+    color: whitesmoke;
+}
+
+.chatbox{
+    overflow-y: scroll;
+}
+

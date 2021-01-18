@@ -2,6 +2,8 @@ package es.urjc.JER.BattleWeenServer;
 
 import org.springframework.web.bind.annotation.RestController;
 
+import java.io.*;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -55,6 +57,7 @@ public class BattleWeenController {
 		long id = nextId.incrementAndGet();
 		usuario.setId(id);
 		users.put(id, usuario);
+		saveUser(usuario);
 
 		return usuario;
 	}
@@ -158,4 +161,44 @@ public class BattleWeenController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+	
+	
+	@SuppressWarnings("unused")
+    public void saveUser(User usuario) {
+         ArrayList<User> usuarios = new ArrayList<User>();
+         File file = new File("users.txt");
+         if(!file.exists()){
+             ObjectOutputStream objectOut;
+            try {
+                objectOut = new ObjectOutputStream(new FileOutputStream("users.txt"));
+                usuarios.add(usuario);
+                objectOut.writeObject(usuarios);
+                objectOut.close();
+            } catch (FileNotFoundException e) {
+            } catch (IOException e) {
+            }
+         }else{
+             ObjectInputStream ois;
+             try {
+                ois = new ObjectInputStream(new FileInputStream("users.txt"));
+                usuarios = (ArrayList<User>) ois.readObject();
+                try {
+                    ois.close();
+                    ObjectOutputStream objectOut;
+                    try {
+                        objectOut = new ObjectOutputStream(new FileOutputStream("users.txt"));
+                        usuarios.add(usuario);
+                        System.out.println(usuarios.toString());
+                        objectOut.writeObject(usuarios);
+                        objectOut.close();
+                    } catch (FileNotFoundException e) {
+                    } catch (IOException e) {
+                    }
+                } catch (IOException e) {
+                }
+            } catch (Exception e1) {
+            }   
+         }
+    } 
+	
 }

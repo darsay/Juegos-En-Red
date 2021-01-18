@@ -1,6 +1,8 @@
 package es.urjc.JER.BattleWeenServer;
 
-public class User {
+import java.io.Serializable;
+
+public class User implements Serializable{
 	private String name;
 	private String password;
 	private long id;
@@ -40,6 +42,13 @@ public class User {
 	public void setPassword(String password) {
 		this.password = password;
 	}
+
+
+	@Override
+	public String toString() {
+		return "{name:" + name + ", password:" + password + ", id:" + id + "}";
+	}
+	
 	
 	
 }
