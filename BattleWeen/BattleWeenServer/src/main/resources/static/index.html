@@ -1,0 +1,209 @@
+
+
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://code.jquery.com/jquery-2.2.0.min.js">
+ 
+  </script>
+  <script type="text/javascript">
+  var numPlayers = 0;
+  var clientId;
+  var namePlayer;
+  var lastMs;
+  var chateo = "";
+  var chatlog = "";
+
+  // se conecta un cliente
+  $(document).ready(function() {
+      console.log("conectando");
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/clients",
+        data: JSON.stringify({
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          console.log(data);
+          clientId = data.id;
+          console.log("Eres el cliente " + clientId);
+        }
+  });
+    });
+
+  function get(){
+
+    $(document).ready(function(){
+      
+      $.ajax({
+      url: 'http://localhost:8080/users',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+      console.log(data);
+      numPlayers = data.length;
+      console.log(numPlayers)
+      document.getElementById("activeplayers").innerHTML = "Bienvenido " + namePlayer + ". Hay " + numPlayers + " jugadores activos.";
+      }).fail(function() {
+       console.log( "error" );
+      });
+      }); 
+
+
+  }
+
+  function get2(){
+
+$(document).ready(function(){
+  
+  $.ajax({
+  url: 'http://localhost:8080/mensajes',
+  method: 'GET',
+  dataType: 'json'
+  }).done(function(data) {
+  var i;
+  chatlog ="";
+
+  for(i=0; i<data.length;i++){
+    console.log(data[i].user+ " : " +data[i].mensaje);
+    chatlog +=  data[i].user+ " : " +data[i].mensaje+" <br/>";
+  }
+
+  chateo = data[data.length-1].user+ " : " +data[data.length-1].mensaje+" <br/>";;
+  document.getElementById("chatecito").innerHTML=chatlog;
+
+  }).fail(function() {
+   console.log( "error" );
+  });
+  }); 
+
+
+}
+
+  function fn1()
+  {
+    var name= document.getElementById("name").value;
+    var pass= document.getElementById("pass").value;
+     
+    document.getElementById("name").value = "";
+    document.getElementById("pass").value = "";
+    
+    $(document).ready(function() {
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/users",
+        data: JSON.stringify({
+          name: name,
+          password: pass
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          console.log(data.name);
+          namePlayer = name;
+          get();
+        }
+        
+      });
+    });
+
+  }
+
+  function signIn(){
+    var login = document.getElementById('login');
+    login.parentNode.removeChild(login);
+    /* document.getElementById("message").disabled = false;
+    document.getElementById("send").disabled = false; */
+  }
+  function send(){
+    var mensaje = document.getElementById("message").value;
+
+    document.getElementById("message").value ="";
+    $(document).ready(function() {
+      $.ajax({
+        type: "POST",
+        url: "http://localhost:8080/mensajes",
+        data: JSON.stringify({
+          mensaje: mensaje,
+          user: namePlayer
+        }),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        },
+        success: function(data) {
+          lastMs= namePlayer+ " dijo : " +data.mensaje;
+          console.log(lastMs);
+          get2();
+        }
+        
+      });
+    });
+
+  }           
+  </script>
+  <title>BattleWeen</title>
+</head>
+
+<body>
+
+    <div class = "signinchat">
+    
+      <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
+          
+          <div id = "login">
+            
+            <input  type="text" id="name" name = "name" placeholder="Username" >
+
+            <br>
+            <input type="password" id="pass" placeholder="Password">
+            <button onclick= "fn1(), signIn()" id= "btn"> Sign In</button>
+          </div>
+          <p id="activeplayers"></p>
+          <div class = "chat">
+
+            <div class = "chatbox" id="chatecito">
+            </div>
+
+            <div class = "write">
+              <input  type="text" id="message" placeholder="Escriba su mensaje">
+              <button onclick= "send()" id= "send"> Enviar</button>
+              <br>
+              <button onclick= "get2()" id= "btn">REFRESCAR CHAT</button>  
+            </div>
+          </div>
+
+          <br>
+
+    </div>
+
+    
+ 
+
+
+  
+  
+  <div id="header">
+    <img src="assets/images/banner.png" alt="BattleWeen" ></img>
+  </div>
+
+ <div id="CanvasDiv">
+  <script src="//cdn.jsdelivr.net/npm/phaser@3.24.0/dist/phaser.js"></script>
+  <script src="index.js" type="module"></script>
+ </div>
+
+ <div id = "controles">
+  <img src="assets/images/PantallaTuto.png" alt="BattleWeen" ></img>
+ </div>
+  
+</body>
+</html>

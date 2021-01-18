@@ -54,7 +54,7 @@ Como previamente se ha dicho, hay 4 personajes distintos teniendo cada uno una c
 
 * **Vampiro:** El vampiro es el personaje más resistente del juego, tendrá puntos de vida extra con respecto a los demás personajes. Su ataque básico consiste en lanzar “sangre” en una dirección, que inflige daño al primer enemigo que golpee, robándole así una pequeña porción de su vida. Su habilidad especial le permite “transformarse” en un charco de sangre que le da velocidad de movimiento extra temporal y le volverá completamente inmune al daño durante 3 segundos. Esta habilidad tiene un tiempo de reutilización de 20 segundos.
 
-### 5.Controles
+### 5. Controles
 Para el movimiento **WASD** (arriba, abajo, izquierda y derecha).
 Para el ataque básico la tecla “**L**” y para la habilidad especial la tecla “**P**”.
 
@@ -65,3 +65,34 @@ Para el ataque básico la tecla “**L**” y para la habilidad especial la tecl
 
 ### 7. Descripción en un tweet
 Disfruta Halloween con el juego más frenético. Pon a prueba tu habilidad y derrota a tus enemigos. ¿Brujas? ¿Zombies? **¡Battleween ya está aquí!**
+
+
+### 8. Pantallas
+A continuación, se adjuntan todas las pantallas que contiene Battleween:
+
+#### 8.1 Menú Principal
+![title](Capturas/1.Menu.png)
+En el menú principal, podemos observar el título del juego además de dos botones que nos dirigirán a las pantallas de juego y del tutorial, todo con música con ambiente "Halloweenesco".
+
+#### 8.2 Tutorial
+![title](Capturas/2.Tutorial.png)
+En el tutorial, podemos observar los controles de ambos jugadores, qué hace cada Power-Up además de una breve descripción del objetivo del juego. En la esquina superior izquierda, hay una tecla de retroceso para volver a la pantalla de menú.
+
+#### 8.3 Juego
+![title](Capturas/3.Combate.png)
+En la pantalla de juego, podemos observar el mapa del juego, con nuestros dos personajes, sus respectivas saludes y los power ups repartidos por el mapa junto a una música de combate que empezará a reproducirse. Cada vez que alguien derrote a su adversario, se restaurará la salud y se cargará el nuevo mapa hasta que se jueguen todos ellos y se determine a un ganador, pasando así a la pantalla final.
+
+#### 8.4 Pantalla Final
+![title](Capturas/4.PantallaFinal.png)
+Tras jugar en todos los mapas, se mostrará esta pantalla con las partidas que ha ganado cada jugador y, en el centro de la pantalla, se visualizará una ilustración del personaje cuyo jugador haya ganado. Finalmente, hay un botón para regresar a la pantalla del menú principal.
+
+### 9. Diagrama de Flujo
+Tras explicar el funcionamiento de cada pantalla, a continuación se mostrará un diagrama para comprender la estructura del juego.
+
+![title](Capturas/Diagrama.png)
+
+### 10. Apreciaciones para la Fase 2.
+La mayoría de cosas que propusimos se han podido realizar. Sin embargo, caben destacar ciertos puntos planeados para futuras versiones:
+* Solo han sido implementados dos jugadores, pero en cuanto se permita el juego online, nuestro objetivo es permitir hasta 4 jugadores.
+* Cada personaje no tiene ningún tipo de particularidad, cosa que se desarrollará conforme el juego avance.
+* Un menú de ajustes para ajustar temas como puede ser el sonido y accesibilidad.

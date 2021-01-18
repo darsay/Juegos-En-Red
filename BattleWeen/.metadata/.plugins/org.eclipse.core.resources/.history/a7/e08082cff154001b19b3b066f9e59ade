@@ -1,0 +1,13 @@
+package es.urjc.JER.BattleWeenServer;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class BattleWeenServerApplication {
+
+	public static void main(String[] args) {
+		SpringApplication.run(BattleWeenServerApplication.class, args);
+	}
+
+}
