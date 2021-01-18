@@ -72,7 +72,7 @@ $(document).ready(function(){
   chatlog ="";
 
   for(i=0; i<data.length;i++){
-    console.log(data[i].user+ " : " +data[i].mensaje);
+    //console.log(data[i].user+ " : " +data[i].mensaje);
     chatlog +=  data[i].user+ " : " +data[i].mensaje+" <br/>";
   }
 
@@ -80,12 +80,14 @@ $(document).ready(function(){
   document.getElementById("chatecito").innerHTML=chatlog;
 
   }).fail(function() {
-   console.log( "error" );
+   //console.log( "error" );
   });
   }); 
 
 
 }
+
+setInterval(get2(), 1000);
 
   function fn1()
   {

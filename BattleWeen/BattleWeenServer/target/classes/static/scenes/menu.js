@@ -84,7 +84,7 @@ export class Menu extends Phaser.Scene {
     $(document).ready(function(){
       //console.log('Mostrar users')
       $.ajax({
-      url: 'http://localhost:8080/users',
+      url: 'http://localhost:8080/clients',
       method: 'GET',
       dataType: 'json'
       }).done(function(data) {

@@ -26,7 +26,8 @@ $(document).ready(function(){
 var NumeroUsers = "";
 var ServerStatus = "";
 
-   
+var clientTime;
+
 export class Menu extends Phaser.Scene {
   constructor() {
     super({ key: 'menu' });
@@ -84,7 +85,7 @@ export class Menu extends Phaser.Scene {
     $(document).ready(function(){
       //console.log('Mostrar users')
       $.ajax({
-      url: 'http://localhost:8080/users',
+      url: 'http://localhost:8080/clients',
       method: 'GET',
       dataType: 'json'
       }).done(function(data) {
@@ -128,14 +129,47 @@ export class Menu extends Phaser.Scene {
       });
       }); 
   }
-  
-  deleteClient(){
-    $.ajax({
-      url: ('http://localhost:8080/clients/' + clientId),
+
+
+  //CON ESTA FUNCION HACES LAS LLAMADAS DEL GET PA IR GUARDANDO EL TIEMPO
+  ping2(){
+    $(document).ready(function(){
+      
+      $.ajax({
+      url: 'http://localhost:8080/clients',
       method: 'GET',
       dataType: 'json'
       }).done(function(data) {
-        ServerStatus.setText("Servidor: Activo");
+
+       // clientTime= a lo que sea;
+       //AQUI GUARDARIAS UN TIEMPO NUEVO CON EL THIS TIME NOW
+
+     
+      });
+      }); 
+  }
+
+  //ESTO SERÍA LA FUNCION QUE COMPRUEBA EL TIEMPO QUE LLEVA SIN RESPONDER EL CLIENTE MAS O MENOS EN PSEUDOCODIGO
+
+  comprobarClient(){
+
+     clientTime;
+
+    if(this.time.now-clientTime > 1000) {
+
+
+    }else{ this.deleteClient(); }
+
+  }
+
+  //A ESTO SE LLAMA EN CUANTO EL CLIENTE LLEVE UN TIEMPO SIN MANDAR PETIS
+  deleteClient(){
+    $.ajax({
+      url: ('http://localhost:8080/clients/' + clientId),
+      method: 'DELETE',
+      dataType: 'json'
+      }).done(function(data) {
+        console.log('Usuario '+clientId+' borrado')
 
       }); 
   }
