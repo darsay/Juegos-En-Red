@@ -25,12 +25,13 @@ $(document).ready(function(){
 
 var NumeroUsers = "";
 var ServerStatus = "";
-
+var clientList;
 
 var clientidx;
 var id;
 var refreshTime = 200;
 var prevTime = 0;
+
 
 
 export class Menu extends Phaser.Scene {
@@ -74,6 +75,7 @@ export class Menu extends Phaser.Scene {
     this.logo.setScale(0.5);
     NumeroUsers= this.add.text(5,600, "Hay activos: " + 0, { fontSize: '20px', fill: 'white', fontStyle:'bold' });
     ServerStatus= this.add.text(550,600, "Servidor: Conectando...", { fontSize: '20px', fill: 'white', fontStyle:'bold' });
+    clientList= this.add.text(550,300, "Clientes conectados: \n", { fontSize: '20px', fill: 'white', fontStyle:'bold' });
 
       
   }
@@ -87,11 +89,32 @@ export class Menu extends Phaser.Scene {
       this.activeUsers();
       this.ping();
       this.ping2();
+      this.clientesConectados();
       prevTime = Date.now();
     }
     
+    
 
 
+  }
+
+  clientesConectados(){
+    $(document).ready(function(){
+      //console.log('Mostrar users')
+      $.ajax({
+      url: 'http://localhost:8080/clients',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        if(data.length){
+          var cadena = "Clientes conectados: \n"
+          for(var i = 0; i<data.length; i++){
+            cadena += "Cliente " + data[i].id + "\n";
+          }
+          clientList.setText(cadena);
+        }
+      });
+      }); 
   }
 
   activeUsers(){

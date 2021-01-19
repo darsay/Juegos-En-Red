@@ -349,15 +349,10 @@ export class Game extends Phaser.Scene {
 
 
 update(){
-  
 
-  if(Date.now()-prevTime > refreshTime){
-    this.activeUsers();
-    this.ping();
-    this.ping2();
-    updateNames();
-    prevTime = Date.now();
-  }
+  activeUsers();
+  ping();
+  updateNames();
 
 if(keys.M.isDown){
 this.disparar();

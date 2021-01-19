@@ -190,16 +190,15 @@ function comprobarClient(){
     method: 'GET',
     dataType: 'json'
     }).done(function(data) {
-      if(data.length >=2)
       //console.log(Date.now());
-      console.log(data[1].time);
+      //console.log(data[1].time);
       //console.log(Date.now() -data[1].time);
       if(data.length){
         for(var i = 0; i<=data.length-1; i++){
           
-          if((Date.now() - data[i].time) > 5000){
-            //deleteClient(data[i].id);
-            console.log("Se va a borrar");
+          if((Date.now() - data[i].time) > 5000 && data[i].time !=0){
+            deleteClient(data[i].id);
+            //console.log("Se va a borrar");
           }
         }
       }

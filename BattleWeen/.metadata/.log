@@ -1671,3 +1671,15 @@ This warning can be switched off on the Team > Git > Confirmations and Warnings 
 
 !ENTRY org.eclipse.ui 2 2 2021-01-19 17:40:22.357
 !MESSAGE Invalid property category path: org.springframework.ide.eclipse.beans.ui.properties.ProjectPropertyPage (bundle: org.springframework.ide.eclipse.xml.namespaces, propertyPage: org.springframework.ide.eclipse.beans.ui.namespaces.projectPropertyPage)
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-01-20 00:07:00.852
+!MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.gsBypGXo
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-01-20 00:07:00.853
+!MESSAGE unsubscribing from classpath changes: sts4.classpath.gsBypGXo
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-01-20 00:07:00.854
+!MESSAGE subsribers = {}
+
+!ENTRY org.springframework.tooling.ls.eclipse.commons 1 0 2021-01-20 00:07:00.855
+!MESSAGE ClasspathListenerHandler removeClasspathListener sts4.classpath.gsBypGXo => OK
