@@ -160,42 +160,6 @@ $(document).ready(function(){
 
 <body>
 
-    <div class = "signinchat">
-    
-      <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
-          
-          <div id = "login">
-            
-            <input  type="text" id="name" name = "name" placeholder="Username" >
-
-            <br>
-            <input type="password" id="pass" placeholder="Password">
-            <button onclick= "fn1(), signIn()" id= "btn"> Sign In</button>
-          </div>
-          <p id="activeplayers"></p>
-          <div class = "chat">
-
-            <div class = "chatbox" id="chatecito">
-            </div>
-
-            <div class = "write">
-              <input  type="text" id="message" placeholder="Escriba su mensaje">
-              <button onclick= "send()" id= "send"> Enviar</button>
-              <br>
-              <button onclick= "get2()" id= "btn">REFRESCAR CHAT</button>  
-            </div>
-          </div>
-
-          <br>
-
-    </div>
-
-    
- 
-
-
-  
-  
   <div id="header">
     <img src="assets/images/banner.png" alt="BattleWeen" ></img>
   </div>
@@ -208,6 +172,36 @@ $(document).ready(function(){
  <div id = "controles">
   <img src="assets/images/PantallaTuto.png" alt="BattleWeen" ></img>
  </div>
+<br>
+ <div class = "signinchat">
+    
+  <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
+      
+      <div id = "login">
+        
+        <input  type="text" id="name" name = "name" placeholder="Username" >
+
+        <br>
+        <input type="password" id="pass" placeholder="Password">
+        <button onclick= "fn1(), signIn()" id= "btn"> Sign In</button>
+      </div>
+      <p id="activeplayers"></p>
+      <div class = "chat">
+
+        <div class = "chatbox" id="chatecito">
+        </div>
+
+        <div class = "write">
+          <input  type="text" id="message" placeholder="Escriba su mensaje">
+          <button onclick= "send()" id= "send"> Enviar</button>
+          <br>
+          <button onclick= "get2()" id= "btn">REFRESCAR CHAT</button>  
+        </div>
+      </div>
+
+      <br>
+
+</div>
   
 </body>
 </html>

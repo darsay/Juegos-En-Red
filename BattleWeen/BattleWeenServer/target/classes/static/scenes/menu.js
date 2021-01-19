@@ -68,7 +68,7 @@ export class Menu extends Phaser.Scene {
     this.logo = this.add.image(400, 130, 'logo');
     this.logo.setScale(0.5);
     NumeroUsers= this.add.text(5,550, "Hay activos: " + 0, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
-    ServerStatus= this.add.text(400,550, "Servidor: Activo", { fontSize: '32px', fill: 'white', fontStyle:'bold' });
+    ServerStatus= this.add.text(400,550, "Servidor: Conectando...", { fontSize: '32px', fill: 'white', fontStyle:'bold' });
   }
 
   update(){
