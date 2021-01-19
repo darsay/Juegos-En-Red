@@ -14,10 +14,9 @@ body{
 }
 
 
-div.signinchat {
-    position: fixed;  
-    bottom: 0;
-    right: 0;
+div.signinchat { 
+    margin: auto;
+    width: 20%;
     background-color:#1c131d;
     padding: 5px;
     font-size: 20px;
@@ -26,11 +25,9 @@ div.signinchat {
 }
 
 .chatbox {
-    margin:0 auto;
     margin-bottom:2px;
     background:white;
     height:250px;
-    width:250px;
     border:1px solid #ACD8F0;
   }
 
