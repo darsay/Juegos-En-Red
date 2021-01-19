@@ -161,15 +161,15 @@ public class BattleWeenController {
     }
 
 	@PutMapping("clients/{id}")
-    public ResponseEntity<Cliente> actulizaCliente(@PathVariable long id, @RequestBody Cliente clienteActualizado) {
+    public ResponseEntity<User> actulizaCliente(@PathVariable long id, @RequestBody Cliente usuarioActualizado) {
 
         Cliente savedItem = clients.get(id);
 
         if (savedItem != null) {
-            clienteActualizado.setId(id);
-            clients.put(id, clienteActualizado);
+            usuarioActualizado.setId(id);
+            client.put(id, usuarioActualizado);
 
-            return new ResponseEntity<>(clienteActualizado, HttpStatus.OK);
+            return new ResponseEntity<>(usuarioActualizado, HttpStatus.OK);
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }

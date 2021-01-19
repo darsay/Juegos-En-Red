@@ -26,7 +26,12 @@ $(document).ready(function(){
 var NumeroUsers = "";
 var ServerStatus = "";
 
-var clientTime;
+
+var clientidx;
+var id;
+var refreshTime = 200;
+var prevTime = 0;
+
 
 export class Menu extends Phaser.Scene {
   constructor() {
@@ -58,17 +63,19 @@ export class Menu extends Phaser.Scene {
       });
       }); 
     
+    this.getId();
     this.musica= this.sound.add('intro');
     this.musica.setVolume(0.1);
-    this.musica.play();
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);
     this.botonPlay.create();
     this.botonTutorial.create();
     this.logo = this.add.image(400, 130, 'logo');
     this.logo.setScale(0.5);
-    NumeroUsers= this.add.text(5,550, "Hay activos: " + 0, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
-    ServerStatus= this.add.text(400,550, "Servidor: Conectando...", { fontSize: '32px', fill: 'white', fontStyle:'bold' });
+    NumeroUsers= this.add.text(5,600, "Hay activos: " + 0, { fontSize: '20px', fill: 'white', fontStyle:'bold' });
+    ServerStatus= this.add.text(550,600, "Servidor: Conectando...", { fontSize: '20px', fill: 'white', fontStyle:'bold' });
+
+      
   }
 
   update(){
@@ -76,8 +83,14 @@ export class Menu extends Phaser.Scene {
       this.musica.play();        
     }
     
-    this.activeUsers();
-    this.ping();
+    if(Date.now()-prevTime > refreshTime){
+      this.activeUsers();
+      this.ping();
+      this.ping2();
+      prevTime = Date.now();
+    }
+    
+
 
   }
 
@@ -90,8 +103,26 @@ export class Menu extends Phaser.Scene {
       dataType: 'json'
       }).done(function(data) {
         //console.log("hay los siguientes usuarios: " + data.length);
-        NumeroUsers.setText("Hay activos: " + data.length);
-        return data.length;
+        NumeroUsers.setText("Hay activos: " + data.length + " clientes.");
+      });
+      }); 
+  }
+
+  getId(){
+    $(document).ready(function(){
+      //console.log('Mostrar users')
+      $.ajax({
+      url: 'http://localhost:8080/clients',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        //console.log("hay los siguientes usuarios: " + data.length);
+        if(data.length){
+          clientidx = data.length-1;
+          id = data[clientidx].id;
+        }
+        console.log("Tu id es " + id);
+        console.log("Tu idx es " + clientidx);
       });
       }); 
   }
@@ -125,7 +156,6 @@ export class Menu extends Phaser.Scene {
 
       }).fail(function (data){
         ServerStatus.setText("Servidor: Desconectado");
-        this.deleteClient();
       });
       }); 
   }
@@ -141,36 +171,64 @@ export class Menu extends Phaser.Scene {
       dataType: 'json'
       }).done(function(data) {
 
-       // clientTime= a lo que sea;
-       //AQUI GUARDARIAS UN TIEMPO NUEVO CON EL THIS TIME NOW
-
-     
+        if(data.length){  
+          updateClientTime();
+          //console.log(data[clientidx].time)
+        }       
       });
       }); 
   }
+  
+}
 
-  //ESTO SERÍA LA FUNCION QUE COMPRUEBA EL TIEMPO QUE LLEVA SIN RESPONDER EL CLIENTE MAS O MENOS EN PSEUDOCODIGO
-
-  comprobarClient(){
-
-     clientTime;
-
-    if(this.time.now-clientTime > 1000) {
-
-
-    }else{ this.deleteClient(); }
-
-  }
-
-  //A ESTO SE LLAMA EN CUANTO EL CLIENTE LLEVE UN TIEMPO SIN MANDAR PETIS
-  deleteClient(){
+//ESTO SERÍA LA FUNCION QUE COMPRUEBA EL TIEMPO QUE LLEVA SIN RESPONDER EL CLIENTE MAS O MENOS EN PSEUDOCODIGO
+function comprobarClient(){
+  $(document).ready(function(){
+    
     $.ajax({
-      url: ('http://localhost:8080/clients/' + clientId),
-      method: 'DELETE',
-      dataType: 'json'
-      }).done(function(data) {
-        console.log('Usuario '+clientId+' borrado')
+    url: 'http://localhost:8080/clients',
+    method: 'GET',
+    dataType: 'json'
+    }).done(function(data) {
+      //console.log(Date.now());
+      //console.log(data[1].time);
+      //console.log(Date.now() -data[1].time);
+      if(data.length){
+        for(var i = 0; i<=data.length-1; i++){
+          
+          if((Date.now() - data[i].time) > 5000 && data[i].time !=0){
+            deleteClient(data[i].id);
+            //console.log("Se va a borrar");
+          }
+        }
+      }
+    });
+    }); 
 
-      }); 
-  }
+}
+
+//A ESTO SE LLAMA EN CUANTO EL CLIENTE LLEVE UN TIEMPO SIN MANDAR PETIS
+function deleteClient(idborrar){
+  $.ajax({
+    url: ('http://localhost:8080/clients/' + idborrar),
+    method: 'DELETE',
+    dataType: 'json'
+    }).done(function(data) {
+      console.log('Cliente '+ idborrar +' borrado')
+
+    }); 
+}
+
+function updateClientTime(){
+  $(document).ready(function() {
+    let data = {"time": Date.now()}
+  $.ajax({
+      type: 'PUT',
+      url: ('http://localhost:8080/clients/' + id),
+      contentType: 'application/json',
+      data: JSON.stringify(data), // access in body
+  }).done(function () {
+    comprobarClient();
+  });
+  });
 }

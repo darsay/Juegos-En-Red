@@ -1,4 +1,6 @@
 var player1;
+var name1;
+var name2;
 var player2;
 var collider1;
 var collider2;
@@ -23,6 +25,9 @@ var collider2;
       
         var CanSume;
         var CanSume2;
+
+        var NumeroUsers = "";
+        var ServerStatus = "";
 export class Game extends Phaser.Scene {
 
   constructor() {
@@ -205,6 +210,10 @@ export class Game extends Phaser.Scene {
     
     NumeroVida= this.add.text(50,5,'P1 Hp: ' + hp1, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
     NumeroVida2= this.add.text(595,5,'P2 Hp: ' + hp2, { fontSize: '32px', fill: 'white', fontStyle:'bold' });
+    NumeroUsers= this.add.text(5,600, "Hay activos: " + 0, { fontSize: '20px', fill: 'white', fontStyle:'bold' });
+    ServerStatus= this.add.text(550,600, "Servidor: Conectando...", { fontSize: '20px', fill: 'white', fontStyle:'bold' });
+    name1 = this.add.text(0,0, "Jugador 1", { fontSize: '15px', fill: 'white', fontStyle:'bold' });
+    name2 = this.add.text(0,0, "Jugador 2", { fontSize: '15px', fill: 'white', fontStyle:'bold' });
 /////////////////////////////////////////////////////////////////
      
      
@@ -340,7 +349,9 @@ export class Game extends Phaser.Scene {
 
 
 update(){
-
+  activeUsers();
+  ping();
+  updateNames();
 
 if(keys.M.isDown){
 this.disparar();
@@ -433,7 +444,8 @@ if((hp1<=0 || hp2<=0) ){
     
   }
   
-
+  
+  
  /* 
  if(this.Level1<=4){
    this.Level1++
@@ -534,7 +546,8 @@ gameOver(){
               break;
               }
         }
-
+        name2.x = player2.x - 30;
+        name2.y = player2.y - 40;
 }  
 
 
@@ -547,6 +560,8 @@ gameOver(){
     collider1.setVelocityY(0);
     player1.x = collider1.x;
     player1.y = collider1.y-7;
+    console.log(name1.x);
+    console.log(name2.y);
 
       player1.anims.play('left', true);
       playerLookingAt = 1;
@@ -611,7 +626,8 @@ else if(cursors.down.isDown)
                 break;
                 }
         }
-
+        name1.x = player1.x - 30;
+        name1.y = player1.y - 40;
 }
 
  disparar(){
@@ -785,6 +801,57 @@ function collectRandom2(player, item)
    }
    function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+  }
+
+  function activeUsers(){
+    $(document).ready(function(){
+      //console.log('Mostrar users')
+      $.ajax({
+      url: 'http://localhost:8080/clients',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        //console.log("hay los siguientes usuarios: " + data.length);
+        NumeroUsers.setText("Hay activos: " + data.length);
+      });
+      }); 
+  }
+
+  function updateNames(){
+    $(document).ready(function(){
+      //console.log('Mostrar users')
+      $.ajax({
+      url: 'http://localhost:8080/users',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        if(data.length){
+          name1.setText(data[0].name);
+          console.log(data[0].name);
+          if(data.length >= 2){
+            name2.setText(data[1].name);
+            console.log(data[1].name);
+          }
+        }
+      });
+      }); 
+  }
+
+  function ping(){
+    $(document).ready(function(){
+      
+      $.ajax({
+      url: 'http://localhost:8080/clients',
+      method: 'GET',
+      dataType: 'json'
+      }).done(function(data) {
+        ServerStatus.setText("Servidor: Activo");
+
+      }).fail(function (data){
+        ServerStatus.setText("Servidor: Desconectado");
+        this.deleteClient();
+      });
+      }); 
   }
 
   

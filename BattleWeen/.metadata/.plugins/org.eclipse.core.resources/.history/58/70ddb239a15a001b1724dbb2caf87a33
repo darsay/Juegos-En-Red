@@ -5,6 +5,7 @@ public class Cliente {
 	private long time;
 	
 	Cliente(){
+		time = 0;
 	}
 	
 	public long getTime() {

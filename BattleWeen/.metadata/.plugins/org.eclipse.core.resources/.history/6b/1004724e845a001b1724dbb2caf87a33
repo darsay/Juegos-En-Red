@@ -2,16 +2,16 @@ package es.urjc.JER.BattleWeenServer;
 
 public class Cliente {
 	private long id;
-	private long time;
+	private float time;
 	
-	Cliente(){
+	Cliente(){	
 	}
 	
-	public long getTime() {
+	public float getTime() {
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(float time) {
 		this.time = time;
 	}
 

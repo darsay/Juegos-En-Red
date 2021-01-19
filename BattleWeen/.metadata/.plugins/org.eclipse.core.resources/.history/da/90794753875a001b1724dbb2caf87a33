@@ -5,13 +5,14 @@ public class Cliente {
 	private long time;
 	
 	Cliente(){
+		time = 0;
 	}
 	
-	public long getTime() {
+	public float getTime() {
 		return time;
 	}
 
-	public void setTime(long time) {
+	public void setTime(float time) {
 		this.time = time;
 	}
 

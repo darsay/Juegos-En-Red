@@ -161,7 +161,7 @@ public class BattleWeenController {
     }
 
 	@PutMapping("clients/{id}")
-    public ResponseEntity<Cliente> actulizaCliente(@PathVariable long id, @RequestBody Cliente clienteActualizado) {
+    public ResponseEntity<User> actulizaCliente(@PathVariable long id, @RequestBody Cliente clienteActualizado) {
 
         Cliente savedItem = clients.get(id);
 

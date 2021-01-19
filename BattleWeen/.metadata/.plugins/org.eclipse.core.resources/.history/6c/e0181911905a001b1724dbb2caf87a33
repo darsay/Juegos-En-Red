@@ -160,21 +160,6 @@ public class BattleWeenController {
         }
     }
 
-	@PutMapping("clients/{id}")
-    public ResponseEntity<Cliente> actulizaCliente(@PathVariable long id, @RequestBody Cliente clienteActualizado) {
-
-        Cliente savedItem = clients.get(id);
-
-        if (savedItem != null) {
-            clienteActualizado.setId(id);
-            clients.put(id, clienteActualizado);
-
-            return new ResponseEntity<>(clienteActualizado, HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-    }
-	
 	@GetMapping("users/all")
 	public void getAllUsers(){
 		ArrayList<User> usuarios = readFileUsers();

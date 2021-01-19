@@ -1,5 +1,3 @@
-
-
 <!DOCTYPE html>
 
 <html lang="en">
@@ -47,8 +45,6 @@
       method: 'GET',
       dataType: 'json'
       }).done(function(data) {
-      console.log(data);
-      console.log(data.length)
       document.getElementById("activeplayers").innerHTML = "Bienvenido " + namePlayer + ". Hay " + data.length + " jugadores activos.";
       }).fail(function() {
        console.log( "error" );
@@ -80,10 +76,10 @@ $(document).ready(function(){
   }
   
   document.getElementById("chatecito").innerHTML=chatlog;
+
   if(logged){
     get();
   }
-  console.log(logged);
 
   
   }).fail(function() {
@@ -175,11 +171,7 @@ $(document).ready(function(){
   <script src="//cdn.jsdelivr.net/npm/phaser@3.24.0/dist/phaser.js"></script>
   <script src="index.js" type="module"></script>
  </div>
-
- <div id = "controles">
-  <img src="assets/images/PantallaTuto.png" alt="BattleWeen" ></img>
- </div>
-<br>
+ <br>
  <div class = "signinchat">
     
   <img src="assets/images/logo.png" alt="BattleWeen" class = "minilogo">
@@ -207,6 +199,13 @@ $(document).ready(function(){
       <br>
 
 </div>
-  
+ 
+<br>
+
+ <div id = "controles">
+  <img src="assets/images/PantallaTuto.png" alt="BattleWeen" ></img>
+ </div>
+
+ 
 </body>
 </html>
