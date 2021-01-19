@@ -33,6 +33,3 @@ const config = {
 }
 
 var game = new Phaser.Game(config);
-
-game.config.idx = 0;
-game.config.id = 0;
