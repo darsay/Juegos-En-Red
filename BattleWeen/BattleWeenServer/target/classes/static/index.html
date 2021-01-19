@@ -76,13 +76,12 @@ $(document).ready(function(){
   }
 
   if(data.length){
-    chateo = data[data.length-1].user+ " : " +data[data.length-1].mensaje+" <br/>";
+    chateo = data[data.length-1].user+ " : " +data[data.length-1].mensaje + " <br/>";
   }
   
   document.getElementById("chatecito").innerHTML=chatlog;
-  console.log(data.length);
   if(logged){
-    document.getElementById("activeplayers").innerHTML = "Bienvenido " + namePlayer + ". Hay " + data.length + " jugadores activos.";
+    get();
   }
   console.log(logged);
 
