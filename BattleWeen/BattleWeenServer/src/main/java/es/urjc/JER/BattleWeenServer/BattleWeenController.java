@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicLong;
@@ -54,9 +55,6 @@ public class BattleWeenController {
 	@PostMapping(value="/users")
 	@ResponseStatus(HttpStatus.CREATED)
 	public User nuevoUsuario(@RequestBody User usuario) {
-		long id = nextId.incrementAndGet();
-		usuario.setId(id);
-		users.put(id, usuario);
 		saveUser(usuario);
 
 		return usuario;
@@ -161,6 +159,16 @@ public class BattleWeenController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }
+
+	@GetMapping("users/all")
+	public void getAllUsers(){
+		ArrayList<User> usuarios = readFileUsers();
+		Iterator<User> it = usuarios.iterator();
+		while(it.hasNext()) {
+			User temp = it.next();
+			System.out.println(temp.toString());
+		}
+	}
 	
 	
 	@SuppressWarnings("unused")
@@ -168,7 +176,10 @@ public class BattleWeenController {
          ArrayList<User> usuarios = new ArrayList<User>();
          File file = new File("users.txt");
          if(!file.exists()){
-             ObjectOutputStream objectOut;
+        	long id = 1;
+     		usuario.setId(id);
+     		users.put(id, usuario);
+            ObjectOutputStream objectOut;
             try {
                 objectOut = new ObjectOutputStream(new FileOutputStream("users.txt"));
                 usuarios.add(usuario);
@@ -182,13 +193,15 @@ public class BattleWeenController {
              try {
                 ois = new ObjectInputStream(new FileInputStream("users.txt"));
                 usuarios = (ArrayList<User>) ois.readObject();
+                long id = usuarios.get(usuarios.size()-1).getId() + 1;
+                usuario.setId(id);
+         		users.put(id, usuario);
                 try {
                     ois.close();
                     ObjectOutputStream objectOut;
                     try {
                         objectOut = new ObjectOutputStream(new FileOutputStream("users.txt"));
                         usuarios.add(usuario);
-                        System.out.println(usuarios.toString());
                         objectOut.writeObject(usuarios);
                         objectOut.close();
                     } catch (FileNotFoundException e) {
@@ -200,5 +213,17 @@ public class BattleWeenController {
             }   
          }
     } 
+
+	public ArrayList<User> readFileUsers(){
+		ArrayList<User> usuarios = new ArrayList<User>();
+		ObjectInputStream ois;
+            try {
+                ois = new ObjectInputStream(new FileInputStream("users.txt"));
+                usuarios = (ArrayList<User>) ois.readObject();
+				ois.close();
+            } catch (Exception e1) {
+            }  
+		return usuarios;
+	}
 	
 }
