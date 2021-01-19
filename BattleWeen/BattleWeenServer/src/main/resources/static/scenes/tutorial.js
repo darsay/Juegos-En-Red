@@ -1,7 +1,5 @@
 import { boton } from "../components/boton.js";
 
-var refreshTime = 200;
-var prevTime = 0;
 
 export class Tutorial extends Phaser.Scene {
   constructor() {
@@ -34,14 +32,6 @@ export class Tutorial extends Phaser.Scene {
 
   }
 
-  update(){
-    if(Date.now()-prevTime > refreshTime){
-      this.activeUsers();
-      this.ping();
-      this.ping2();
-      prevTime = Date.now();
-    }
-  }
 
 
 }
