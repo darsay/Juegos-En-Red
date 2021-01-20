@@ -65,8 +65,6 @@ export class Menu extends Phaser.Scene {
       }); 
     
     this.getId();
-    this.musica= this.sound.add('intro');
-    this.musica.setVolume(0.1);
     this.background = this.add.image(410, 280, 'background');
     this.background.setScale(2);
     this.botonPlay.create();
@@ -81,9 +79,6 @@ export class Menu extends Phaser.Scene {
   }
 
   update(){
-    if(!this.sound.get('intro').isPlaying){
-      this.musica.play();        
-    }
     
     if(Date.now()-prevTime > refreshTime){
       this.activeUsers();
