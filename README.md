@@ -96,3 +96,12 @@ La mayoría de cosas que propusimos se han podido realizar. Sin embargo, caben d
 * Solo han sido implementados dos jugadores, pero en cuanto se permita el juego online, nuestro objetivo es permitir hasta 4 jugadores.
 * Cada personaje no tiene ningún tipo de particularidad, cosa que se desarrollará conforme el juego avance.
 * Un menú de ajustes para ajustar temas como puede ser el sonido y accesibilidad.
+
+### 11. Diagrama de clases API REST
+![title](Capturas/DiagramaClases.png)
+
+### 12. Cómo ejecutar.
+1. Primero de todo, hay que iniciar el servidor. Para ello, se ha de ejecutar el .jar ejecutando "BattleWeenServerAplication.java" como
+Java Aplication.
+2. Tras esto, hay que acceder al servidor local ya sea copiando http://127.0.0.1:8887 en el navegador, o desde programas como Web Server
+For Chrome.
