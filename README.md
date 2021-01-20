@@ -105,3 +105,6 @@ La mayoría de cosas que propusimos se han podido realizar. Sin embargo, caben d
 Java Aplication.
 2. Tras esto, hay que acceder al servidor local ya sea copiando http://127.0.0.1:8887 en el navegador, o desde programas como Web Server
 For Chrome.
+
+Aviso: Es recomendable tener ambas ventanas de juego simultáneamente. Si no, puede que no se actualice el tiempo de actualización y de
+lugar a errores.
