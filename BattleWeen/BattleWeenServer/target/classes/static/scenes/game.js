@@ -28,6 +28,7 @@ var collider2;
 
         var NumeroUsers = "";
         var ServerStatus = "";
+        var currentTime = 0;
 export class Game extends Phaser.Scene {
 
   constructor() {
@@ -90,7 +91,6 @@ export class Game extends Phaser.Scene {
 
    //Para la musica del menu de inicio
    this.sound.stopAll();
-    this.sound.get('intro').stop();
 
     this.musica= this.sound.add('GameMusic');
     this.musica.setVolume(0.03);
@@ -349,10 +349,13 @@ export class Game extends Phaser.Scene {
 
 
 update(){
-
+if(Date.now() - 300 > currentTime){
   activeUsers();
   ping();
   updateNames();
+  currentTime = Date.now();
+}
+  
 
 if(keys.M.isDown){
 this.disparar();
