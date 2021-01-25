@@ -19,9 +19,9 @@ export class Game extends Phaser.Scene {
   }
 
    preload(){
-    this.load.spritesheet('scenery', 'assets/images/scenery.png',{ frameWidth: 17, frameHeight: 17});
-    this.load.spritesheet('player1', 'assets/images/players.png',{ frameWidth: 46.8, frameHeight: 48});
-    this.load.image('ground', 'assets/images/ground.png');
+    this.load.spritesheet('scenery', 'assets/scenery.png',{ frameWidth: 17, frameHeight: 17});
+    this.load.spritesheet('player1', 'assets/players.png',{ frameWidth: 46.8, frameHeight: 48});
+    this.load.image('ground', 'assets/ground.png');
 }
 
  create(){
@@ -54,7 +54,7 @@ export class Game extends Phaser.Scene {
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
-        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   5,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
+        [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
         [  3,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,   -1,    3],
@@ -129,7 +129,6 @@ export class Game extends Phaser.Scene {
             player1.anims.play('left', true);
             playerLookingAt = "down";
         }
-        
     else if (cursors.right.isDown)
         {
             player1.setVelocityX(160);
