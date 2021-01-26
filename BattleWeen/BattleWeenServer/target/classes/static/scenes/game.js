@@ -28,7 +28,32 @@ var collider2;
 
         var NumeroUsers = "";
         var ServerStatus = "";
+<<<<<<< Updated upstream
         var currentTime = 0;
+=======
+
+        var connection;
+
+        $(document).ready(function() {
+          
+           connection = new WebSocket('ws://127.0.0.1:8080/prueba');
+          connection.onerror = function(e) {
+            console.log("WS error: " + e);
+          }
+          connection.onmessage = function(data) {
+            console.log("WS message: " + data);
+          
+          }
+          connection.onclose = function() {
+            console.log("Closing socket");
+          }
+        
+         
+          
+        
+        })
+
+>>>>>>> Stashed changes
 export class Game extends Phaser.Scene {
 
   constructor() {
@@ -84,6 +109,9 @@ export class Game extends Phaser.Scene {
 }
 
  create(data){
+
+  
+
    Level = data.id;
    V1 =data.vic1;
    V2= data.vic2;
@@ -349,6 +377,7 @@ export class Game extends Phaser.Scene {
 
 
 update(){
+<<<<<<< Updated upstream
 if(Date.now() - 300 > currentTime){
   activeUsers();
   ping();
@@ -357,6 +386,15 @@ if(Date.now() - 300 > currentTime){
 }
   
 
+=======
+
+  activeUsers();
+  ping();
+  updateNames();
+
+  
+
+>>>>>>> Stashed changes
 if(keys.M.isDown){
 this.disparar();
 }
@@ -481,6 +519,10 @@ gameOver(){
    
       if (keys.A.isDown)
         {
+          
+              
+              connection.send(player2.x);
+          
             collider2.setVelocityX(-speed2);
             collider2.setVelocityY(0);
             player2.x = collider2.x;
