@@ -65,11 +65,11 @@ $(document).ready(function () {
     }
     else if (host==1){
         console.log('Soy Host');
-        messageHost(parsedData);
+        //messageHost(parsedData);
     }
     else{
       console.log('No soy Host');
-        messageHost(parsedData);
+        //messageHost(parsedData);
     
     }
     }
@@ -651,11 +651,8 @@ export class Game extends Phaser.Scene {
 
 
 
-function messageHost(parsedData) {
-  player2.x = parsedData.position.x;
-  player2.y = parsedData.position.y;
+//function messageHost(parsedData) {}
 
-}
 function movimiento2() {
   if (keys.A.isDown) {
    
@@ -728,14 +725,12 @@ function movimiento2() {
     }
   });
  */
-  if(isSocketOpen && isGameStarted){
+ 
     connection.send(JSON.stringify({
-      position: {
-        x: player2.x,
-        y: player2.y,
+      mensaje: "Me estoy moviendo "+player2.x
       }
-    }));
-}
+    ));
+
 }
 
 function movimiento1() {

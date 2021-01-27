@@ -45,21 +45,18 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
 				System.out.println("Message received: " + message.getPayload());
-//				JsonNode node = mapper.readTree(message.getPayload());
-//				int id = Integer.parseInt(session.getId());
-//				sendOtherParticipants(session, node,id);
+				JsonNode node = mapper.readTree(message.getPayload());
+			
+			sendOtherParticipants(session, node);
 	}
 
-	private void sendOtherParticipants(WebSocketSession session, JsonNode node, int id) throws IOException {
+	private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
 
-		//System.out.println("Message sent: " + node.toString());
+		System.out.println("Message sent: " + node.toString());
 		
 		ObjectNode newNode = mapper.createObjectNode();
-        ObjectNode positionNode = mapper.createObjectNode();
         
-        positionNode.put("x", node.get("position").get("x").asText());
-        positionNode.put("y", node.get("position").get("y").asText());
-        newNode.put("position", positionNode.asText());
+        newNode.put("mensaje", node.get("mensaje").asText());
 
 		
 		for(WebSocketSession participant : sessions.values()) {
