@@ -36,7 +36,7 @@ var connection;
 var isSocketOpen 
     var isGameStarted 
 
-    var host;
+    var host=0;
 
 $(document).ready(function () {
   connection = new WebSocket("ws://127.0.0.1:8080/prueba");
@@ -65,14 +65,19 @@ $(document).ready(function () {
     }
     else if (host==1){
         console.log('Soy Host');
-        //messageHost(parsedData);
+        messageHost(parsedData);
     }
     else{
       console.log('No soy Host');
-        //messageHost(parsedData);
+        messageHost(parsedData);
     
     }
     }
+
+    function messageHost(parsedData) {
+      player2.x = parsedData.x;
+      player2.y = parsedData.y;
+  }
   
 });
 
@@ -138,10 +143,11 @@ export class Game extends Phaser.Scene {
 
   create(data) {
 
-   
-      connection.send( JSON.stringify({
+    console.log(isSocketOpen);
+    console.log(isGameStarted);
+     /*  connection.send( JSON.stringify({
         mensaje: "Enviado"
-      }));
+      })); */
   
 
     Level = data.id;
@@ -468,7 +474,7 @@ export class Game extends Phaser.Scene {
       this.disparar2();
     }
 
-    movimiento2();
+    //movimiento2();
     movimiento1();
 
     // GAME OVER
@@ -651,7 +657,7 @@ export class Game extends Phaser.Scene {
 
 
 
-//function messageHost(parsedData) {}
+
 
 function movimiento2() {
   if (keys.A.isDown) {
@@ -726,10 +732,7 @@ function movimiento2() {
   });
  */
  
-    connection.send(JSON.stringify({
-      mensaje: "Me estoy moviendo "+player2.x
-      }
-    ));
+    
 
 }
 
@@ -739,8 +742,8 @@ function movimiento1() {
     collider1.setVelocityY(0);
     player1.x = collider1.x;
     player1.y = collider1.y - 7;
-    console.log(name1.x);
-    console.log(name2.y);
+    //console.log(name1.x);
+    //console.log(name2.y);
 
     player1.anims.play("left", true);
     playerLookingAt = 1;
@@ -794,6 +797,12 @@ function movimiento1() {
   }
   name1.x = player1.x - 30;
   name1.y = player1.y - 40;
+
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y
+    }
+  ));
 }
 
 function rompeBala(ball, muro) {

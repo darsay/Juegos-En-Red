@@ -22,15 +22,23 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
 	@Override
 	public void afterConnectionEstablished(WebSocketSession session) throws Exception {
 		System.out.println("New user: " + session.getId());
+		 ObjectNode ready = mapper.createObjectNode();
+		 ready.put("isready", "1");
+		 ObjectNode host = mapper.createObjectNode();
+		 host.put("ishost", "0");
+		
+		if(sessions.isEmpty()) {
 				sessions.put(session.getId(), session);
-//		                int id2 = Integer.parseInt(session.getId());
-//		                int id1=-1;
-		                ObjectNode ready = mapper.createObjectNode();
-		                ready.put("isready", "1");
-		                ObjectNode host = mapper.createObjectNode();
-		                host.put("ishost", "1");
+                host.put("ishost", "1");
+				
+			}else { sessions.put(session.getId(), session); }
+				
+		               
+		                //System.out.println("Probando: " + ready.toString()); 
+		                System.out.println("Probando: " + host.toString());   
 		                
-		           
+		                session.sendMessage(new TextMessage(ready.toString()));
+		                session.sendMessage(new TextMessage(host.toString()));
 	}
 	
 	@Override
@@ -44,7 +52,7 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
 	@Override
 	protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 		
-				System.out.println("Message received: " + message.getPayload());
+				//System.out.println("Message received: " + message.getPayload());
 				JsonNode node = mapper.readTree(message.getPayload());
 			
 			sendOtherParticipants(session, node);
@@ -52,11 +60,12 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
 
 	private void sendOtherParticipants(WebSocketSession session, JsonNode node) throws IOException {
 
-		System.out.println("Message sent: " + node.toString());
+		//System.out.println("Message sent: " + node.toString());
 		
 		ObjectNode newNode = mapper.createObjectNode();
         
-        newNode.put("mensaje", node.get("mensaje").asText());
+        newNode.put("x", node.get("x").asText());
+        newNode.put("y", node.get("y").asText());
 
 		
 		for(WebSocketSession participant : sessions.values()) {
