@@ -38,6 +38,8 @@ var isSocketOpen
 
     var host=0;
 
+    var currentPlayerAnimation;
+
 $(document).ready(function () {
   connection = new WebSocket("ws://127.0.0.1:8080/prueba");
   connection.onerror = function (e) {
@@ -55,7 +57,7 @@ $(document).ready(function () {
     }
 
   connection.onmessage = function (data) {
-    console.log('Mensaje recibido: '+data.data);
+    //console.log('Mensaje recibido: '+data.data);
     var parsedData = JSON.parse(data.data);
     if(parsedData.ishost==1){
         host = 1;
@@ -64,19 +66,30 @@ $(document).ready(function () {
         isGameStarted = true;
     }
     else if (host==1){
-        console.log('Soy Host');
+        //console.log('Soy Host');
         messageHost(parsedData);
     }
     else{
-      console.log('No soy Host');
+     // console.log('No soy Host');
         messageHost(parsedData);
     
     }
     }
 
     function messageHost(parsedData) {
-      player2.x = parsedData.x;
-      player2.y = parsedData.y;
+
+      var xTemp = 785;
+      var yTemp=  554;
+
+       xTemp = parsedData.x;
+       yTemp=  parsedData.y;
+
+
+      player2.x = xTemp;
+      player2.y = yTemp;
+      name2.x = player2.x - 30;
+      name2.y = player2.y - 40; 
+      player2.anims.play(parsedData.animation);
   }
   
 });
@@ -271,8 +284,17 @@ export class Game extends Phaser.Scene {
     collider1 = this.physics.add.sprite(70, 70, "collider");
     collider2 = this.physics.add.sprite(785, 554, "collider");
 
-    player1 = this.physics.add.sprite(70, 70, "brujaSp");
-    player2 = this.physics.add.sprite(785, 554, "zombieSp");
+    if(host==1){
+      player1 = this.physics.add.sprite(70, 70, "brujaSp");
+      player2 = this.physics.add.sprite(785, 554, "zombieSp");
+
+    }else {
+      player1 = this.physics.add.sprite(785, 554, "zombieSp");
+      player2 = this.physics.add.sprite(70, 70, "brujaSp");
+    }
+
+    //player1 = this.physics.add.sprite(70, 70, "brujaSp");
+    //player2 = this.physics.add.sprite(785, 554, "zombieSp");
     player1.setScale(1);
     player2.setScale(1);
     speed1 = 160;
@@ -474,8 +496,13 @@ export class Game extends Phaser.Scene {
       this.disparar2();
     }
 
-    //movimiento2();
-    movimiento1();
+    if(host==1){
+	
+	 movimientoHost();
+	}else{
+	 movimientoClient();
+	}
+   
 
     // GAME OVER
     if (hp1 <= 0 || hp2 <= 0) {
@@ -597,7 +624,15 @@ export class Game extends Phaser.Scene {
   }
   //FIN UPDATE
 
-  updateHost() {}
+  updateHost() {
+
+
+
+
+
+
+
+  }
 
   updateClient() {}
 
@@ -736,7 +771,8 @@ function movimiento2() {
 
 }
 
-function movimiento1() {
+function movimientoHost() {
+	currentPlayerAnimation='down';
   if (cursors.left.isDown) {
     collider1.setVelocityX(-speed1);
     collider1.setVelocityY(0);
@@ -746,7 +782,9 @@ function movimiento1() {
     //console.log(name2.y);
 
     player1.anims.play("left", true);
+    currentPlayerAnimation= 'left';
     playerLookingAt = 1;
+
   } else if (cursors.right.isDown) {
     collider1.setVelocityX(speed1);
     collider1.setVelocityY(0);
@@ -754,7 +792,9 @@ function movimiento1() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("right", true);
+    currentPlayerAnimation= 'right';
     playerLookingAt = 2;
+    
   } else if (cursors.up.isDown) {
     collider1.setVelocityY(-speed1);
     collider1.setVelocityX(0);
@@ -762,6 +802,7 @@ function movimiento1() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("up", true);
+    currentPlayerAnimation= 'up';
     playerLookingAt = 3;
   } else if (cursors.down.isDown) {
     collider1.setVelocityY(speed1);
@@ -770,6 +811,7 @@ function movimiento1() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("down", true);
+    currentPlayerAnimation= 'down';
     playerLookingAt = 4;
   } else {
     collider1.setVelocityY(0);
@@ -800,7 +842,82 @@ function movimiento1() {
 
   connection.send(JSON.stringify({
     x: player1.x,
-    y: player1.y
+    y: player1.y,
+	animation: currentPlayerAnimation
+    }
+  ));
+}
+function movimientoClient() {
+	currentPlayerAnimation='keyD';
+  if (cursors.left.isDown) {
+    collider1.setVelocityX(-speed1);
+    collider1.setVelocityY(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y - 7;
+    //console.log(name1.x);
+    //console.log(name2.y);
+
+    player1.anims.play("keyA", true);
+    currentPlayerAnimation= 'keyA';
+    playerLookingAt = 1;
+  } else if (cursors.right.isDown) {
+    collider1.setVelocityX(speed1);
+    collider1.setVelocityY(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y - 7;
+
+    player1.anims.play("keyD", true);
+    currentPlayerAnimation= 'keyD';
+    playerLookingAt = 2;
+  } else if (cursors.up.isDown) {
+    collider1.setVelocityY(-speed1);
+    collider1.setVelocityX(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y - 7;
+
+    player1.anims.play("keyW", true);
+    currentPlayerAnimation= 'keyD';
+    playerLookingAt = 3;
+  } else if (cursors.down.isDown) {
+    collider1.setVelocityY(speed1);
+    collider1.setVelocityX(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y - 7;
+
+    player1.anims.play("keyS", true);
+    currentPlayerAnimation= 'keyS';
+    playerLookingAt = 4;
+  } else {
+    collider1.setVelocityY(0);
+    collider1.setVelocityX(0);
+    player1.x = collider1.x;
+    player1.y = collider1.y - 7;
+    switch (playerLookingAt) {
+      case 1:
+        player1.anims.play("keyA", true);
+        player1.anims.stop("keyA", true);
+        break;
+      case 2:
+        player1.anims.play("keyD", true);
+        player1.anims.stop("keyD", true);
+        break;
+      case 3:
+        player1.anims.play("KeyW", true);
+        player1.anims.stop("KeyW", true);
+        break;
+      case 4:
+        player1.anims.play("keyS", true);
+        player1.anims.stop("keyS", true);
+        break;
+    }
+  }
+  name1.x = player1.x - 30;
+  name1.y = player1.y - 40;
+
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y,
+    animation: currentPlayerAnimation,
     }
   ));
 }
