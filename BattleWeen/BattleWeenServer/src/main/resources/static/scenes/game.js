@@ -33,15 +33,59 @@ var currentTime = 0;
 
 var connection;
 
+var isSocketOpen 
+    var isGameStarted 
 
+    var host=0;
+
+$(document).ready(function () {
+  connection = new WebSocket("ws://127.0.0.1:8080/prueba");
+  connection.onerror = function (e) {
+    console.log("WS error: " + e);
+  };
+  connection.onclose = function () {
+    console.log("Closing socket");
+  };
+
+    isSocketOpen = false;
+     isGameStarted = false;
+    connection.onopen = function(){
+        console.log('Hola')
+        isSocketOpen = true;
+    }
+
+  connection.onmessage = function (data) {
+    console.log('Mensaje recibido: '+data.data);
+    var parsedData = JSON.parse(data.data);
+    if(parsedData.ishost==1){
+        host = 1;
+    }
+    else if(parsedData.isready == 1){               
+        isGameStarted = true;
+    }
+    else if (host==1){
+        console.log('Soy Host');
+        messageHost(parsedData);
+    }
+    else{
+      console.log('No soy Host');
+        messageHost(parsedData);
+    
+    }
+    }
+
+    function messageHost(parsedData) {
+      player2.x = parsedData.x;
+      player2.y = parsedData.y;
+  }
+  
+});
 
 export class Game extends Phaser.Scene {
   constructor() {
     super({ key: "game" });
   }
-  
-  
-  
+
   init(data) {
     this.id = data.id;
   }
@@ -98,6 +142,14 @@ export class Game extends Phaser.Scene {
   } ////////////////////// FIN PRELOAD///////////////////////////////
 
   create(data) {
+
+    console.log(isSocketOpen);
+    console.log(isGameStarted);
+     /*  connection.send( JSON.stringify({
+        mensaje: "Enviado"
+      })); */
+  
+
     Level = data.id;
     V1 = data.vic1;
     V2 = data.vic2;
@@ -422,7 +474,7 @@ export class Game extends Phaser.Scene {
       this.disparar2();
     }
 
-    movimiento2();
+    //movimiento2();
     movimiento1();
 
     // GAME OVER
@@ -438,7 +490,7 @@ export class Game extends Phaser.Scene {
         },
         [],
         this
-      )
+      );
 
       if (hp1 > hp2 && CanSume == false) {
         V1++;
@@ -527,7 +579,7 @@ export class Game extends Phaser.Scene {
         }
       }
 
-                /* 
+      /* 
           if(this.Level1<=4){
             this.Level1++
             this.Level1= this.Level1 + 1;
@@ -545,17 +597,11 @@ export class Game extends Phaser.Scene {
   }
   //FIN UPDATE
 
-  updateHost(){}
+  updateHost() {}
 
-  updateClient(){}
+  updateClient() {}
 
-  
-
-
-
-  
   gameOver() {}
-
 
   disparar() {
     if (this.time.now > shootTime1) {
@@ -608,52 +654,14 @@ export class Game extends Phaser.Scene {
   }
 }
 
-$(document).ready(function () {
-  connection = new WebSocket("ws://127.0.0.1:8080/prueba");
-  connection.onerror = function (e) {
-    console.log("WS error: " + e);
-  };
-  connection.onmessage = function (data) {
-    console.log("WS message: " + data);
-  };
-  connection.onclose = function () {
-    console.log("Closing socket");
-  };
 
-connection.onmessage = function(data){
-  var parsedData = JSON.parse(data.data);
-  if(parsedData.ishost==1){
-      host = 1;
-  }
-  
-  else if (host==1){
-      messageHost(parsedData);
-  }
-  else{
-      messageHost(parsedData);
-  
-  }
 
-  
-}
 
-function messageHost(parsedData){
-  
- player2.x = parsedData.position.x;
- player2.y = parsedData.position.y;
 
-}
+
 function movimiento2() {
   if (keys.A.isDown) {
-    
-    var webSocketData =JSON.stringify({
-      position:{
-          x: player.position.x,
-          y: player.position.y
-      }
-    });
-
-    connection.send(webSocketData);
+   
 
     collider2.setVelocityX(-speed2);
     collider2.setVelocityY(0);
@@ -713,6 +721,19 @@ function movimiento2() {
   }
   name2.x = player2.x - 30;
   name2.y = player2.y - 40;
+
+  var datospos = JSON.stringify({ x: player2.x, y: player2.y }); 
+  //console.log(datospos);
+  /* var webSocketData = JSON.stringify({
+    position: {
+      x: player2.x,
+      y: player2.y,
+    }
+  });
+ */
+ 
+    
+
 }
 
 function movimiento1() {
@@ -721,8 +742,8 @@ function movimiento1() {
     collider1.setVelocityY(0);
     player1.x = collider1.x;
     player1.y = collider1.y - 7;
-    console.log(name1.x);
-    console.log(name2.y);
+    //console.log(name1.x);
+    //console.log(name2.y);
 
     player1.anims.play("left", true);
     playerLookingAt = 1;
@@ -776,10 +797,13 @@ function movimiento1() {
   }
   name1.x = player1.x - 30;
   name1.y = player1.y - 40;
+
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y
+    }
+  ));
 }
-});
-
-
 
 function rompeBala(ball, muro) {
   ball.disableBody(true, true);
