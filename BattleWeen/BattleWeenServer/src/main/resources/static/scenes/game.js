@@ -772,7 +772,6 @@ function movimiento2() {
 }
 
 function movimientoHost() {
-	currentPlayerAnimation='down';
   if (cursors.left.isDown) {
     collider1.setVelocityX(-speed1);
     collider1.setVelocityY(0);
@@ -843,12 +842,11 @@ function movimientoHost() {
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
-	animation: currentPlayerAnimation
+    animation : currentPlayerAnimation
     }
   ));
 }
 function movimientoClient() {
-	currentPlayerAnimation='keyD';
   if (cursors.left.isDown) {
     collider1.setVelocityX(-speed1);
     collider1.setVelocityY(0);
@@ -876,7 +874,7 @@ function movimientoClient() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("keyW", true);
-    currentPlayerAnimation= 'keyD';
+    currentPlayerAnimation= 'keyW';
     playerLookingAt = 3;
   } else if (cursors.down.isDown) {
     collider1.setVelocityY(speed1);
@@ -917,7 +915,7 @@ function movimientoClient() {
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
-    animation: currentPlayerAnimation,
+    animation: currentPlayerAnimation
     }
   ));
 }
