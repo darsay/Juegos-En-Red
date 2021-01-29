@@ -32,13 +32,13 @@ var ServerStatus = "";
 var currentTime = 0;
 
 var connection;
-
+var parsedData;
 var isSocketOpen 
     var isGameStarted 
 
     var host=0;
 
-    var currentPlayerAnimation;
+    var currentPlayerAnimation = 'left';
 
 $(document).ready(function () {
   connection = new WebSocket("ws://127.0.0.1:8080/prueba");
@@ -58,7 +58,7 @@ $(document).ready(function () {
 
   connection.onmessage = function (data) {
     //console.log('Mensaje recibido: '+data.data);
-    var parsedData = JSON.parse(data.data);
+   parsedData = JSON.parse(data.data);
     if(parsedData.ishost==1){
         host = 1;
     }
@@ -617,7 +617,7 @@ export class Game extends Phaser.Scene {
     }
 
 	
-    }
+    
   }
   //FIN UPDATE
 
