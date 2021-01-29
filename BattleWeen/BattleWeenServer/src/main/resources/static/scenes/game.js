@@ -41,6 +41,10 @@ var isShootingC = false;
 
     var currentPlayerAnimation = 'left';
 
+    var newX=0;
+    var newY=0;
+    var anim='left';
+
 $(document).ready(function () {
   connection = new WebSocket("ws://127.0.0.1:8080/prueba");
   connection.onerror = function (e) {
@@ -53,7 +57,7 @@ $(document).ready(function () {
     isSocketOpen = false;
      isGameStarted = false;
     connection.onopen = function(){
-        console.log('Hola')
+        //console.log('Hola')
         isSocketOpen = true;
     }
 
@@ -80,13 +84,13 @@ $(document).ready(function () {
 
     function messageHost(parsedData) {
 
-      player2.x = parsedData.x;
-      player2.y = parsedData.y;
-      name2.x = player2.x - 30;
-      name2.y = player2.y - 40; 
-      player2.anims.play(parsedData.animation, true);
+      newX = parsedData.x;
+      newY = parsedData.y;
+       
+      anim = parsedData.animation
+     
 	  playerLookingAt2 = parsedData.pLook;
-		if(parsedData.isShooting){ disparar2();}
+		isShootingC = parsedData.isShooting;
   	}
   
 });
@@ -152,7 +156,7 @@ export class Game extends Phaser.Scene {
   } ////////////////////// FIN PRELOAD///////////////////////////////
 
   create(data) {
-
+    
     console.log(isSocketOpen);
     console.log(isGameStarted);
      /*  connection.send( JSON.stringify({
@@ -422,27 +426,27 @@ export class Game extends Phaser.Scene {
 
     //Cajas
     //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
-    this.physics.add.overlap(player1, this.HpUp, collectHp1, null, this);
-    this.physics.add.overlap(player2, this.HpUp, collectHp2, null, this);
+    this.physics.add.overlap(collider1, this.HpUp, collectHp1, null, this);
+    this.physics.add.overlap(collider2, this.HpUp, collectHp2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
-    this.physics.add.overlap(player1, this.SpeedUp, collectSpeed1, null, this);
-    this.physics.add.overlap(player2, this.SpeedUp, collectSpeed2, null, this);
+    this.physics.add.overlap(collider1, this.SpeedUp, collectSpeed1, null, this);
+    this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
-    this.physics.add.overlap(player1, this.DmgUp, collectDmg1, null, this);
-    this.physics.add.overlap(player2, this.DmgUp, collectDmg2, null, this);
+    this.physics.add.overlap(collider1, this.DmgUp, collectDmg1, null, this);
+    this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan una caja random, les aumente una propiedad aleatoria
     this.physics.add.overlap(
-      player1,
+      collider1,
       this.RandomUp,
       collectRandom1,
       null,
       this
     );
     this.physics.add.overlap(
-      player2,
+      collider2,
       this.RandomUp,
       collectRandom2,
       null,
@@ -450,16 +454,16 @@ export class Game extends Phaser.Scene {
     );
 
     //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
-    this.physics.add.overlap(player1, this.EveryUp, collectEvery1, null, this);
-    this.physics.add.overlap(player2, this.EveryUp, collectEvery2, null, this);
+    this.physics.add.overlap(collider1, this.EveryUp, collectEvery1, null, this);
+    this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
 
     //BALAS
     //Añade las colisiones y los metodos para quitar vida de los dos jugadores
-    this.physics.add.overlap(player2, balls, quitarVida2, null, this);
-    this.physics.add.collider(player2, balls);
+    this.physics.add.overlap(collider2, balls, quitarVida2, null, this);
+    this.physics.add.collider(collider2, balls);
 
-    this.physics.add.overlap(player1, balls2, quitarVida1, null, this);
-    this.physics.add.collider(player1, balls2);
+    this.physics.add.overlap(collider1, balls2, quitarVida1, null, this);
+    this.physics.add.collider(collider1, balls2);
 
     //Añade las colisiones de las balas con los muros
     this.physics.add.collider(muros, balls, rompeBala);
@@ -489,6 +493,12 @@ export class Game extends Phaser.Scene {
     if (keys.M.isDown) {
 		
       this.disparar();
+      
+    }
+
+    if(isShootingC){
+      this.disparar2();
+      isShootingC=false;
     }
 	
     
@@ -500,7 +510,15 @@ export class Game extends Phaser.Scene {
 	 movimientoClient();
 		
 	}
-   
+      player2.x= newX;
+      player2.y= newY;
+      name2.x = player2.x - 30;
+      name2.y = player2.y - 40;
+
+      collider2.x = player2.x;
+      collider2.y = player2.y +7;
+
+      player2.anims.play(anim, true);
 
     // GAME OVER
     if (hp1 <= 0 || hp2 <= 0) {
@@ -620,7 +638,17 @@ export class Game extends Phaser.Scene {
           }  */
     }
 
-	
+    this.physics.add.overlap(collider1, this.HpUp, collectHp1, null, this);
+    this.physics.add.overlap(collider2, this.HpUp, collectHp2, null, this);
+
+    //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
+    this.physics.add.overlap(collider1, this.SpeedUp, collectSpeed1, null, this);
+    this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
+
+    //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
+    this.physics.add.overlap(collider1, this.DmgUp, collectDmg1, null, this);
+    this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
+
     
   }
   //FIN UPDATE
@@ -672,11 +700,8 @@ export class Game extends Phaser.Scene {
  		 ));
     }
   }
-	
-
-}
-
-function disparar2() {
+  
+  disparar2() {
 		console.log("Disparando PIUM PIUM");
 	    if (this.time.now > shootTime2) {
 	      this.disparo2.play();
@@ -700,6 +725,10 @@ function disparar2() {
 	      shootTime2 = this.time.now + 600;
 	    }
 	  }
+
+}
+
+ 
 
 function movimientoHost() {
   if (cursors.left.isDown) {
