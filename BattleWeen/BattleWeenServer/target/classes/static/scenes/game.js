@@ -76,17 +76,10 @@ $(document).ready(function () {
     }
     }
 
-    function messageHost(parsedData) {
+    function messageHost() {
 
-      var xTemp = 785;
-      var yTemp=  554;
-
-       xTemp = parsedData.x;
-       yTemp=  parsedData.y;
-
-
-      player2.x = xTemp;
-      player2.y = yTemp;
+      player2.x = parsedData.x;
+      player2.y = parsedData.y;
       name2.x = player2.x - 30;
       name2.y = player2.y - 40; 
       player2.anims.play(parsedData.animation);
@@ -497,10 +490,11 @@ export class Game extends Phaser.Scene {
     }
 
     if(host==1){
-	
 	 movimientoHost();
+
 	}else{
 	 movimientoClient();
+		
 	}
    
 
@@ -621,6 +615,9 @@ export class Game extends Phaser.Scene {
 
           }  */
     }
+
+	
+    }
   }
   //FIN UPDATE
 
@@ -690,89 +687,7 @@ export class Game extends Phaser.Scene {
 }
 
 
-
-
-
-
-function movimiento2() {
-  if (keys.A.isDown) {
-   
-
-    collider2.setVelocityX(-speed2);
-    collider2.setVelocityY(0);
-    player2.x = collider2.x;
-    player2.y = collider2.y - 7;
-
-    player2.anims.play("keyA", true);
-    playerLookingAt2 = 1;
-  } else if (keys.D.isDown) {
-    collider2.setVelocityX(speed2);
-    collider2.setVelocityY(0);
-    player2.x = collider2.x;
-    player2.y = collider2.y - 7;
-
-    player2.anims.play("keyD", true);
-    playerLookingAt2 = 2;
-  } else if (keys.W.isDown) {
-    collider2.setVelocityY(-speed2);
-    collider2.setVelocityX(0);
-    player2.x = collider2.x;
-    player2.y = collider2.y - 7;
-
-    player2.anims.play("keyW", true);
-    playerLookingAt2 = 3;
-  } else if (keys.S.isDown) {
-    collider2.setVelocityY(speed2);
-    collider2.setVelocityX(0);
-    player2.x = collider2.x;
-    player2.y = collider2.y - 7;
-
-    player2.anims.play("keyS", true);
-    playerLookingAt2 = 4;
-  } else {
-    collider2.setVelocityX(0);
-    collider2.setVelocityY(0);
-    player2.x = collider2.x;
-    player2.y = collider2.y - 7;
-
-    switch (playerLookingAt2) {
-      case 1:
-        player2.anims.play("keyA", true);
-        player2.anims.stop("keyA", true);
-        break;
-      case 2:
-        player2.anims.play("keyD", true);
-        player2.anims.stop("keyD", true);
-        break;
-      case 3:
-        player2.anims.play("keyW", true);
-        player2.anims.stop("keyW", true);
-        break;
-      case 4:
-        player2.anims.play("keyS", true);
-        player2.anims.stop("keyS", true);
-        break;
-    }
-  }
-  name2.x = player2.x - 30;
-  name2.y = player2.y - 40;
-
-  var datospos = JSON.stringify({ x: player2.x, y: player2.y }); 
-  //console.log(datospos);
-  /* var webSocketData = JSON.stringify({
-    position: {
-      x: player2.x,
-      y: player2.y,
-    }
-  });
- */
- 
-    
-
-}
-
 function movimientoHost() {
-	currentPlayerAnimation='down';
   if (cursors.left.isDown) {
     collider1.setVelocityX(-speed1);
     collider1.setVelocityY(0);
@@ -843,12 +758,12 @@ function movimientoHost() {
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
-	animation: currentPlayerAnimation
+    animation : currentPlayerAnimation
+	//pLook: playerLookingAt
     }
   ));
 }
 function movimientoClient() {
-	currentPlayerAnimation='keyD';
   if (cursors.left.isDown) {
     collider1.setVelocityX(-speed1);
     collider1.setVelocityY(0);
@@ -876,7 +791,7 @@ function movimientoClient() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("keyW", true);
-    currentPlayerAnimation= 'keyD';
+    currentPlayerAnimation= 'keyW';
     playerLookingAt = 3;
   } else if (cursors.down.isDown) {
     collider1.setVelocityY(speed1);
@@ -917,7 +832,8 @@ function movimientoClient() {
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
-    animation: currentPlayerAnimation,
+    animation: currentPlayerAnimation
+	//pLook: playerLookingAt 
     }
   ));
 }
