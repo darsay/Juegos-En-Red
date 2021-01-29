@@ -33,8 +33,9 @@ var currentTime = 0;
 
 var connection;
 var parsedData;
-var isSocketOpen 
-    var isGameStarted 
+var isSocketOpen;
+    var isGameStarted ;
+var isShootingC = false;
 
     var host=0;
 
@@ -57,23 +58,24 @@ $(document).ready(function () {
     }
 
   connection.onmessage = function (data) {
-    //console.log('Mensaje recibido: '+data.data);
-   parsedData = JSON.parse(data.data);
-    if(parsedData.ishost==1){
-        host = 1;
-    }
-    else if(parsedData.isready == 1){               
-        isGameStarted = true;
-    }
-    else if (host==1){
-        //console.log('Soy Host');
-        messageHost(parsedData);
-    }
-    else{
-     // console.log('No soy Host');
-        messageHost(parsedData);
-    
-    }
+	    //console.log('Mensaje recibido: '+data.data);
+		
+	   parsedData = JSON.parse(data.data);
+	    if(parsedData.ishost==1){
+	        host = 1;
+	    }
+	    else if(parsedData.isready == 1){               
+	        isGameStarted = true;
+	    }
+	    else if (host==1){
+	        //console.log('Soy Host');
+			messageHost(parsedData);
+	    }
+	    else{
+	     // console.log('No soy Host');
+	        messageHost(parsedData);
+	    }
+
     }
 
     function messageHost(parsedData) {
@@ -82,9 +84,10 @@ $(document).ready(function () {
       player2.y = parsedData.y;
       name2.x = player2.x - 30;
       name2.y = player2.y - 40; 
-      player2.anims.play(parsedData.animation);
-	playerLookingAt2 = parsedData.pLook;
-  }
+      player2.anims.play(parsedData.animation, true);
+	  playerLookingAt2 = parsedData.pLook;
+		if(parsedData.isShooting){ disparar2();}
+  	}
   
 });
 
@@ -484,11 +487,11 @@ export class Game extends Phaser.Scene {
     }
 
     if (keys.M.isDown) {
+		
       this.disparar();
     }
-    if (keys.T.isDown) {
-      this.disparar2();
-    }
+	
+    
 
     if(host==1){
 	 movimientoHost();
@@ -658,35 +661,45 @@ export class Game extends Phaser.Scene {
       }
 
       shootTime1 = this.time.now + 600;
+		//Send
+		connection.send(JSON.stringify({
+    	x: player1.x,
+    	y: player1.y,
+    	animation: currentPlayerAnimation,
+		pLook: playerLookingAt,
+		isShooting: true
+    	}
+ 		 ));
     }
   }
+	
 
-  disparar2() {
-    if (this.time.now > shootTime2) {
-      this.disparo2.play();
-      this.ball2 = balls2.create(player2.x, player2.y, "zombieBullet");
-      this.ball2.setCollideWorldBounds(true);
-      this.ball2.setScale(0.03);
-      switch (playerLookingAt2) {
-        case 1:
-          this.ball2.setVelocityX(-300);
-          break;
-        case 2:
-          this.ball2.setVelocityX(300);
-          break;
-        case 3:
-          this.ball2.setVelocityY(-300);
-          break;
-        case 4:
-          this.ball2.setVelocityY(300);
-          break;
-      }
-
-      shootTime2 = this.time.now + 600;
-    }
-  }
 }
 
+function disparar2() {
+		console.log("Disparando PIUM PIUM");
+	    if (this.time.now > shootTime2) {
+	      this.disparo2.play();
+	      this.ball2 = balls2.create(player2.x, player2.y, "zombieBullet");
+	      this.ball2.setCollideWorldBounds(true);
+	      this.ball2.setScale(0.03);
+	      switch (playerLookingAt2) {
+	        case 1:
+	          this.ball2.setVelocityX(-300);
+	          break;
+	        case 2:
+	          this.ball2.setVelocityX(300);
+	          break;
+	        case 3:
+	          this.ball2.setVelocityY(-300);
+	          break;
+	        case 4:
+	          this.ball2.setVelocityY(300);
+	          break;
+	      }
+	      shootTime2 = this.time.now + 600;
+	    }
+	  }
 
 function movimientoHost() {
   if (cursors.left.isDown) {
@@ -760,7 +773,8 @@ function movimientoHost() {
     x: player1.x,
     y: player1.y,
     animation: currentPlayerAnimation,
-	pLook: playerLookingAt
+	pLook: playerLookingAt,
+	isShooting: false
     }
   ));
 }
@@ -818,8 +832,8 @@ function movimientoClient() {
         player1.anims.stop("keyD", true);
         break;
       case 3:
-        player1.anims.play("KeyW", true);
-        player1.anims.stop("KeyW", true);
+        player1.anims.play("keyW", true);
+        player1.anims.stop("keyW", true);
         break;
       case 4:
         player1.anims.play("keyS", true);
@@ -834,7 +848,8 @@ function movimientoClient() {
     x: player1.x,
     y: player1.y,
     animation: currentPlayerAnimation,
-	pLook: playerLookingAt
+	pLook: playerLookingAt,
+	isShooting: false
     }
   ));
 }
