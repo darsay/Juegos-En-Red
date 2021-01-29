@@ -4,8 +4,8 @@ var name2;
 var player2;
 var collider1;
 var collider2;
-var playerLookingAt;
-var playerLookingAt2;
+var playerLookingAt = 0;
+var playerLookingAt2 = 0;
 var speed1, speed2;
 var hp1, hp2;
 var dmg1, dmg2;
@@ -38,7 +38,7 @@ var isSocketOpen
 
     var host=0;
 
-    var currentPlayerAnimation;
+    var currentPlayerAnimation = 'left';
 
 $(document).ready(function () {
   connection = new WebSocket("ws://127.0.0.1:8080/prueba");
@@ -76,13 +76,14 @@ $(document).ready(function () {
     }
     }
 
-    function messageHost() {
+    function messageHost(parsedData) {
 
       player2.x = parsedData.x;
       player2.y = parsedData.y;
       name2.x = player2.x - 30;
       name2.y = player2.y - 40; 
       player2.anims.play(parsedData.animation);
+	playerLookingAt2 = parsedData.pLook;
   }
   
 });
@@ -617,7 +618,7 @@ export class Game extends Phaser.Scene {
     }
 
 	
-    }
+    
   }
   //FIN UPDATE
 
@@ -758,8 +759,8 @@ function movimientoHost() {
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
-    animation : currentPlayerAnimation
-	//pLook: playerLookingAt
+    animation: currentPlayerAnimation,
+	pLook: playerLookingAt
     }
   ));
 }
@@ -832,8 +833,8 @@ function movimientoClient() {
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
-    animation: currentPlayerAnimation
-	//pLook: playerLookingAt 
+    animation: currentPlayerAnimation,
+	pLook: playerLookingAt
     }
   ));
 }
