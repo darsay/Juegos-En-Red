@@ -14,6 +14,7 @@ var keys;
 
 var balls;
 var balls2;
+var balls3;
 var NumeroVida;
 var NumeroVida2;
 var shootTime1 = 0; //Controla el numero de balas que se pueden disparar en un periodo de tiempo
@@ -45,55 +46,13 @@ var isShootingC = false;
     var newY=0;
     var anim='left';
 
-$(document).ready(function () {
-  connection = new WebSocket("ws://127.0.0.1:8080/prueba");
-  connection.onerror = function (e) {
-    console.log("WS error: " + e);
-  };
-  connection.onclose = function () {
-    console.log("Closing socket");
-  };
+    var bola2;
+    var balita;
 
-    isSocketOpen = false;
-     isGameStarted = false;
-    connection.onopen = function(){
-        //console.log('Hola')
-        isSocketOpen = true;
-    }
+    var HpUp;
+    
 
-  connection.onmessage = function (data) {
-	    //console.log('Mensaje recibido: '+data.data);
-		
-	   parsedData = JSON.parse(data.data);
-	    if(parsedData.ishost==1){
-	        host = 1;
-	    }
-	    else if(parsedData.isready == 1){               
-	        isGameStarted = true;
-	    }
-	    else if (host==1){
-	        //console.log('Soy Host');
-			messageHost(parsedData);
-	    }
-	    else{
-	     // console.log('No soy Host');
-	        messageHost(parsedData);
-	    }
 
-    }
-
-    function messageHost(parsedData) {
-
-      newX = parsedData.x;
-      newY = parsedData.y;
-       
-      anim = parsedData.animation
-     
-	  playerLookingAt2 = parsedData.pLook;
-		isShootingC = parsedData.isShooting;
-  	}
-  
-});
 
 export class Game extends Phaser.Scene {
   constructor() {
@@ -157,8 +116,8 @@ export class Game extends Phaser.Scene {
 
   create(data) {
     
-    console.log(isSocketOpen);
-    console.log(isGameStarted);
+    /* console.log(isSocketOpen);
+    console.log(isGameStarted); */
      /*  connection.send( JSON.stringify({
         mensaje: "Enviado"
       })); */
@@ -206,7 +165,7 @@ export class Game extends Phaser.Scene {
     //Aqui empiezan a crearse los objetos coleccionables que aumentan las estadisticas de los personajes
 
     //Añadimos HpUp, que viene dado del mapa a un grupo de fisicas sin gravedad e inamovible
-    this.HpUp = this.physics.add.group({
+    HpUp = this.physics.add.group({
       allowGravity: false,
       immovable: true,
     });
@@ -214,7 +173,7 @@ export class Game extends Phaser.Scene {
     //Aqui creamos cada caja individualmente con el sprite llamado desde lifeBox
     const hpBoxes = map.getObjectLayer("HpUp")["objects"];
     hpBoxes.forEach((hpBox) => {
-      const hpup1 = this.HpUp.create(
+      const hpup1 = HpUp.create(
         hpBox.x,
         hpBox.y - hpBox.height,
         "lifeBox"
@@ -283,15 +242,15 @@ export class Game extends Phaser.Scene {
 
     //Aqui se crea el player y se inicializan sus sprites y propiedades
     collider1 = this.physics.add.sprite(70, 70, "collider");
-    collider2 = this.physics.add.sprite(785, 554, "collider");
+    //collider2 = this.physics.add.sprite(785, 554, "collider");
 
     if(host==1){
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
-      player2 = this.physics.add.sprite(785, 554, "zombieSp");
+      player2 = this.add.sprite(785, 554, "zombieSp");
 
     }else {
       player1 = this.physics.add.sprite(785, 554, "zombieSp");
-      player2 = this.physics.add.sprite(70, 70, "brujaSp");
+      player2 = this.add.sprite(70, 70, "brujaSp");
     }
 
     //player1 = this.physics.add.sprite(70, 70, "brujaSp");
@@ -301,7 +260,7 @@ export class Game extends Phaser.Scene {
     speed1 = 160;
     speed2 = speed1;
     hp1 = 400;
-    hp2 = hp1;
+    hp2 = 500;
     dmg1 = 20;
     dmg2 = dmg1;
     /////////////////// Se muestran las vidas de ambos/////////////////////////////
@@ -411,31 +370,51 @@ export class Game extends Phaser.Scene {
     });
 
     //Se crean las fisicas de las balas
+
+    balls3 = this.add.group();
     balls = this.physics.add.group();
     balls2 = this.physics.add.group();
+
+    //BALAS
+    balls3.enablebody=true;
+    balls3.physicsBodyType = Phaser.Physics.ARCADE;
+
+   /*  balita = balls3.create(0,0, 'witchBullet');
+    balita.exists=false;
+    balita.visible=false;
+    balita.checkWorldBounds = true;
+    balita.events.onOutOfBounds.add(resetBullet, this);
+    balita.scale.setTo(0.04, 0.04); */
+
+    balita= balls3.create(player2.x, player2.y, 'witchBullet');
+    balita.exists=false;
+    balita.visible=false;
+    //this.senToBack(balita);
+
 
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys(); //Para las flechas
     keys = this.input.keyboard.addKeys("W,S,A,D,M,T"); //Para el resto del teclado (Le puedes meter el resto de letras)
     //// FISICAS ////
     //Fisica para colisionar con las platforms
-    this.physics.add.collider(collider2, muros);
+    //this.physics.add.collider(collider2, muros);
     this.physics.add.collider(collider1, muros);
+    
     //Añade colisiones de player1 con player2
     //this.physics.add.collider(player1, player2);
 
     //Cajas
     //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
-    this.physics.add.overlap(collider1, this.HpUp, collectHp1, null, this);
-    this.physics.add.overlap(collider2, this.HpUp, collectHp2, null, this);
+    this.physics.add.overlap(collider1, HpUp, collectHp1, null, this);
+    //this.physics.add.overlap(collider2, HpUp, collectHp2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
     this.physics.add.overlap(collider1, this.SpeedUp, collectSpeed1, null, this);
-    this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
+    //this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
     this.physics.add.overlap(collider1, this.DmgUp, collectDmg1, null, this);
-    this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
+    //this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan una caja random, les aumente una propiedad aleatoria
     this.physics.add.overlap(
@@ -445,22 +424,22 @@ export class Game extends Phaser.Scene {
       null,
       this
     );
-    this.physics.add.overlap(
+    /* this.physics.add.overlap(
       collider2,
       this.RandomUp,
       collectRandom2,
       null,
       this
     );
-
+ */
     //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
     this.physics.add.overlap(collider1, this.EveryUp, collectEvery1, null, this);
-    this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
+    //this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
 
     //BALAS
     //Añade las colisiones y los metodos para quitar vida de los dos jugadores
-    this.physics.add.overlap(collider2, balls, quitarVida2, null, this);
-    this.physics.add.collider(collider2, balls);
+    //this.physics.add.overlap(collider2, balls, quitarVida2, null, this);
+    //this.physics.add.collider(collider2, balls);
 
     this.physics.add.overlap(collider1, balls2, quitarVida1, null, this);
     this.physics.add.collider(collider1, balls2);
@@ -480,26 +459,49 @@ export class Game extends Phaser.Scene {
 
     CanSume = false;
     CanSume2 = false;
+
+      ConectarWebSocket();
+    
+      
   } ////////////////////////// FIN CREATE ///////////////////////////////////
 
   update() {
-    if (Date.now() - 300 > currentTime) {
+
+    if(isSocketOpen){
+   /*  if (Date.now() - 300 > currentTime) {
       activeUsers();
       ping();
       updateNames();
       currentTime = Date.now();
-    }
+    } */
 
     if (keys.M.isDown) {
 		
       this.disparar();
+
+      connection.send(JSON.stringify({
+        x: player1.x,
+        y: player1.y,
+        animation: currentPlayerAnimation,
+        pLook: playerLookingAt,
+        isShooting: true,
+         hp: hp1
+        }
+        ));
       
     }
+/* 
+    if(isShootingC==true){
 
-    if(isShootingC){
+      console.log("PIUM");
+
       this.disparar2();
       isShootingC=false;
-    }
+      
+      
+     
+      
+    } */
 	
     
 
@@ -510,15 +512,7 @@ export class Game extends Phaser.Scene {
 	 movimientoClient();
 		
 	}
-      player2.x= newX;
-      player2.y= newY;
-      name2.x = player2.x - 30;
-      name2.y = player2.y - 40;
-
-      collider2.x = player2.x;
-      collider2.y = player2.y +7;
-
-      player2.anims.play(anim, true);
+      
 
     // GAME OVER
     if (hp1 <= 0 || hp2 <= 0) {
@@ -638,17 +632,7 @@ export class Game extends Phaser.Scene {
           }  */
     }
 
-    this.physics.add.overlap(collider1, this.HpUp, collectHp1, null, this);
-    this.physics.add.overlap(collider2, this.HpUp, collectHp2, null, this);
-
-    //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
-    this.physics.add.overlap(collider1, this.SpeedUp, collectSpeed1, null, this);
-    this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
-
-    //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
-    this.physics.add.overlap(collider1, this.DmgUp, collectDmg1, null, this);
-    this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
-
+  }
     
   }
   //FIN UPDATE
@@ -690,45 +674,139 @@ export class Game extends Phaser.Scene {
 
       shootTime1 = this.time.now + 600;
 		//Send
-		connection.send(JSON.stringify({
-    	x: player1.x,
-    	y: player1.y,
-    	animation: currentPlayerAnimation,
-		pLook: playerLookingAt,
-		isShooting: true
-    	}
- 		 ));
+	
     }
   }
   
-  disparar2() {
+   disparar2() {
 		console.log("Disparando PIUM PIUM");
-	    if (this.time.now > shootTime2) {
-	      this.disparo2.play();
-	      this.ball2 = balls2.create(player2.x, player2.y, "zombieBullet");
-	      this.ball2.setCollideWorldBounds(true);
-	      this.ball2.setScale(0.03);
-	      switch (playerLookingAt2) {
-	        case 1:
-	          this.ball2.setVelocityX(-300);
-	          break;
-	        case 2:
-	          this.ball2.setVelocityX(300);
-	          break;
-	        case 3:
-	          this.ball2.setVelocityY(-300);
-	          break;
-	        case 4:
-	          this.ball2.setVelocityY(300);
-	          break;
-	      }
+    if (this.time.now > shootTime1) {
+      this.disparo.play();
+      this.ball2 = balls.create(player2.x, player2.y, "witchBullet");
+      this.ball2.setCollideWorldBounds(true);
+      this.ball2.setScale(0.05);
+      switch (playerLookingAt) {
+        case 1:
+          this.ball2.setVelocityX(-300);
+          break;
+        case 2:
+          this.ball2.setVelocityX(300);
+          break;
+        case 3:
+          this.ball2.setVelocityY(-300);
+          break;
+        case 4:
+          this.ball2.setVelocityY(300);
+          break;
+      }
+
 	      shootTime2 = this.time.now + 600;
 	    }
 	  }
 
+} 
+
+function disparo2(){
+
+  console.log('Disparo');
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y,
+    animation: currentPlayerAnimation,
+    pLook: playerLookingAt,
+    isShooting: false,
+     hp: hp1
+    }
+    ));
+
+
 }
 
- 
+function ConectarWebSocket ()  {
+  connection = new WebSocket("ws://127.0.0.1:8080/prueba");
+  connection.onerror = function (e) {
+    console.log("WS error: " + e);
+  };
+  connection.onclose = function () {
+    console.log("Closing socket");
+  };
+
+    isSocketOpen = false;
+     isGameStarted = false;
+    connection.onopen = function(){
+        //console.log('Hola')
+        isSocketOpen = true;
+    }
+
+  connection.onmessage = function (data) {
+	    //console.log('Mensaje recibido: '+data.data);
+		
+	   parsedData = JSON.parse(data.data);
+	    if(parsedData.ishost==1){
+	        host = 1;
+	    }
+	    else if(parsedData.isready == 1){               
+	        isGameStarted = true;
+	    }
+	    else if (host==1){
+	        //console.log('Soy Host');
+			messageHost(parsedData);
+	    }
+	    else{
+	     // console.log('No soy Host');
+	        messageClient(parsedData);
+	    }
+
+    }
+
+    function messageHost(parsedData) {
+
+     
+      player2.x= parsedData.x;
+      player2.y= parsedData.y;
+      name2.x = player2.x - 30;
+      name2.y = player2.y - 40;
+
+      
+
+      player2.anims.play(parsedData.animation
+        , true);
+     
+      playerLookingAt2 = parsedData.pLook;
+    
+      if( parsedData.isShooting == true){
+      disparo2();
+      
+      }
+      NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+    
+    }
+    
+    function messageClient(parsedData) {
+
+     
+      player2.x= parsedData.x;
+      player2.y= parsedData.y;
+      name2.x = player2.x - 30;
+      name2.y = player2.y - 40;
+
+     
+
+      player2.anims.play(parsedData.animation
+        , true);
+     
+    playerLookingAt2 = parsedData.pLook;
+    
+    
+    if( parsedData.isShooting == true){
+      disparo2();
+      
+    }
+    NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+    
+  	}
+  
+  }
 
 function movimientoHost() {
   if (cursors.left.isDown) {
@@ -803,7 +881,8 @@ function movimientoHost() {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-	isShooting: false
+  isShooting: false,
+  hp: hp1
     }
   ));
 }
@@ -878,7 +957,8 @@ function movimientoClient() {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-	isShooting: false
+  isShooting: false,
+  hp: hp1
     }
   ));
 }
@@ -897,6 +977,15 @@ function quitarVida1(player, item) {
   item.disableBody(true, true);
   hp1 -= dmg2;
   NumeroVida.setText("P1 Hp: " + hp1);
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y,
+    animation: currentPlayerAnimation,
+	pLook: playerLookingAt,
+  isShooting: false,
+  hp: hp1
+    }
+  ));
 }
 
 function collectHp1(player, item) {
@@ -904,6 +993,15 @@ function collectHp1(player, item) {
   hp1 += 100;
   NumeroVida.setText("P1 Hp: " + hp1);
   this.box.play();
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y,
+    animation: currentPlayerAnimation,
+	pLook: playerLookingAt,
+  isShooting: false,
+  hp: hp1
+    }
+  ));
 }
 function collectHp2(player, item) {
   item.disableBody(true, true);
@@ -941,6 +1039,15 @@ function collectEvery1(player, item) {
   hp1 += 100;
   NumeroVida.setText("P1 Hp: " + hp1);
   this.box.play();
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y,
+    animation: currentPlayerAnimation,
+	pLook: playerLookingAt,
+  isShooting: false,
+  hp: hp1
+    }
+  ));
 }
 function collectEvery2(player, item) {
   item.disableBody(true, true);
@@ -962,7 +1069,21 @@ function collectRandom1(player, item) {
   } else {
     dmg1 += 20;
   }
+
   this.box.play();
+  connection.send(JSON.stringify({
+    x: player1.x,
+    y: player1.y,
+    animation: currentPlayerAnimation,
+	pLook: playerLookingAt,
+  isShooting: false,
+  hp: hp1
+    }
+  ));
+}
+
+function resetBullet(){
+  balls3.kill();
 }
 
 function collectRandom2(player, item) {

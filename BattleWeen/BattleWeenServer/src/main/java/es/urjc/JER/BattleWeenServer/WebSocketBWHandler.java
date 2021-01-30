@@ -31,7 +31,10 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
 				sessions.put(session.getId(), session);
                 host.put("ishost", "1");
 				
-			}else { sessions.put(session.getId(), session); }
+			}else { 
+				
+				sessions.put(session.getId(), session); 
+				}
 				
 		               
 		                //System.out.println("Probando: " + ready.toString()); 
@@ -69,6 +72,7 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
         newNode.put("animation", node.get("animation").asText());
         newNode.put("pLook", node.get("pLook").asText());
         newNode.put("isShooting", node.get("isShooting").asText());
+        newNode.put("hp", node.get("hp").asText());
         
 
 		
