@@ -662,17 +662,18 @@ let escena = 0;
     console.log(bolaN);
     bolaN.setCollideWorldBounds(true);
     bolaN.setScale(0.05);
-    switch (playerLookingAt2) {
-      case "1":
+    console.log(playerLookingAt2);
+    switch (parseInt(playerLookingAt2)) {
+      case 1:
         bolaN.setVelocityX(-300);
         break;
-      case "2":
+      case 2:
         bolaN.setVelocityX(300);
         break;
-      case "3":
+      case 3:
         bolaN.setVelocityY(-300);
         break;
-      case "4":
+      case 4:
         bolaN.setVelocityY(300);
         break;
         default:

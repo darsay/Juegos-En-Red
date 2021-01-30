@@ -70,7 +70,7 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
         newNode.put("x", node.get("x").asDouble());
         newNode.put("y", node.get("y").asDouble());
         newNode.put("animation", node.get("animation").asText());
-        newNode.put("pLook", node.get("pLook").asInt());
+        newNode.put("pLook", node.get("pLook").asText());
         newNode.put("isShooting", node.get("isShooting").asInt());
         newNode.put("hp", node.get("hp").asText());
         
