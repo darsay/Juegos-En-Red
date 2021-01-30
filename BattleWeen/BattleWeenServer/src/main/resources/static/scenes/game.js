@@ -481,6 +481,7 @@ let escena = 0;
         movimientoClient();
       }
 
+      hp2 = parsedData.hp;
       // GAME OVER
       if (hp1 <= 0 || hp2 <= 0) {
         this.sound.get("GameMusic").stop();
@@ -660,9 +661,9 @@ let escena = 0;
 
     let bolaN = this.physics.add.sprite(parseFloat(player2.x), parseFloat(player2.y), "witchBullet");
     console.log(bolaN);
+    balls2.add(bolaN);
     bolaN.setCollideWorldBounds(true);
     bolaN.setScale(0.05);
-    console.log(playerLookingAt2);
     switch (parseInt(playerLookingAt2)) {
       case 1:
         bolaN.setVelocityX(-300);
@@ -677,11 +678,11 @@ let escena = 0;
         bolaN.setVelocityY(300);
         break;
         default:
-          console.log('Eduardo subnormal');
+          console.log(playerLookingAt2);
           break;
     }
 
-    balls2.add(bolaN);
+
   }
 }
 
