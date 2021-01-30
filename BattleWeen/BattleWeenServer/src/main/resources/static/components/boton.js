@@ -1,4 +1,4 @@
-export class boton {
+ class boton {
   constructor(scene, where, sprite, x, y) {
     this.relatedScene = scene;
     this.destination = where;

@@ -1,7 +1,4 @@
-import { Game } from './scenes/game.js';
-import { Menu } from './scenes/menu.js';
-import { Final } from './scenes/Final.js';
-import { Tutorial } from './scenes/tutorial.js';
+
 
 $(document).ready(function(){
 
@@ -27,10 +24,14 @@ $(document).ready(function(){
         
         debug: false
       }
-    }
+    }, fps: {
+      target: 30,
+      forceSetTimeOut: true
+  }
       
   
     
-  } 
+  }
+   
   var game = new Phaser.Game(config); 
 });

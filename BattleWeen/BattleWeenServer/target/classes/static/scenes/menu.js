@@ -1,4 +1,4 @@
-import { boton } from "../components/boton.js";
+
 
 $(document).ready(function(){
   console.log('El DOM está cargado')
@@ -34,7 +34,7 @@ var prevTime = 0;
 
 
 
-export class Menu extends Phaser.Scene {
+ class Menu extends Phaser.Scene {
   constructor() {
     super({ key: 'menu' });
     this.botonPlay = new boton(this, 'game', 'button', 400, 400);

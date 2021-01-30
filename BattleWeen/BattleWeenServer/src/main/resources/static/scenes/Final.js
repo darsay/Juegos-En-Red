@@ -1,6 +1,5 @@
-import { boton } from "../components/boton.js";
 
-export class Final extends Phaser.Scene {
+ class Final extends Phaser.Scene {
   constructor() {
     super({ key: 'Final' });
     this.botonAgain = new boton(this, 'menu', 'BotonBack', 400, 550);

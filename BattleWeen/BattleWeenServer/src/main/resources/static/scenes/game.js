@@ -35,26 +35,25 @@ var currentTime = 0;
 var connection;
 var parsedData;
 var isSocketOpen;
-    var isGameStarted ;
-var isShootingC = false;
+var isGameStarted;
+var isShootingC = 0;
 
-    var host=0;
+var host = 0;
 
-    var currentPlayerAnimation = 'left';
+var currentPlayerAnimation = "left";
 
-    var newX=0;
-    var newY=0;
-    var anim='left';
+var newX = 0;
+var newY = 0;
+var anim = "left";
 
-    var bola2;
-    var balita;
+var bola2;
+var balita;
 
-    var HpUp;
-    
+var HpUp;
 
+let escena = 0;
 
-
-export class Game extends Phaser.Scene {
+  class Game extends Phaser.Scene {
   constructor() {
     super({ key: "game" });
   }
@@ -115,13 +114,8 @@ export class Game extends Phaser.Scene {
   } ////////////////////// FIN PRELOAD///////////////////////////////
 
   create(data) {
+    escena = this;
     
-    /* console.log(isSocketOpen);
-    console.log(isGameStarted); */
-     /*  connection.send( JSON.stringify({
-        mensaje: "Enviado"
-      })); */
-  
 
     Level = data.id;
     V1 = data.vic1;
@@ -244,11 +238,10 @@ export class Game extends Phaser.Scene {
     collider1 = this.physics.add.sprite(70, 70, "collider");
     //collider2 = this.physics.add.sprite(785, 554, "collider");
 
-    if(host==1){
+    if (host == 1) {
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
       player2 = this.add.sprite(785, 554, "zombieSp");
-
-    }else {
+    } else {
       player1 = this.physics.add.sprite(785, 554, "zombieSp");
       player2 = this.add.sprite(70, 70, "brujaSp");
     }
@@ -371,26 +364,8 @@ export class Game extends Phaser.Scene {
 
     //Se crean las fisicas de las balas
 
-    balls3 = this.add.group();
     balls = this.physics.add.group();
     balls2 = this.physics.add.group();
-
-    //BALAS
-    balls3.enablebody=true;
-    balls3.physicsBodyType = Phaser.Physics.ARCADE;
-
-   /*  balita = balls3.create(0,0, 'witchBullet');
-    balita.exists=false;
-    balita.visible=false;
-    balita.checkWorldBounds = true;
-    balita.events.onOutOfBounds.add(resetBullet, this);
-    balita.scale.setTo(0.04, 0.04); */
-
-    balita= balls3.create(player2.x, player2.y, 'witchBullet');
-    balita.exists=false;
-    balita.visible=false;
-    //this.senToBack(balita);
-
 
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys(); //Para las flechas
@@ -399,7 +374,7 @@ export class Game extends Phaser.Scene {
     //Fisica para colisionar con las platforms
     //this.physics.add.collider(collider2, muros);
     this.physics.add.collider(collider1, muros);
-    
+
     //Añade colisiones de player1 con player2
     //this.physics.add.collider(player1, player2);
 
@@ -409,7 +384,13 @@ export class Game extends Phaser.Scene {
     //this.physics.add.overlap(collider2, HpUp, collectHp2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
-    this.physics.add.overlap(collider1, this.SpeedUp, collectSpeed1, null, this);
+    this.physics.add.overlap(
+      collider1,
+      this.SpeedUp,
+      collectSpeed1,
+      null,
+      this
+    );
     //this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
@@ -433,7 +414,13 @@ export class Game extends Phaser.Scene {
     );
  */
     //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
-    this.physics.add.overlap(collider1, this.EveryUp, collectEvery1, null, this);
+    this.physics.add.overlap(
+      collider1,
+      this.EveryUp,
+      collectEvery1,
+      null,
+      this
+    );
     //this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
 
     //BALAS
@@ -460,29 +447,22 @@ export class Game extends Phaser.Scene {
     CanSume = false;
     CanSume2 = false;
 
-      ConectarWebSocket();
-    
-      
+    ConectarWebSocket();
   } ////////////////////////// FIN CREATE ///////////////////////////////////
 
   update() {
-
-    if(isSocketOpen){
-   /*  if (Date.now() - 300 > currentTime) {
+    if (isSocketOpen) {
+      /*  if (Date.now() - 300 > currentTime) {
       activeUsers();
       ping();
       updateNames();
       currentTime = Date.now();
     } */
 
-    if (keys.M.isDown) {
-		
-      this.disparar();
-
-      
-      
-    }
-/* 
+      if (keys.M.isDown) {
+        this.disparar();
+      }
+      /* 
     if(isShootingC==true){
 
       console.log("PIUM");
@@ -494,121 +474,116 @@ export class Game extends Phaser.Scene {
      
       
     } */
-	
-    
 
-    if(host==1){
-	 movimientoHost();
-
-	}else{
-	 movimientoClient();
-		
-	}
-      
-
-    // GAME OVER
-    if (hp1 <= 0 || hp2 <= 0) {
-      this.sound.get("GameMusic").stop();
-
-      this.cameras.main.shake(500);
-
-      this.time.delayedCall(
-        250,
-        function () {
-          this.cameras.main.fade(250);
-        },
-        [],
-        this
-      );
-
-      if (hp1 > hp2 && CanSume == false) {
-        V1++;
-        CanSume = true;
-      } else if (hp2 > hp1 && CanSume2 == false) {
-        V2++;
-        CanSume2 = true;
-      }
-
-      if (Level <= 4) {
-        Level++;
-
-        switch (Level) {
-          case 1:
-            this.time.delayedCall(
-              500,
-              function () {
-                this.registry.destroy(); // destroy registry
-                this.events.off(); // disable all active events
-                this.scene.start("game", { id: 1, vic1: V1, vic2: V2 });
-              },
-              [],
-              this
-            );
-            break;
-          case 2:
-            this.time.delayedCall(
-              500,
-              function () {
-                this.registry.destroy(); // destroy registry
-                this.events.off(); // disable all active events
-                this.scene.start("game", { id: 2, vic1: V1, vic2: V2 });
-              },
-              [],
-              this
-            );
-            break;
-          case 3:
-            this.time.delayedCall(
-              500,
-              function () {
-                this.registry.destroy(); // destroy registry
-                this.events.off(); // disable all active events
-                this.scene.start("game", { id: 3, vic1: V1, vic2: V2 });
-              },
-              [],
-              this
-            );
-            break;
-          case 4:
-            this.time.delayedCall(
-              500,
-              function () {
-                this.registry.destroy(); // destroy registry
-                this.events.off(); // disable all active events
-                this.scene.start("game", { id: 4, vic1: V1, vic2: V2 });
-              },
-              [],
-              this
-            );
-            break;
-        }
+      if (host == 1) {
+        movimientoHost();
       } else {
-        if (V1 > V2) {
-          this.time.delayedCall(
-            500,
-            function () {
-              this.registry.destroy(); // destroy registry
-              this.events.off(); // disable all active events
-              this.scene.start("Final", { vic1: V1, vic2: V2 });
-            },
-            [],
-            this
-          );
-        } else {
-          this.time.delayedCall(
-            500,
-            function () {
-              this.registry.destroy(); // destroy registry
-              this.events.off(); // disable all active events
-              this.scene.start("Final", { vic1: V1, vic2: V2 });
-            },
-            [],
-            this
-          );
-        }
+        movimientoClient();
       }
 
-      /* 
+      // GAME OVER
+      if (hp1 <= 0 || hp2 <= 0) {
+        this.sound.get("GameMusic").stop();
+
+        this.cameras.main.shake(500);
+
+        this.time.delayedCall(
+          250,
+          function () {
+            this.cameras.main.fade(250);
+          },
+          [],
+          this
+        );
+
+        if (hp1 > hp2 && CanSume == false) {
+          V1++;
+          CanSume = true;
+        } else if (hp2 > hp1 && CanSume2 == false) {
+          V2++;
+          CanSume2 = true;
+        }
+
+        if (Level <= 4) {
+          Level++;
+
+          switch (Level) {
+            case 1:
+              this.time.delayedCall(
+                500,
+                function () {
+                  this.registry.destroy(); // destroy registry
+                  this.events.off(); // disable all active events
+                  this.scene.start("game", { id: 1, vic1: V1, vic2: V2 });
+                },
+                [],
+                this
+              );
+              break;
+            case 2:
+              this.time.delayedCall(
+                500,
+                function () {
+                  this.registry.destroy(); // destroy registry
+                  this.events.off(); // disable all active events
+                  this.scene.start("game", { id: 2, vic1: V1, vic2: V2 });
+                },
+                [],
+                this
+              );
+              break;
+            case 3:
+              this.time.delayedCall(
+                500,
+                function () {
+                  this.registry.destroy(); // destroy registry
+                  this.events.off(); // disable all active events
+                  this.scene.start("game", { id: 3, vic1: V1, vic2: V2 });
+                },
+                [],
+                this
+              );
+              break;
+            case 4:
+              this.time.delayedCall(
+                500,
+                function () {
+                  this.registry.destroy(); // destroy registry
+                  this.events.off(); // disable all active events
+                  this.scene.start("game", { id: 4, vic1: V1, vic2: V2 });
+                },
+                [],
+                this
+              );
+              break;
+          }
+        } else {
+          if (V1 > V2) {
+            this.time.delayedCall(
+              500,
+              function () {
+                this.registry.destroy(); // destroy registry
+                this.events.off(); // disable all active events
+                this.scene.start("Final", { vic1: V1, vic2: V2 });
+              },
+              [],
+              this
+            );
+          } else {
+            this.time.delayedCall(
+              500,
+              function () {
+                this.registry.destroy(); // destroy registry
+                this.events.off(); // disable all active events
+                this.scene.start("Final", { vic1: V1, vic2: V2 });
+              },
+              [],
+              this
+            );
+          }
+        }
+
+        /* 
           if(this.Level1<=4){
             this.Level1++
             this.Level1= this.Level1 + 1;
@@ -622,39 +597,29 @@ export class Game extends Phaser.Scene {
             }, [], this);
 
           }  */
+      }
     }
-
-  }
-    
   }
   //FIN UPDATE
 
-  updateHost() {
-
-
-
-
-
-
-
-  }
+  updateHost() {}
 
   updateClient() {}
 
   gameOver() {}
 
   disparar() {
-    isShootingC=true;
-    connection.send(JSON.stringify({
-      x: player1.x,
-      y: player1.y,
-      animation: currentPlayerAnimation,
-      pLook: playerLookingAt,
-      isShooting: isShootingC,
-       hp: hp1
-      }
-      ));
     if (this.time.now > shootTime1) {
+      connection.send(
+        JSON.stringify({
+          x: player1.x,
+          y: player1.y,
+          animation: currentPlayerAnimation,
+          pLook: playerLookingAt,
+          isShooting: 1,
+          hp: hp1,
+        })
+      );
       this.disparo.play();
       this.ball = balls.create(player1.x, player1.y, "witchBullet");
       this.ball.setCollideWorldBounds(true);
@@ -675,57 +640,51 @@ export class Game extends Phaser.Scene {
       }
 
       shootTime1 = this.time.now + 600;
-		//Send
-	
+      //Send
     }
+
+    connection.send(
+      JSON.stringify({
+        x: player1.x,
+        y: player1.y,
+        animation: currentPlayerAnimation,
+        pLook: playerLookingAt,
+        isShooting: 2,
+        hp: hp1,
+      })
+    );
   }
-  
-   disparar2() {
-		console.log("Disparando PIUM PIUM");
-    if (this.time.now > shootTime1) {
-      this.disparo.play();
-      this.ball2 = balls.create(player2.x, player2.y, "witchBullet");
-      this.ball2.setCollideWorldBounds(true);
-      this.ball2.setScale(0.05);
-      switch (playerLookingAt) {
-        case 1:
-          this.ball2.setVelocityX(-300);
-          break;
-        case 2:
-          this.ball2.setVelocityX(300);
-          break;
-        case 3:
-          this.ball2.setVelocityY(-300);
-          break;
-        case 4:
-          this.ball2.setVelocityY(300);
-          break;
-      }
 
-	      shootTime2 = this.time.now + 600;
-	    }
-	  }
+  dispararr2() {
+    console.log(player2.x, player2.y);
 
-} 
-
-function disparo2(){
-
-  console.log('Disparo');
-  isShootingC=false;
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-    pLook: playerLookingAt,
-    isShooting: isShootingC,
-     hp: hp1
+    let bolaN = this.physics.add.sprite(parseFloat(player2.x), parseFloat(player2.y), "witchBullet");
+    console.log(bolaN);
+    bolaN.setCollideWorldBounds(true);
+    bolaN.setScale(0.05);
+    switch (parseInt(playerLookingAt2)) {
+      case 1:
+        bolaN.setVelocityX(-300);
+        break;
+      case 2:
+        bolaN.setVelocityX(300);
+        break;
+      case 3:
+        bolaN.setVelocityY(-300);
+        break;
+      case 4:
+        bolaN.setVelocityY(300);
+        break;
+        default:
+          console.log('Eduardo subnormal');
+          break;
     }
-    ));
 
-
+    balls2.add(bolaN);
+  }
 }
 
-function ConectarWebSocket ()  {
+function ConectarWebSocket() {
   connection = new WebSocket("ws://127.0.0.1:8080/prueba");
   connection.onerror = function (e) {
     console.log("WS error: " + e);
@@ -734,87 +693,65 @@ function ConectarWebSocket ()  {
     console.log("Closing socket");
   };
 
-    isSocketOpen = false;
-     isGameStarted = false;
-    connection.onopen = function(){
-        //console.log('Hola')
-        isSocketOpen = true;
-    }
+  isSocketOpen = false;
+  isGameStarted = false;
+  connection.onopen = function () {
+    //console.log('Hola')
+    isSocketOpen = true;
+  };
 
   connection.onmessage = function (data) {
-	    //console.log('Mensaje recibido: '+data.data);
-		
-	   parsedData = JSON.parse(data.data);
-	    if(parsedData.ishost==1){
-	        host = 1;
-	    }
-	    else if(parsedData.isready == 1){               
-	        isGameStarted = true;
-	    }
-	    else if (host==1){
-	        //console.log('Soy Host');
-			messageHost(parsedData);
-	    }
-	    else{
-	     // console.log('No soy Host');
-	        messageClient(parsedData);
-	    }
+    //console.log('Mensaje recibido: '+data.data);
 
+    parsedData = JSON.parse(data.data);
+    if (parsedData.ishost == 1) {
+      host = 1;
+    } else if (parsedData.isready == 1) {
+      isGameStarted = true;
+    } else if (host == 1) {
+      //console.log('Soy Host');
+      messageHost(parsedData);
+    } else {
+      // console.log('No soy Host');
+      messageClient(parsedData);
     }
+  };
+}
 
-    function messageHost(parsedData) {
+function messageHost(parsedData) {
+  player2.x = parsedData.x;
+  player2.y = parsedData.y;
+  name2.x = player2.x - 30;
+  name2.y = player2.y - 40;
 
-     
-      player2.x= parsedData.x;
-      player2.y= parsedData.y;
-      name2.x = player2.x - 30;
-      name2.y = player2.y - 40;
+  player2.anims.play(parsedData.animation, true);
 
-      
+  playerLookingAt2 = parsedData.pLook;
 
-      player2.anims.play(parsedData.animation
-        , true);
-     
-      playerLookingAt2 = parsedData.pLook;
-    
-      if( parsedData.isShooting == true){
-      isShootingC = parsedData.isShooting;
-      disparo2();
-      
-      
-    }
+  isShootingC = parsedData.isShooting;
 
-      NumeroVida2.setText("P2 Hp: " + parsedData.hp);
-    
-    }
-    
-    function messageClient(parsedData) {
-
-     
-      player2.x= parsedData.x;
-      player2.y= parsedData.y;
-      name2.x = player2.x - 30;
-      name2.y = player2.y - 40;
-
-     
-
-      player2.anims.play(parsedData.animation
-        , true);
-     
-    playerLookingAt2 = parsedData.pLook;
-    
-    
-    if( parsedData.isShooting == true){
-      isShootingC = parsedData.isShooting;
-      disparo2();
-      
-      
-    }
-    NumeroVida2.setText("P2 Hp: " + parsedData.hp);
-    
-  	}
-  
+  if (isShootingC == 1) {
+    escena.dispararr2();
   }
+
+  NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+}
+
+function messageClient(parsedData) {
+  player2.x = parsedData.x;
+  player2.y = parsedData.y;
+  name2.x = player2.x - 30;
+  name2.y = player2.y - 40;
+
+  player2.anims.play(parsedData.animation, true);
+
+  playerLookingAt2 = parsedData.pLook;
+
+  if (parsedData.isShooting == true) {
+    escena.dispararr2();
+  }
+  NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+}
 
 function movimientoHost() {
   if (cursors.left.isDown) {
@@ -826,9 +763,8 @@ function movimientoHost() {
     //console.log(name2.y);
 
     player1.anims.play("left", true);
-    currentPlayerAnimation= 'left';
+    currentPlayerAnimation = "left";
     playerLookingAt = 1;
-
   } else if (cursors.right.isDown) {
     collider1.setVelocityX(speed1);
     collider1.setVelocityY(0);
@@ -836,9 +772,8 @@ function movimientoHost() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("right", true);
-    currentPlayerAnimation= 'right';
+    currentPlayerAnimation = "right";
     playerLookingAt = 2;
-    
   } else if (cursors.up.isDown) {
     collider1.setVelocityY(-speed1);
     collider1.setVelocityX(0);
@@ -846,7 +781,7 @@ function movimientoHost() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("up", true);
-    currentPlayerAnimation= 'up';
+    currentPlayerAnimation = "up";
     playerLookingAt = 3;
   } else if (cursors.down.isDown) {
     collider1.setVelocityY(speed1);
@@ -855,7 +790,7 @@ function movimientoHost() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("down", true);
-    currentPlayerAnimation= 'down';
+    currentPlayerAnimation = "down";
     playerLookingAt = 4;
   } else {
     collider1.setVelocityY(0);
@@ -884,15 +819,16 @@ function movimientoHost() {
   name1.x = player1.x - 30;
   name1.y = player1.y - 40;
 
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-	pLook: playerLookingAt,
-  isShooting: isShootingC,
-  hp: hp1
-    }
-  ));
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+    })
+  );
 }
 function movimientoClient() {
   if (cursors.left.isDown) {
@@ -904,7 +840,7 @@ function movimientoClient() {
     //console.log(name2.y);
 
     player1.anims.play("keyA", true);
-    currentPlayerAnimation= 'keyA';
+    currentPlayerAnimation = "keyA";
     playerLookingAt = 1;
   } else if (cursors.right.isDown) {
     collider1.setVelocityX(speed1);
@@ -913,7 +849,7 @@ function movimientoClient() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("keyD", true);
-    currentPlayerAnimation= 'keyD';
+    currentPlayerAnimation = "keyD";
     playerLookingAt = 2;
   } else if (cursors.up.isDown) {
     collider1.setVelocityY(-speed1);
@@ -922,7 +858,7 @@ function movimientoClient() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("keyW", true);
-    currentPlayerAnimation= 'keyW';
+    currentPlayerAnimation = "keyW";
     playerLookingAt = 3;
   } else if (cursors.down.isDown) {
     collider1.setVelocityY(speed1);
@@ -931,7 +867,7 @@ function movimientoClient() {
     player1.y = collider1.y - 7;
 
     player1.anims.play("keyS", true);
-    currentPlayerAnimation= 'keyS';
+    currentPlayerAnimation = "keyS";
     playerLookingAt = 4;
   } else {
     collider1.setVelocityY(0);
@@ -960,18 +896,20 @@ function movimientoClient() {
   name1.x = player1.x - 30;
   name1.y = player1.y - 40;
 
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-	pLook: playerLookingAt,
-  isShooting: isShootingC,
-  hp: hp1
-    }
-  ));
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+    })
+  );
 }
 
 function rompeBala(ball, muro) {
+  console.log("rompe");
   ball.disableBody(true, true);
 }
 
@@ -985,15 +923,16 @@ function quitarVida1(player, item) {
   item.disableBody(true, true);
   hp1 -= dmg2;
   NumeroVida.setText("P1 Hp: " + hp1);
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-	pLook: playerLookingAt,
-  isShooting: false,
-  hp: hp1
-    }
-  ));
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+    })
+  );
 }
 
 function collectHp1(player, item) {
@@ -1001,15 +940,16 @@ function collectHp1(player, item) {
   hp1 += 100;
   NumeroVida.setText("P1 Hp: " + hp1);
   this.box.play();
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-	pLook: playerLookingAt,
-  isShooting: isShootingC,
-  hp: hp1
-    }
-  ));
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+    })
+  );
 }
 function collectHp2(player, item) {
   item.disableBody(true, true);
@@ -1047,15 +987,16 @@ function collectEvery1(player, item) {
   hp1 += 100;
   NumeroVida.setText("P1 Hp: " + hp1);
   this.box.play();
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-	pLook: playerLookingAt,
-  isShooting: isShootingC,
-  hp: hp1
-    }
-  ));
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+    })
+  );
 }
 function collectEvery2(player, item) {
   item.disableBody(true, true);
@@ -1079,18 +1020,19 @@ function collectRandom1(player, item) {
   }
 
   this.box.play();
-  connection.send(JSON.stringify({
-    x: player1.x,
-    y: player1.y,
-    animation: currentPlayerAnimation,
-	pLook: playerLookingAt,
-  isShooting: isShootingC,
-  hp: hp1
-    }
-  ));
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+    })
+  );
 }
 
-function resetBullet(){
+function resetBullet() {
   balls3.kill();
 }
 
