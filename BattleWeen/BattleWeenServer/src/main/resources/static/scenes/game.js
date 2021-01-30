@@ -479,15 +479,7 @@ export class Game extends Phaser.Scene {
 		
       this.disparar();
 
-      connection.send(JSON.stringify({
-        x: player1.x,
-        y: player1.y,
-        animation: currentPlayerAnimation,
-        pLook: playerLookingAt,
-        isShooting: true,
-         hp: hp1
-        }
-        ));
+      
       
     }
 /* 
@@ -652,6 +644,16 @@ export class Game extends Phaser.Scene {
   gameOver() {}
 
   disparar() {
+    isShootingC=true;
+    connection.send(JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: isShootingC,
+       hp: hp1
+      }
+      ));
     if (this.time.now > shootTime1) {
       this.disparo.play();
       this.ball = balls.create(player1.x, player1.y, "witchBullet");
@@ -709,12 +711,13 @@ export class Game extends Phaser.Scene {
 function disparo2(){
 
   console.log('Disparo');
+  isShootingC=false;
   connection.send(JSON.stringify({
     x: player1.x,
     y: player1.y,
     animation: currentPlayerAnimation,
     pLook: playerLookingAt,
-    isShooting: false,
+    isShooting: isShootingC,
      hp: hp1
     }
     ));
@@ -775,9 +778,12 @@ function ConectarWebSocket ()  {
       playerLookingAt2 = parsedData.pLook;
     
       if( parsedData.isShooting == true){
+      isShootingC = parsedData.isShooting;
       disparo2();
       
-      }
+      
+    }
+
       NumeroVida2.setText("P2 Hp: " + parsedData.hp);
     
     }
@@ -799,7 +805,9 @@ function ConectarWebSocket ()  {
     
     
     if( parsedData.isShooting == true){
+      isShootingC = parsedData.isShooting;
       disparo2();
+      
       
     }
     NumeroVida2.setText("P2 Hp: " + parsedData.hp);
@@ -881,7 +889,7 @@ function movimientoHost() {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-  isShooting: false,
+  isShooting: isShootingC,
   hp: hp1
     }
   ));
@@ -957,7 +965,7 @@ function movimientoClient() {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-  isShooting: false,
+  isShooting: isShootingC,
   hp: hp1
     }
   ));
@@ -998,7 +1006,7 @@ function collectHp1(player, item) {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-  isShooting: false,
+  isShooting: isShootingC,
   hp: hp1
     }
   ));
@@ -1044,7 +1052,7 @@ function collectEvery1(player, item) {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-  isShooting: false,
+  isShooting: isShootingC,
   hp: hp1
     }
   ));
@@ -1076,7 +1084,7 @@ function collectRandom1(player, item) {
     y: player1.y,
     animation: currentPlayerAnimation,
 	pLook: playerLookingAt,
-  isShooting: false,
+  isShooting: isShootingC,
   hp: hp1
     }
   ));
