@@ -235,14 +235,16 @@ let escena = 0;
     });
 
     //Aqui se crea el player y se inicializan sus sprites y propiedades
-    collider1 = this.physics.add.sprite(70, 70, "collider");
+    
     //collider2 = this.physics.add.sprite(785, 554, "collider");
 
     if (host == 1) {
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
+      collider1 = this.physics.add.sprite(70, 70, "collider");
       player2 = this.add.sprite(785, 554, "zombieSp");
     } else {
       player1 = this.physics.add.sprite(785, 554, "zombieSp");
+      collider1 = this.physics.add.sprite(785, 554, "collider");
       player2 = this.add.sprite(70, 70, "brujaSp");
     }
 
@@ -267,16 +269,6 @@ let escena = 0;
     });
     NumeroVida2 = this.add.text(595, 5, "P2 Hp: " + hp2, {
       fontSize: "32px",
-      fill: "white",
-      fontStyle: "bold",
-    });
-    NumeroUsers = this.add.text(5, 600, "Hay activos: " + 0, {
-      fontSize: "20px",
-      fill: "white",
-      fontStyle: "bold",
-    });
-    ServerStatus = this.add.text(550, 600, "Servidor: Conectando...", {
-      fontSize: "20px",
       fill: "white",
       fontStyle: "bold",
     });
@@ -505,7 +497,7 @@ let escena = 0;
           CanSume2 = true;
         }
 
-        if (Level <= 4) {
+        if (Level <= -1) {
           Level++;
 
           switch (Level) {

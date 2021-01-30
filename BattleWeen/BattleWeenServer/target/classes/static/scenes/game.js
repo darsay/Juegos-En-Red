@@ -481,6 +481,7 @@ let escena = 0;
         movimientoClient();
       }
 
+      hp2 = parsedData.hp;
       // GAME OVER
       if (hp1 <= 0 || hp2 <= 0) {
         this.sound.get("GameMusic").stop();
@@ -504,7 +505,7 @@ let escena = 0;
           CanSume2 = true;
         }
 
-        if (Level <= 4) {
+        if (Level <= 1) {
           Level++;
 
           switch (Level) {

@@ -27,17 +27,17 @@
     this.background= this.add.image(410, 280, 'background');
     this.background.setScale(2);
     if(this.Punt>this.Punt2){
-      this.Bruja= this.add.image(410, 300, 'Bruja');
-      this.add.image(400,95, 'p1V').setScale(2);
-      this.Bruja.setScale(0.7);
+      //this.Bruja= this.add.image(410, 300, 'Bruja');
+      this.add.image(400,300, 'p1V').setScale(3);
+      //this.Bruja.setScale(0.7);
       //this.add.text(200,80, 'HA GANADO EL PLAYER 1',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
 
     }
     else{
-      this.Zombie= this.add.image(410, 300, 'Zombie');
-      this.add.image(400,95, 'p2V').setScale(2);
+      //this.Zombie= this.add.image(410, 300, 'Zombie');
+      this.add.image(400,300, 'p2V').setScale(3);
       
-      this.Zombie.setScale(0.7);
+      //this.Zombie.setScale(0.7);
       //this.add.text(200,80, 'HA GANADO EL PLAYER 2',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
     }
 
