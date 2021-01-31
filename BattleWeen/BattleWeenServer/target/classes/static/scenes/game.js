@@ -238,6 +238,7 @@ let escena = 0;
     
     //collider2 = this.physics.add.sprite(785, 554, "collider");
 
+      console.log(host);
     if (host == 1) {
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
       collider1 = this.physics.add.sprite(70, 70, "collider");
