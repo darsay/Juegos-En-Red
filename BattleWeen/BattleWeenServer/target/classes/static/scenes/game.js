@@ -241,10 +241,12 @@ let escena = 0;
     if (host == 1) {
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
       collider1 = this.physics.add.sprite(70, 70, "collider");
+      collider2 = this.physics.add.sprite(70, 70, "collider");
       player2 = this.add.sprite(785, 554, "zombieSp");
     } else {
       player1 = this.physics.add.sprite(785, 554, "zombieSp");
       collider1 = this.physics.add.sprite(785, 554, "collider");
+      collider2 = this.physics.add.sprite(70, 70, "collider");
       player2 = this.add.sprite(70, 70, "brujaSp");
     }
 
@@ -373,7 +375,7 @@ let escena = 0;
     //Cajas
     //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
     this.physics.add.overlap(collider1, HpUp, collectHp1, null, this);
-    //this.physics.add.overlap(collider2, HpUp, collectHp2, null, this);
+    this.physics.add.overlap(collider2, HpUp, collectHp2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
     this.physics.add.overlap(
@@ -383,11 +385,11 @@ let escena = 0;
       null,
       this
     );
-    //this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
+    this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
     this.physics.add.overlap(collider1, this.DmgUp, collectDmg1, null, this);
-    //this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
+    this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
 
     //Añade los metodos para que cuando player1 o player 2 cojan una caja random, les aumente una propiedad aleatoria
     this.physics.add.overlap(
@@ -397,14 +399,14 @@ let escena = 0;
       null,
       this
     );
-    /* this.physics.add.overlap(
+    this.physics.add.overlap(
       collider2,
       this.RandomUp,
       collectRandom2,
       null,
       this
     );
- */
+ 
     //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
     this.physics.add.overlap(
       collider1,
@@ -413,12 +415,12 @@ let escena = 0;
       null,
       this
     );
-    //this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
+    this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
 
     //BALAS
     //Añade las colisiones y los metodos para quitar vida de los dos jugadores
-    //this.physics.add.overlap(collider2, balls, quitarVida2, null, this);
-    //this.physics.add.collider(collider2, balls);
+    this.physics.add.overlap(collider2, balls, quitarVida2, null, this);
+    this.physics.add.collider(collider2, balls);
 
     this.physics.add.overlap(collider1, balls2, quitarVida1, null, this);
     this.physics.add.collider(collider1, balls2);
@@ -637,7 +639,7 @@ let escena = 0;
           this.ball.setVelocityY(300);
           break;
       }
-      console.log(this.ball.x);
+      
       if(this.ball.x == player2.x && this.ball.y ==player2.y){
         console.log('rompete');
         this.ball.disableBody(true,true);
@@ -733,6 +735,8 @@ function messageHost(parsedData) {
   player2.y = parsedData.y;
   name2.x = player2.x - 30;
   name2.y = player2.y - 40;
+  collider2.x= player2.x;
+  collider2.y = player2.y;
 
   player2.anims.play(parsedData.animation, true);
 
@@ -753,6 +757,8 @@ function messageClient(parsedData) {
   player2.y = parsedData.y;
   name2.x = player2.x - 30;
   name2.y = player2.y - 40;
+  collider2.x= player2.x;
+  collider2.y = player2.y;
 
   player2.anims.play(parsedData.animation, true);
 
@@ -930,8 +936,6 @@ function rompeBala(ball, muro) {
 
 function quitarVida2(player, item) {
   item.disableBody(true, true);
-  hp2 -= dmg1;
-  NumeroVida2.setText("P2 Hp: " + hp2);
 }
 
 function quitarVida1(player, item) {
@@ -970,8 +974,6 @@ function collectHp1(player, item) {
 }
 function collectHp2(player, item) {
   item.disableBody(true, true);
-  hp2 += 100;
-  NumeroVida2.setText("P2 Hp: " + hp2);
   this.box.play();
 }
 
@@ -982,7 +984,6 @@ function collectSpeed1(player, item) {
 }
 function collectSpeed2(player, item) {
   item.disableBody(true, true);
-  speed2 += 25;
   this.box.play();
 }
 
@@ -1004,7 +1005,6 @@ function collectDmg1(player, item) {
 }
 function collectDmg2(player, item) {
   item.disableBody(true, true);
-  dmg2 += 20;
   this.box.play();
 }
 
@@ -1029,10 +1029,6 @@ function collectEvery1(player, item) {
 }
 function collectEvery2(player, item) {
   item.disableBody(true, true);
-  dmg2 += 20;
-  speed2 += 25;
-  hp2 += 100;
-  NumeroVida2.setText("P2 Hp: " + hp2);
   this.box.play();
 }
 
@@ -1068,15 +1064,7 @@ function resetBullet() {
 
 function collectRandom2(player, item) {
   item.disableBody(true, true);
-  let rand = random(1, 3);
-  if (rand === 1) {
-    speed2 += 25;
-  } else if (rand === 2) {
-    hp2 += 100;
-    NumeroVida2.setText("P2 Hp: " + hp2);
-  } else {
-    dmg2 += 20;
-  }
+  
   this.box.play();
 }
 function random(min, max) {
