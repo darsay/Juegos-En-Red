@@ -38,7 +38,8 @@ var isSocketOpen;
 var isGameStarted;
 var isShootingC = 0;
 
-var host = 0;
+var host;
+var init = false;
 
 var currentPlayerAnimation = "left";
 
@@ -50,7 +51,7 @@ var bola2;
 var balita;
 
 var HpUp;
-
+var muros;
 let escena = 0;
 
   class Game extends Phaser.Scene {
@@ -152,7 +153,7 @@ let escena = 0;
     //Crea el suelo y los muros en variables distintas para solo
     //Chocar con los muros
     const suelo = map.createStaticLayer("Suelo", tileset, 0, 0);
-    const muros = map.createStaticLayer("Muros", tileset, 0, 0);
+    muros = map.createStaticLayer("Muros", tileset, 0, 0);
     //Colisiona todo lo que tenga un indice distinto de -1 (todos los muros)
     muros.setCollisionByExclusion(-1, true);
 
@@ -238,23 +239,12 @@ let escena = 0;
     
     //collider2 = this.physics.add.sprite(785, 554, "collider");
 
-      console.log(host);
-    if (host == 1) {
-      player1 = this.physics.add.sprite(70, 70, "brujaSp");
-      collider1 = this.physics.add.sprite(70, 70, "collider");
-      collider2 = this.physics.add.sprite(70, 70, "collider");
-      player2 = this.add.sprite(785, 554, "zombieSp");
-    } else {
-      player1 = this.physics.add.sprite(785, 554, "zombieSp");
-      collider1 = this.physics.add.sprite(785, 554, "collider");
-      collider2 = this.physics.add.sprite(70, 70, "collider");
-      player2 = this.add.sprite(70, 70, "brujaSp");
-    }
+
+      
+    
 
     //player1 = this.physics.add.sprite(70, 70, "brujaSp");
     //player2 = this.physics.add.sprite(785, 554, "zombieSp");
-    player1.setScale(1);
-    player2.setScale(1);
     speed1 = 160;
     speed2 = speed1;
     hp1 = 400;
@@ -365,7 +355,45 @@ let escena = 0;
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys(); //Para las flechas
     keys = this.input.keyboard.addKeys("W,S,A,D,M,T"); //Para el resto del teclado (Le puedes meter el resto de letras)
-    //// FISICAS ////
+    
+
+    //Añade las colisiones de las balas con los muros
+    this.physics.add.collider(muros, balls, rompeBala);
+    this.physics.add.collider(muros, balls2, rompeBala);
+
+    this.disparo = this.sound.add("disparo");
+    this.disparo.setVolume(0.05);
+
+    this.disparo2 = this.sound.add("disparo2");
+    this.disparo2.setVolume(0.05);
+
+    this.box = this.sound.add("box");
+    this.box.setVolume(0.05);
+
+    CanSume = false;
+    CanSume2 = false;
+
+    ConectarWebSocket();
+  } ////////////////////////// FIN CREATE ///////////////////////////////////
+
+  update() {
+
+    if(!init && host!=undefined){
+
+      if (host == 1) {
+        player1 = this.physics.add.sprite(70, 70, "brujaSp");
+        collider1 = this.physics.add.sprite(70, 70, "collider");
+        collider2 = this.physics.add.sprite(70, 70, "collider");
+        player2 = this.add.sprite(785, 554, "zombieSp");
+      } else {
+        player1 = this.physics.add.sprite(785, 554, "zombieSp");
+        collider1 = this.physics.add.sprite(785, 554, "collider");
+        collider2 = this.physics.add.sprite(70, 70, "collider");
+        player2 = this.add.sprite(70, 70, "brujaSp");
+      }
+      player1.setScale(1);
+      player2.setScale(1);
+      //// FISICAS ////
     //Fisica para colisionar con las platforms
     //this.physics.add.collider(collider2, muros);
     this.physics.add.collider(collider1, muros);
@@ -425,27 +453,9 @@ let escena = 0;
 
     this.physics.add.overlap(collider1, balls2, quitarVida1, null, this);
     this.physics.add.collider(collider1, balls2);
+      init = true;
+    }
 
-    //Añade las colisiones de las balas con los muros
-    this.physics.add.collider(muros, balls, rompeBala);
-    this.physics.add.collider(muros, balls2, rompeBala);
-
-    this.disparo = this.sound.add("disparo");
-    this.disparo.setVolume(0.05);
-
-    this.disparo2 = this.sound.add("disparo2");
-    this.disparo2.setVolume(0.05);
-
-    this.box = this.sound.add("box");
-    this.box.setVolume(0.05);
-
-    CanSume = false;
-    CanSume2 = false;
-
-    ConectarWebSocket();
-  } ////////////////////////// FIN CREATE ///////////////////////////////////
-
-  update() {
     if (isSocketOpen) {
       /*  if (Date.now() - 300 > currentTime) {
       activeUsers();
@@ -577,6 +587,7 @@ let escena = 0;
               this
             );
           }
+
         }
 
         /* 
@@ -725,6 +736,7 @@ function ConectarWebSocket() {
       //console.log('Soy Host');
       messageHost(parsedData);
     } else {
+      host = 0;
       // console.log('No soy Host');
       messageClient(parsedData);
     }
@@ -732,6 +744,7 @@ function ConectarWebSocket() {
 }
 
 function messageHost(parsedData) {
+  if(init){
   player2.x = parsedData.x;
   player2.y = parsedData.y;
   name2.x = player2.x - 30;
@@ -752,8 +765,10 @@ function messageHost(parsedData) {
   dmg2 = parsedData.dg
   NumeroVida2.setText("P2 Hp: " + parsedData.hp);
 }
+}
 
 function messageClient(parsedData) {
+  if(init){
   player2.x = parsedData.x;
   player2.y = parsedData.y;
   name2.x = player2.x - 30;
@@ -771,6 +786,7 @@ function messageClient(parsedData) {
   hp2 = parsedData.hp
   dmg2 = parsedData.dg
   NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+}
 }
 
 function movimientoHost() {
