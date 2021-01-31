@@ -1,4 +1,4 @@
-export class Player  {
+ class Player  {
     constructor(scene, sprite) {
       this.relatedScene = scene;
       this.sprite = sprite;

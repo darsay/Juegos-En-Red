@@ -73,7 +73,8 @@ public class WebSocketBWHandler extends TextWebSocketHandler {
         newNode.put("pLook", node.get("pLook").asText());
         newNode.put("isShooting", node.get("isShooting").asInt());
         newNode.put("hp", node.get("hp").asText());
-        newNode.put("dead", node.get("dead").asBoolean());
+        newNode.put("dg", node.get("dg").asInt());
+        //newNode.put("dead", node.get("dead").asBoolean());
 
 		
 		for(WebSocketSession participant : sessions.values()) {

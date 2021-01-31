@@ -235,14 +235,16 @@ let escena = 0;
     });
 
     //Aqui se crea el player y se inicializan sus sprites y propiedades
-    collider1 = this.physics.add.sprite(70, 70, "collider");
+    
     //collider2 = this.physics.add.sprite(785, 554, "collider");
 
     if (host == 1) {
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
+      collider1 = this.physics.add.sprite(70, 70, "collider");
       player2 = this.add.sprite(785, 554, "zombieSp");
     } else {
       player1 = this.physics.add.sprite(785, 554, "zombieSp");
+      collider1 = this.physics.add.sprite(785, 554, "collider");
       player2 = this.add.sprite(70, 70, "brujaSp");
     }
 
@@ -253,7 +255,7 @@ let escena = 0;
     speed1 = 160;
     speed2 = speed1;
     hp1 = 400;
-    hp2 = 500;
+    hp2 = 400;
     dmg1 = 20;
     dmg2 = dmg1;
     /////////////////// Se muestran las vidas de ambos/////////////////////////////
@@ -267,16 +269,6 @@ let escena = 0;
     });
     NumeroVida2 = this.add.text(595, 5, "P2 Hp: " + hp2, {
       fontSize: "32px",
-      fill: "white",
-      fontStyle: "bold",
-    });
-    NumeroUsers = this.add.text(5, 600, "Hay activos: " + 0, {
-      fontSize: "20px",
-      fill: "white",
-      fontStyle: "bold",
-    });
-    ServerStatus = this.add.text(550, 600, "Servidor: Conectando...", {
-      fontSize: "20px",
       fill: "white",
       fontStyle: "bold",
     });
@@ -481,7 +473,7 @@ let escena = 0;
         movimientoClient();
       }
 
-      hp2 = parsedData.hp;
+      //hp2 = parsedData.hp;
       // GAME OVER
       if (hp1 <= 0 || hp2 <= 0) {
         this.sound.get("GameMusic").stop();
@@ -505,7 +497,7 @@ let escena = 0;
           CanSume2 = true;
         }
 
-        if (Level <= 1) {
+        if (Level <= -1) {
           Level++;
 
           switch (Level) {
@@ -619,10 +611,16 @@ let escena = 0;
           pLook: playerLookingAt,
           isShooting: 1,
           hp: hp1,
+          dg : dmg1
         })
       );
       this.disparo.play();
-      this.ball = balls.create(player1.x, player1.y, "witchBullet");
+      if(host==1){
+        this.ball = balls.create(player1.x, player1.y, "witchBullet");
+      }else{
+        this.ball = balls.create(player1.x, player1.y, "zombieBullet");
+      }
+      //this.ball = balls.create(player1.x, player1.y, "witchBullet");
       this.ball.setCollideWorldBounds(true);
       this.ball.setScale(0.05);
       switch (playerLookingAt) {
@@ -639,6 +637,11 @@ let escena = 0;
           this.ball.setVelocityY(300);
           break;
       }
+      console.log(this.ball.x);
+      if(this.ball.x == player2.x && this.ball.y ==player2.y){
+        console.log('rompete');
+        this.ball.disableBody(true,true);
+      }
 
       shootTime1 = this.time.now + 600;
       //Send
@@ -652,15 +655,20 @@ let escena = 0;
         pLook: playerLookingAt,
         isShooting: 2,
         hp: hp1,
+        dg : dmg1
       })
     );
   }
 
   dispararr2() {
-    console.log(player2.x, player2.y);
-
-    let bolaN = this.physics.add.sprite(parseFloat(player2.x), parseFloat(player2.y), "witchBullet");
-    console.log(bolaN);
+    //console.log(player2.x, player2.y);
+    if(host==1){
+      var bolaN = this.physics.add.sprite(parseFloat(player2.x), parseFloat(player2.y), "zombieBullet");
+    }else{
+      var bolaN = this.physics.add.sprite(parseFloat(player2.x), parseFloat(player2.y), "witchBullet");
+    }
+    
+    //console.log(bolaN);
     balls2.add(bolaN);
     bolaN.setCollideWorldBounds(true);
     bolaN.setScale(0.05);
@@ -678,7 +686,7 @@ let escena = 0;
         bolaN.setVelocityY(300);
         break;
         default:
-          console.log(playerLookingAt2);
+          //console.log(playerLookingAt2);
           break;
     }
 
@@ -735,7 +743,8 @@ function messageHost(parsedData) {
   if (isShootingC == 1) {
     escena.dispararr2();
   }
-
+  hp2 = parsedData.hp
+  dmg2 = parsedData.dg
   NumeroVida2.setText("P2 Hp: " + parsedData.hp);
 }
 
@@ -752,6 +761,8 @@ function messageClient(parsedData) {
   if (parsedData.isShooting == true) {
     escena.dispararr2();
   }
+  hp2 = parsedData.hp
+  dmg2 = parsedData.dg
   NumeroVida2.setText("P2 Hp: " + parsedData.hp);
 }
 
@@ -829,6 +840,7 @@ function movimientoHost() {
       pLook: playerLookingAt,
       isShooting: 0,
       hp: hp1,
+      dg : dmg1
     })
   );
 }
@@ -906,12 +918,13 @@ function movimientoClient() {
       pLook: playerLookingAt,
       isShooting: 0,
       hp: hp1,
+      dg : dmg1
     })
   );
 }
 
 function rompeBala(ball, muro) {
-  console.log("rompe");
+  //console.log("rompe");
   ball.disableBody(true, true);
 }
 
@@ -933,6 +946,7 @@ function quitarVida1(player, item) {
       pLook: playerLookingAt,
       isShooting: 0,
       hp: hp1,
+      dg : dmg1
     })
   );
 }
@@ -950,6 +964,7 @@ function collectHp1(player, item) {
       pLook: playerLookingAt,
       isShooting: 0,
       hp: hp1,
+      dg : dmg1
     })
   );
 }
@@ -975,6 +990,17 @@ function collectDmg1(player, item) {
   item.disableBody(true, true);
   dmg1 += 20;
   this.box.play();
+  connection.send(
+    JSON.stringify({
+      x: player1.x,
+      y: player1.y,
+      animation: currentPlayerAnimation,
+      pLook: playerLookingAt,
+      isShooting: 0,
+      hp: hp1,
+      dg : dmg1
+    })
+  );
 }
 function collectDmg2(player, item) {
   item.disableBody(true, true);
@@ -997,6 +1023,7 @@ function collectEvery1(player, item) {
       pLook: playerLookingAt,
       isShooting: 0,
       hp: hp1,
+      dg : dmg1
     })
   );
 }
@@ -1030,6 +1057,7 @@ function collectRandom1(player, item) {
       pLook: playerLookingAt,
       isShooting: 0,
       hp: hp1,
+      dg : dmg1
     })
   );
 }
