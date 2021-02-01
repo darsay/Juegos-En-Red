@@ -38,7 +38,8 @@ var isSocketOpen;
 var isGameStarted;
 var isShootingC = 0;
 
-var host = 0;
+var host;
+
 
 var currentPlayerAnimation = "left";
 
@@ -50,7 +51,7 @@ var bola2;
 var balita;
 
 var HpUp;
-
+var muros;
 let escena = 0;
 
   class Game extends Phaser.Scene {
@@ -152,7 +153,7 @@ let escena = 0;
     //Crea el suelo y los muros en variables distintas para solo
     //Chocar con los muros
     const suelo = map.createStaticLayer("Suelo", tileset, 0, 0);
-    const muros = map.createStaticLayer("Muros", tileset, 0, 0);
+    muros = map.createStaticLayer("Muros", tileset, 0, 0);
     //Colisiona todo lo que tenga un indice distinto de -1 (todos los muros)
     muros.setCollisionByExclusion(-1, true);
 
@@ -238,6 +239,7 @@ let escena = 0;
     
     //collider2 = this.physics.add.sprite(785, 554, "collider");
 
+    
     if (host == 1) {
       player1 = this.physics.add.sprite(70, 70, "brujaSp");
       collider1 = this.physics.add.sprite(70, 70, "collider");
@@ -249,11 +251,74 @@ let escena = 0;
       collider2 = this.physics.add.sprite(70, 70, "collider");
       player2 = this.add.sprite(70, 70, "brujaSp");
     }
+    player1.setScale(1);
+    player2.setScale(1);
+    //// FISICAS ////
+      //Fisica para colisionar con las platforms
+      //this.physics.add.collider(collider2, muros);
+    this.physics.add.collider(collider1, muros);
+
+     //Añade colisiones de player1 con player2
+      //this.physics.add.collider(player1, player2);
+
+    //Cajas
+    //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
+    this.physics.add.overlap(collider1, HpUp, collectHp1, null, this);
+    this.physics.add.overlap(collider2, HpUp, collectHp2, null, this);
+
+    //Añade los metodos para que cuando player1 o player 2 cojan velocidad, les aumente la velocidad
+    this.physics.add.overlap(
+      collider1,
+      this.SpeedUp,
+      collectSpeed1,
+      null,
+      this
+    );
+    this.physics.add.overlap(collider2, this.SpeedUp, collectSpeed2, null, this);
+
+    //Añade los metodos para que cuando player1 o player 2 cojan daño, les aumente el daño
+    this.physics.add.overlap(collider1, this.DmgUp, collectDmg1, null, this);
+    this.physics.add.overlap(collider2, this.DmgUp, collectDmg2, null, this);
+
+    //Añade los metodos para que cuando player1 o player 2 cojan una caja random, les aumente una propiedad aleatoria
+    this.physics.add.overlap(
+      collider1,
+      this.RandomUp,
+      collectRandom1,
+      null,
+      this
+    );
+    this.physics.add.overlap(
+      collider2,
+      this.RandomUp,
+      collectRandom2,
+      null,
+      this
+    );
+
+    //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
+    this.physics.add.overlap(
+      collider1,
+      this.EveryUp,
+      collectEvery1,
+      null,
+      this
+    );
+    this.physics.add.overlap(collider2, this.EveryUp, collectEvery2, null, this);
+
+    //BALAS
+    //Añade las colisiones y los metodos para quitar vida de los dos jugadores
+    this.physics.add.overlap(collider2, balls, quitarVida2, null, this);
+    this.physics.add.collider(collider2, balls);
+
+    this.physics.add.overlap(collider1, balls2, quitarVida1, null, this);
+      this.physics.add.collider(collider1, balls2);
+     
+      
+    
 
     //player1 = this.physics.add.sprite(70, 70, "brujaSp");
     //player2 = this.physics.add.sprite(785, 554, "zombieSp");
-    player1.setScale(1);
-    player2.setScale(1);
     speed1 = 160;
     speed2 = speed1;
     hp1 = 400;
@@ -364,13 +429,11 @@ let escena = 0;
     //Entrada por teclado
     cursors = this.input.keyboard.createCursorKeys(); //Para las flechas
     keys = this.input.keyboard.addKeys("W,S,A,D,M,T"); //Para el resto del teclado (Le puedes meter el resto de letras)
-    //// FISICAS ////
-    //Fisica para colisionar con las platforms
-    //this.physics.add.collider(collider2, muros);
+    
     this.physics.add.collider(collider1, muros);
 
-    //Añade colisiones de player1 con player2
-    //this.physics.add.collider(player1, player2);
+     //Añade colisiones de player1 con player2
+      //this.physics.add.collider(player1, player2);
 
     //Cajas
     //Añade los metodos para que cuando player1 o player 2 cojan vida, les aumente la vida
@@ -406,7 +469,7 @@ let escena = 0;
       null,
       this
     );
- 
+
     //Añade los metodos para que cuando player1 o player 2 cojan el cofre, les aumente un nivel cada propiedad
     this.physics.add.overlap(
       collider1,
@@ -423,8 +486,8 @@ let escena = 0;
     this.physics.add.collider(collider2, balls);
 
     this.physics.add.overlap(collider1, balls2, quitarVida1, null, this);
-    this.physics.add.collider(collider1, balls2);
-
+      this.physics.add.collider(collider1, balls2);
+     
     //Añade las colisiones de las balas con los muros
     this.physics.add.collider(muros, balls, rompeBala);
     this.physics.add.collider(muros, balls2, rompeBala);
@@ -445,6 +508,9 @@ let escena = 0;
   } ////////////////////////// FIN CREATE ///////////////////////////////////
 
   update() {
+
+   
+
     if (isSocketOpen) {
       /*  if (Date.now() - 300 > currentTime) {
       activeUsers();
@@ -576,6 +642,7 @@ let escena = 0;
               this
             );
           }
+
         }
 
         /* 
@@ -724,6 +791,7 @@ function ConectarWebSocket() {
       //console.log('Soy Host');
       messageHost(parsedData);
     } else {
+      host = 0;
       // console.log('No soy Host');
       messageClient(parsedData);
     }
@@ -731,6 +799,7 @@ function ConectarWebSocket() {
 }
 
 function messageHost(parsedData) {
+  
   player2.x = parsedData.x;
   player2.y = parsedData.y;
   name2.x = player2.x - 30;
@@ -750,9 +819,11 @@ function messageHost(parsedData) {
   hp2 = parsedData.hp
   dmg2 = parsedData.dg
   NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+
 }
 
 function messageClient(parsedData) {
+  
   player2.x = parsedData.x;
   player2.y = parsedData.y;
   name2.x = player2.x - 30;
@@ -770,6 +841,7 @@ function messageClient(parsedData) {
   hp2 = parsedData.hp
   dmg2 = parsedData.dg
   NumeroVida2.setText("P2 Hp: " + parsedData.hp);
+
 }
 
 function movimientoHost() {

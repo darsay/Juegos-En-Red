@@ -28,14 +28,23 @@
     this.background.setScale(2);
     if(this.Punt>this.Punt2){
       //this.Bruja= this.add.image(410, 300, 'Bruja');
-      this.add.image(400,300, 'p1V').setScale(3);
+      if(host == 1){
+        this.add.image(400,300, 'p1V').setScale(3);
+      }else{
+        this.add.image(400,300, 'p2V').setScale(3);
+      }
+      
       //this.Bruja.setScale(0.7);
       //this.add.text(200,80, 'HA GANADO EL PLAYER 1',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
 
     }
     else{
       //this.Zombie= this.add.image(410, 300, 'Zombie');
-      this.add.image(400,300, 'p2V').setScale(3);
+      if(host == 1){
+        this.add.image(400,300, 'p1V').setScale(3);
+      }else{
+        this.add.image(400,300, 'p2V').setScale(3);
+      }
       
       //this.Zombie.setScale(0.7);
       //this.add.text(200,80, 'HA GANADO EL PLAYER 2',{ fontSize: '35px', fill: '#000', backgroundColor: 'white', })
@@ -50,6 +59,8 @@
 
     
     this.botonAgain.create();
+    connection.close();
     
 }
+
 }
