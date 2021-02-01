@@ -113,7 +113,7 @@ lugar a errores.
 ![title](Capturas/DiagramaClasesWebsockets.png)
 El jugador establece la conexión una vez ha cargado el canvas de Phaser. El primer jugador que entra actúa como host. Una vez se encuentren los dos jugadores en la partida, comienza el juego. Con la conexión entre los dos jugadores iniciada y a través de los Websockets, se envía información en tiempo real sobre la posición, la vida, si los jugadores están disparando y hacía que dirección o cuando se recogen los powerups. 
 
-# Tipos de mensajes 
+#### Tipos de mensajes 
 Se han implementado distintos tipos de mensajes que se gestionan mediante Websockets:
 - El primer mensaje es el que se le envía al primer jugador que se conecte, indicándole que el host de la partida. 
 - El siguiente se envía cuando se conecta el segundo jugador, indicando que se han emparejado correctamente. 
@@ -124,3 +124,6 @@ Se han implementado distintos tipos de mensajes que se gestionan mediante Websoc
 	- Cuando uno de los jugadores recoge un powerup. 
 
 Estos mensajes después son interpretados desde Javascript, actualizando los parámetros del juego que sean necesarios para que se vea de forma simultánea en las pantallas de ambos jugadores. 
+
+#### Vídeo Explicativo:
+https://youtu.be/W8q75wTgjjU
