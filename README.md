@@ -1,4 +1,8 @@
 # Juegos en Red
+
+#### Vídeo Explicativo:
+https://youtu.be/W8q75wTgjjU
+
 ## Datos Básicos
 * **Nombre del juego:** Battle-Ween
 * **Temática del juego:** Juego tipo "Bomberman" con carácter Battle Royale y ambientación de Halloween.
@@ -9,9 +13,6 @@
     * Sonia Oiane Milagro Rubio.  Github: soimiru.                Correo: so.milagro.2018@alumnos.urjc.es
     
 * **Trello:** https://trello.com/b/SHQqdxvs/jer-grupo-7
-
-#### Vídeo Explicativo:
-https://youtu.be/W8q75wTgjjU
 
 ## GDD
 ### Índice
