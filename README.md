@@ -103,8 +103,24 @@ La mayoría de cosas que propusimos se han podido realizar. Sin embargo, caben d
 ### 12. Cómo ejecutar.
 1. Primero de todo, hay que iniciar el servidor. Para ello, se ha de ejecutar el .jar ejecutando "BattleWeenServerAplication.java" como
 Java Aplication.
-2. Tras esto, hay que acceder al servidor local ya sea copiando http://127.0.0.1:8887 en el navegador, o desde programas como Web Server
+2. Tras esto, hay que acceder al servidor local ya sea copiando http://127.0.0.1:8080 en el navegador, o desde programas como Web Server
 For Chrome.
 
 Aviso: Es recomendable tener ambas ventanas de juego simultáneamente. Si no, puede que no se actualice el tiempo de actualización y de
 lugar a errores.
+
+### 13. Documentación del protocolo utilizado sobre websockets.
+![title](Capturas/DiagramaClasesWebsockets.png)
+El jugador establece la conexión una vez ha cargado el canvas de Phaser. El primer jugador que entra actúa como host. Una vez se encuentren los dos jugadores en la partida, comienza el juego. Con la conexión entre los dos jugadores iniciada y a través de los Websockets, se envía información en tiempo real sobre la posición, la vida, si los jugadores están disparando y hacía que dirección o cuando se recogen los powerups. 
+
+# Tipos de mensajes 
+Se han implementado distintos tipos de mensajes que se gestionan mediante Websockets:
+- El primer mensaje es el que se le envía al primer jugador que se conecte, indicándole que el host de la partida. 
+- El siguiente se envía cuando se conecta el segundo jugador, indicando que se han emparejado correctamente. 
+- El tercer tipo de mensaje son los que se envían durante el transcurso del juego. Contienen los datos relevantes para que suceda el juego. Se envían desde varios sitios:
+	- Cuando uno de los jugadores se mueve.
+	- Cuando uno de los jugadores dispara.
+	- Cuando se altera la vida de alguno de los jugadores.
+	- Cuando uno de los jugadores recoge un powerup. 
+
+Estos mensajes después son interpretados desde Javascript, actualizando los parámetros del juego que sean necesarios para que se vea de forma simultánea en las pantallas de ambos jugadores. 
