@@ -10,6 +10,9 @@
     
 * **Trello:** https://trello.com/b/SHQqdxvs/jer-grupo-7
 
+#### Vídeo Explicativo:
+https://youtu.be/W8q75wTgjjU
+
 ## GDD
 ### Índice
 1. Ficha del juego.
@@ -124,6 +127,3 @@ Se han implementado distintos tipos de mensajes que se gestionan mediante Websoc
 	- Cuando uno de los jugadores recoge un powerup. 
 
 Estos mensajes después son interpretados desde Javascript, actualizando los parámetros del juego que sean necesarios para que se vea de forma simultánea en las pantallas de ambos jugadores. 
-
-#### Vídeo Explicativo:
-https://youtu.be/W8q75wTgjjU
